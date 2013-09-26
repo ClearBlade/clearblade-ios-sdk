@@ -1,0 +1,162 @@
+\hypertarget{interface_c_b_collection}{\section{C\-B\-Collection Class Reference}
+\label{interface_c_b_collection}\index{C\-B\-Collection@{C\-B\-Collection}}
+}
+
+
+{\ttfamily \#import $<$C\-B\-Collection.\-h$>$}
+
+Inheritance diagram for C\-B\-Collection\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_c_b_collection}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_c_b_collection_ad232890eefe5c505991479ac6f018f9a}{init\-With\-Collection\-I\-D\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_collection_a9fdaad4ec27dec86a1b6ff5af2583f0d}{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_collection_afa23ffb4db085f37b6821160e455a2fb}{fetch\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_collection_a393aef7a45fd8018d3ac32ced65a0fe7}{create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_collection_aa81d5745750e040b5333ab23db03884e}{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_collection_abace3dfeee95833dfca05e9040426372}{remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_c_b_collection_a526d5990ac9db1922300bc55bc764fc1}{collection\-I\-D}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class for dealing with \hyperlink{interface_clear_blade}{Clear\-Blade} Platform Collections. 
+
+\subsection{Method Documentation}
+\hypertarget{interface_c_b_collection_a393aef7a45fd8018d3ac32ced65a0fe7}{\index{C\-B\-Collection@{C\-B\-Collection}!create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:@{create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:@{create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) create\-With\-Data\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-Mutable\-Dictionary $\ast$)}]{data}
+\item[{WithSuccessCallback:({\bf C\-B\-Item} $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_collection_a393aef7a45fd8018d3ac32ced65a0fe7}
+Creates a new Item in the collection in the Platform. This creates a new item on the server. 
+\begin{DoxyParams}{Parameters}
+{\em data} & A Dictionary that contains the object that you want the item in the platform to represent \\
+\hline
+{\em success\-Callback} & Callback Block to handle successfully returned data \\
+\hline
+{\em failure\-Callback} & Callback Block to handle errors returned \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_collection_afa23ffb4db085f37b6821160e455a2fb}{\index{C\-B\-Collection@{C\-B\-Collection}!fetch\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:@{fetch\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{fetch\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:@{fetch\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{fetch\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) fetch\-With\-Query\-: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\-B\-Query}$\ast$)}]{query}
+\item[{SuccessCallback:(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_collection_afa23ffb4db085f37b6821160e455a2fb}
+Fetches all data from the collection that matches a particular query 
+\begin{DoxyParams}{Parameters}
+{\em query} & A \hyperlink{interface_c_b_query}{C\-B\-Query} object that defines what you want returned from the Platform \\
+\hline
+{\em success\-Callback} & Callback Block to handle successfully returned data \\
+\hline
+{\em failure\-Callback} & Callback Block to handle errors returned \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_collection_a9fdaad4ec27dec86a1b6ff5af2583f0d}{\index{C\-B\-Collection@{C\-B\-Collection}!fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:@{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:@{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) fetch\-With\-Success\-Callback\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_collection_a9fdaad4ec27dec86a1b6ff5af2583f0d}
+Fetches the entire collection from the Platform. The returned data will be returned to the block you provide 
+\begin{DoxyParams}{Parameters}
+{\em success\-Callback} & Callback Block to handle successfully returned data \\
+\hline
+{\em failure\-Callback} & Callback Block to handle errors returned \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_collection_ad232890eefe5c505991479ac6f018f9a}{\index{C\-B\-Collection@{C\-B\-Collection}!init\-With\-Collection\-I\-D\-:@{init\-With\-Collection\-I\-D\-:}}
+\index{init\-With\-Collection\-I\-D\-:@{init\-With\-Collection\-I\-D\-:}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{init\-With\-Collection\-I\-D\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id) init\-With\-Collection\-I\-D\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{col\-I\-D}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_collection_ad232890eefe5c505991479ac6f018f9a}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+\{
+    \hyperlink{interface_c_b_h_t_t_p_client}{CBHTTPClient} *cbClient
+\end{DoxyCode}
+Initialize a new \hyperlink{interface_c_b_collection}{C\-B\-Collection} object 
+\begin{DoxyParams}{Parameters}
+{\em col\-I\-D} & The string that will be used to identify the collection on the server \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a newly initialized object 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_collection_abace3dfeee95833dfca05e9040426372}{\index{C\-B\-Collection@{C\-B\-Collection}!remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:@{remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:@{remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) remove\-With\-Query\-: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\-B\-Query}$\ast$)}]{query}
+\item[{SuccessCallback:(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_collection_abace3dfeee95833dfca05e9040426372}
+Removes an item or a set of items on the Platform that match the given query. 
+\begin{DoxyParams}{Parameters}
+{\em query} & A \hyperlink{interface_c_b_query}{C\-B\-Query} object that defines what you want removed from the Platform \\
+\hline
+{\em success\-Callback} & Callback Block to handle successfully returned data \\
+\hline
+{\em failure\-Callback} & Callback Block to handle errors returned \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_collection_aa81d5745750e040b5333ab23db03884e}{\index{C\-B\-Collection@{C\-B\-Collection}!update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) update\-With\-Query\-: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\-B\-Query} $\ast$)}]{query}
+\item[{WithChanges:(N\-S\-Mutable\-Dictionary $\ast$)}]{changes}
+\item[{SuccessCallback:({\bf C\-B\-Item} $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$)}]{}
+\item[{(\-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_collection_aa81d5745750e040b5333ab23db03884e}
+Updates an item or a set of items on the Platform that match the given query. 
+\begin{DoxyParams}{Parameters}
+{\em query} & A \hyperlink{interface_c_b_query}{C\-B\-Query} object that defines what you want updated on the Platform \\
+\hline
+{\em changes} & A Dictionary containing all of the changes that you want to make on items that match the query. \\
+\hline
+{\em success\-Callback} & Callback Block to handle successfully returned data \\
+\hline
+{\em failure\-Callback} & Callback Block to handle errors returned \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_c_b_collection_a526d5990ac9db1922300bc55bc764fc1}{\index{C\-B\-Collection@{C\-B\-Collection}!collection\-I\-D@{collection\-I\-D}}
+\index{collection\-I\-D@{collection\-I\-D}!CBCollection@{C\-B\-Collection}}
+\subsubsection[{collection\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String$\ast$) collection\-I\-D\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_collection_a526d5990ac9db1922300bc55bc764fc1}
+The string that represents the collection I\-D. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-B\-Collection.\-h\item 
+C\-B\-Collection.\-m\end{DoxyCompactItemize}

@@ -1,0 +1,108 @@
+\hypertarget{interface_c_b_item}{\section{C\-B\-Item Class Reference}
+\label{interface_c_b_item}\index{C\-B\-Item@{C\-B\-Item}}
+}
+
+
+{\ttfamily \#import $<$C\-B\-Item.\-h$>$}
+
+Inheritance diagram for C\-B\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_c_b_item}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(\hyperlink{interface_c_b_item}{C\-B\-Item} $\ast$) -\/ \hyperlink{interface_c_b_item_a6bddee842c3dbee197342896c8107fee}{init\-With\-Data\-:collection\-I\-D\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_item_ad09f007f812f568c3da0c4fd0f92a231}{save}
+\item 
+(void) -\/ \hyperlink{interface_c_b_item_a613055bfa99fa8059f521976ec9ac0eb}{refresh}
+\item 
+(void) -\/ \hyperlink{interface_c_b_item_ae0e3edabb3f5ecf9edf318b66c96792e}{destroy}
+\item 
+(id) -\/ \hyperlink{interface_c_b_item_ac9c81960a9a34c2bc0258e733f88f6b5}{get\-Value\-For\-:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+N\-S\-Mutable\-Dictionary $\ast$ \hyperlink{interface_c_b_item_ab9ea1d2d19a9c76e23029bab43b4ba30}{data}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_c_b_item_a8d47dba1bcfeb0754b65d312a48a939a}{collection\-I\-D}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that represents an individual item from the platform 
+
+\subsection{Method Documentation}
+\hypertarget{interface_c_b_item_ae0e3edabb3f5ecf9edf318b66c96792e}{\index{C\-B\-Item@{C\-B\-Item}!destroy@{destroy}}
+\index{destroy@{destroy}!CBItem@{C\-B\-Item}}
+\subsubsection[{destroy}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) destroy 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_item_ae0e3edabb3f5ecf9edf318b66c96792e}
+Deletes the Item on the server This cannot be undone. \hypertarget{interface_c_b_item_ac9c81960a9a34c2bc0258e733f88f6b5}{\index{C\-B\-Item@{C\-B\-Item}!get\-Value\-For\-:@{get\-Value\-For\-:}}
+\index{get\-Value\-For\-:@{get\-Value\-For\-:}!CBItem@{C\-B\-Item}}
+\subsubsection[{get\-Value\-For\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id) get\-Value\-For\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_item_ac9c81960a9a34c2bc0258e733f88f6b5}
+Gets an item out of the data attribute that matches the given string 
+\begin{DoxyParams}{Parameters}
+{\em key} & String used to find a value in the dictionary \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The id that is referenced by the value for the given key 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_item_a6bddee842c3dbee197342896c8107fee}{\index{C\-B\-Item@{C\-B\-Item}!init\-With\-Data\-:collection\-I\-D\-:@{init\-With\-Data\-:collection\-I\-D\-:}}
+\index{init\-With\-Data\-:collection\-I\-D\-:@{init\-With\-Data\-:collection\-I\-D\-:}!CBItem@{C\-B\-Item}}
+\subsubsection[{init\-With\-Data\-:collection\-I\-D\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Item} $\ast$) init\-With\-Data\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-Dictionary $\ast$)}]{input\-Data}
+\item[{collectionID:(N\-S\-String $\ast$)}]{col\-I\-D}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_item_a6bddee842c3dbee197342896c8107fee}
+Initializes the Item with data and sets the data and collection\-I\-D. 
+\begin{DoxyParams}{Parameters}
+{\em input\-Data} & A dictionary that holds data for the item \\
+\hline
+{\em col\-I\-D} & A string that holds the I\-D of the collection to which this item belongs \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the newly created \hyperlink{interface_c_b_item}{C\-B\-Item} 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_item_a613055bfa99fa8059f521976ec9ac0eb}{\index{C\-B\-Item@{C\-B\-Item}!refresh@{refresh}}
+\index{refresh@{refresh}!CBItem@{C\-B\-Item}}
+\subsubsection[{refresh}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) refresh 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_item_a613055bfa99fa8059f521976ec9ac0eb}
+Pulls down any changes that have been made on the server to the item since being instantiated. This updates the data attribute to reflect the current state of the Item on the server \hypertarget{interface_c_b_item_ad09f007f812f568c3da0c4fd0f92a231}{\index{C\-B\-Item@{C\-B\-Item}!save@{save}}
+\index{save@{save}!CBItem@{C\-B\-Item}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) save 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_item_ad09f007f812f568c3da0c4fd0f92a231}
+Saves any changes that have been made to the data property to the Platform This will update the server 
+
+\subsection{Property Documentation}
+\hypertarget{interface_c_b_item_a8d47dba1bcfeb0754b65d312a48a939a}{\index{C\-B\-Item@{C\-B\-Item}!collection\-I\-D@{collection\-I\-D}}
+\index{collection\-I\-D@{collection\-I\-D}!CBItem@{C\-B\-Item}}
+\subsubsection[{collection\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String$\ast$) collection\-I\-D\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_item_a8d47dba1bcfeb0754b65d312a48a939a}
+A string holding the I\-D of the collection to which this item belongs \hypertarget{interface_c_b_item_ab9ea1d2d19a9c76e23029bab43b4ba30}{\index{C\-B\-Item@{C\-B\-Item}!data@{data}}
+\index{data@{data}!CBItem@{C\-B\-Item}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-Mutable\-Dictionary$\ast$) data\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_item_ab9ea1d2d19a9c76e23029bab43b4ba30}
+A dictionary that holds the data that was stored in the platform. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-B\-Item.\-h\item 
+C\-B\-Item.\-m\end{DoxyCompactItemize}

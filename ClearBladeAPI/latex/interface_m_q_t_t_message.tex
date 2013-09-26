@@ -1,0 +1,69 @@
+\hypertarget{interface_m_q_t_t_message}{\section{M\-Q\-T\-T\-Message Class Reference}
+\label{interface_m_q_t_t_message}\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}}
+}
+Inheritance diagram for M\-Q\-T\-T\-Message\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_m_q_t_t_message}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_m_q_t_t_message_a3a89c41b3fcd39e832f25c0e6e9729d0}{init}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+unsigned short \hyperlink{interface_m_q_t_t_message_ae832d3bd3348f97c4a5bf86fd8e0c726}{mid}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_m_q_t_t_message_aea41fbd478102a49878498376a273705}{topic}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_m_q_t_t_message_ac2974959b4fca4589e4b6fc9f044f41e}{payload}
+\item 
+unsigned short \hyperlink{interface_m_q_t_t_message_af430192b287cfb6ef131f7e3d89249ef}{payloadlen}
+\item 
+unsigned short \hyperlink{interface_m_q_t_t_message_ae851052977c7286537111ec4072a1ab2}{qos}
+\item 
+B\-O\-O\-L \hyperlink{interface_m_q_t_t_message_aa7649c2ce6f7722f8038396744669389}{retained}
+\end{DoxyCompactItemize}
+
+
+\subsection{Method Documentation}
+\hypertarget{interface_m_q_t_t_message_a3a89c41b3fcd39e832f25c0e6e9729d0}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!init@{init}}
+\index{init@{init}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id) init 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_message_a3a89c41b3fcd39e832f25c0e6e9729d0}
+Initilizes new \hyperlink{interface_m_q_t_t_message}{M\-Q\-T\-T\-Message} \begin{DoxyReturn}{Returns}
+a newly initialized \hyperlink{interface_m_q_t_t_message}{M\-Q\-T\-T\-Message} object 
+\end{DoxyReturn}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_m_q_t_t_message_ae832d3bd3348f97c4a5bf86fd8e0c726}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!mid@{mid}}
+\index{mid@{mid}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{mid}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (unsigned short) mid\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_message_ae832d3bd3348f97c4a5bf86fd8e0c726}
+Message Id \hypertarget{interface_m_q_t_t_message_ac2974959b4fca4589e4b6fc9f044f41e}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!payload@{payload}}
+\index{payload@{payload}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{payload}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String $\ast$) payload\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [retain]}}}\label{interface_m_q_t_t_message_ac2974959b4fca4589e4b6fc9f044f41e}
+String that represents the payload of the message \hypertarget{interface_m_q_t_t_message_af430192b287cfb6ef131f7e3d89249ef}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!payloadlen@{payloadlen}}
+\index{payloadlen@{payloadlen}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{payloadlen}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (unsigned short) payloadlen\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_message_af430192b287cfb6ef131f7e3d89249ef}
+Length of the payload \hypertarget{interface_m_q_t_t_message_ae851052977c7286537111ec4072a1ab2}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!qos@{qos}}
+\index{qos@{qos}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{qos}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (unsigned short) qos\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_message_ae851052977c7286537111ec4072a1ab2}
+Quality of service that the message was sent with \hypertarget{interface_m_q_t_t_message_aa7649c2ce6f7722f8038396744669389}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!retained@{retained}}
+\index{retained@{retained}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{retained}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (B\-O\-O\-L) retained\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_message_aa7649c2ce6f7722f8038396744669389}
+Flag for whether or not the message will be retained \hypertarget{interface_m_q_t_t_message_aea41fbd478102a49878498376a273705}{\index{M\-Q\-T\-T\-Message@{M\-Q\-T\-T\-Message}!topic@{topic}}
+\index{topic@{topic}!MQTTMessage@{M\-Q\-T\-T\-Message}}
+\subsubsection[{topic}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String $\ast$) topic\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [retain]}}}\label{interface_m_q_t_t_message_aea41fbd478102a49878498376a273705}
+String that represents the topic that the message was received on. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+M\-Q\-T\-T\-Message.\-h\item 
+M\-Q\-T\-T\-Message.\-m\end{DoxyCompactItemize}

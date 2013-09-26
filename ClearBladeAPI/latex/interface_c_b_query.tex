@@ -1,0 +1,254 @@
+\hypertarget{interface_c_b_query}{\section{C\-B\-Query Class Reference}
+\label{interface_c_b_query}\index{C\-B\-Query@{C\-B\-Query}}
+}
+
+
+{\ttfamily \#import $<$C\-B\-Query.\-h$>$}
+
+Inheritance diagram for C\-B\-Query\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_c_b_query}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a945b8a169282151a97e6a0fd694cbb33}{init\-With\-Collection\-I\-D\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_query_aa6df57d4b22629273cb22d39157ab234}{set\-Collection\-I\-D\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_query_adea4d23bf64781d3c656ff27d0fd44e7}{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_query_a38d2ee741a83dffaeefcc25e4d758c08}{update\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_query_ab50b24d74f17a9ef72b88d4ac05831b3}{remove\-With\-Success\-Callback\-:\-Error\-Callback\-:}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a9613e325533eb4519b28e9e3f24f9f42}{equal\-To\-:for\-:}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a6f38448b1fa8cfeb6fb0e9a6661e2643}{not\-Equal\-To\-:for\-:}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_aed36ed38545e962c0e179f4d26e5e48f}{greater\-Than\-:for\-:}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a5c7295f7e28c7e0ad782c88ed367c3e1}{less\-Than\-:for\-:}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a2f725afd4a184970ec3b88e5b2a87b55}{greater\-Than\-Equal\-To\-:for\-:}
+\item 
+(\hyperlink{interface_c_b_query}{C\-B\-Query} $\ast$) -\/ \hyperlink{interface_c_b_query_aba3d55d2e25646372ec9639964b471c2}{less\-Than\-Equal\-To\-:for\-:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+N\-S\-Mutable\-Dictionary $\ast$ \hyperlink{interface_c_b_query_a896792b3b7ffa4a297fb91daedae2672}{query}
+\item 
+N\-S\-Mutable\-Array $\ast$ \hyperlink{interface_c_b_query_a6751257a696c57bd191fca92204fdfa7}{O\-R}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_c_b_query_ad7e594dc30699c9dbae407e55b588b00}{collection\-I\-D}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing a query that can be used in operations on Platform 
+
+\subsection{Method Documentation}
+\hypertarget{interface_c_b_query_a9613e325533eb4519b28e9e3f24f9f42}{\index{C\-B\-Query@{C\-B\-Query}!equal\-To\-:for\-:@{equal\-To\-:for\-:}}
+\index{equal\-To\-:for\-:@{equal\-To\-:for\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{equal\-To\-:for\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) equal\-To\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{value}
+\item[{for:(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a9613e325533eb4519b28e9e3f24f9f42}
+Creates an equality clause and adds it to the query 
+\begin{DoxyParams}{Parameters}
+{\em value} & A string that gets set as the value for the given key \\
+\hline
+{\em key} & A string that is used as the key for the given value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the new clause added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_adea4d23bf64781d3c656ff27d0fd44e7}{\index{C\-B\-Query@{C\-B\-Query}!fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:@{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:@{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{fetch\-With\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) fetch\-With\-Success\-Callback\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_adea4d23bf64781d3c656ff27d0fd44e7}
+Fetches from a collection all of the items that match the query that is sent. 
+\begin{DoxyParams}{Parameters}
+{\em success\-Callback} & A callback block that handles the returned data \\
+\hline
+{\em failure\-Callback} & A callback block that handles errors returned \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_query_aed36ed38545e962c0e179f4d26e5e48f}{\index{C\-B\-Query@{C\-B\-Query}!greater\-Than\-:for\-:@{greater\-Than\-:for\-:}}
+\index{greater\-Than\-:for\-:@{greater\-Than\-:for\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{greater\-Than\-:for\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) greater\-Than\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{value}
+\item[{for:(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_aed36ed38545e962c0e179f4d26e5e48f}
+Creates a greater than clause and adds it to the query 
+\begin{DoxyParams}{Parameters}
+{\em value} & A string that gets set as the value for the given key \\
+\hline
+{\em key} & A string that is used as the key for the given value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the new clause added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_a2f725afd4a184970ec3b88e5b2a87b55}{\index{C\-B\-Query@{C\-B\-Query}!greater\-Than\-Equal\-To\-:for\-:@{greater\-Than\-Equal\-To\-:for\-:}}
+\index{greater\-Than\-Equal\-To\-:for\-:@{greater\-Than\-Equal\-To\-:for\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{greater\-Than\-Equal\-To\-:for\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) greater\-Than\-Equal\-To\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{value}
+\item[{for:(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a2f725afd4a184970ec3b88e5b2a87b55}
+Creates a greater than or equal to clause and adds it to the query 
+\begin{DoxyParams}{Parameters}
+{\em value} & A string that gets set as the value for the given key \\
+\hline
+{\em key} & A string that is used as the key for the given value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the new clause added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_a945b8a169282151a97e6a0fd694cbb33}{\index{C\-B\-Query@{C\-B\-Query}!init\-With\-Collection\-I\-D\-:@{init\-With\-Collection\-I\-D\-:}}
+\index{init\-With\-Collection\-I\-D\-:@{init\-With\-Collection\-I\-D\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{init\-With\-Collection\-I\-D\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) init\-With\-Collection\-I\-D\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{col\-I\-D}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a945b8a169282151a97e6a0fd694cbb33}
+Initializes the query object and sets the collection\-I\-D 
+\begin{DoxyParams}{Parameters}
+{\em col\-I\-D} & A string that is set as collection\-I\-D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the newly instantiated \hyperlink{interface_c_b_query}{C\-B\-Query} Object 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_a5c7295f7e28c7e0ad782c88ed367c3e1}{\index{C\-B\-Query@{C\-B\-Query}!less\-Than\-:for\-:@{less\-Than\-:for\-:}}
+\index{less\-Than\-:for\-:@{less\-Than\-:for\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{less\-Than\-:for\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) less\-Than\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{value}
+\item[{for:(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a5c7295f7e28c7e0ad782c88ed367c3e1}
+Creates a less than clause and adds it to the query 
+\begin{DoxyParams}{Parameters}
+{\em value} & A string that gets set as the value for the given key \\
+\hline
+{\em key} & A string that is used as the key for the given value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the new clause added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_aba3d55d2e25646372ec9639964b471c2}{\index{C\-B\-Query@{C\-B\-Query}!less\-Than\-Equal\-To\-:for\-:@{less\-Than\-Equal\-To\-:for\-:}}
+\index{less\-Than\-Equal\-To\-:for\-:@{less\-Than\-Equal\-To\-:for\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{less\-Than\-Equal\-To\-:for\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) less\-Than\-Equal\-To\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{value}
+\item[{for:(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_aba3d55d2e25646372ec9639964b471c2}
+Creates a less than or equal to clause and adds it to the query 
+\begin{DoxyParams}{Parameters}
+{\em value} & A string that gets set as the value for the given key \\
+\hline
+{\em key} & A string that is used as the key for the given value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the new clause added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_a6f38448b1fa8cfeb6fb0e9a6661e2643}{\index{C\-B\-Query@{C\-B\-Query}!not\-Equal\-To\-:for\-:@{not\-Equal\-To\-:for\-:}}
+\index{not\-Equal\-To\-:for\-:@{not\-Equal\-To\-:for\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{not\-Equal\-To\-:for\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\-B\-Query} $\ast$) not\-Equal\-To\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{value}
+\item[{for:(N\-S\-String $\ast$)}]{key}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a6f38448b1fa8cfeb6fb0e9a6661e2643}
+Creates an inequality clause and adds it to the query 
+\begin{DoxyParams}{Parameters}
+{\em value} & A string that gets set as the value for the given key \\
+\hline
+{\em key} & A string that is used as the key for the given value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the new clause added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_ab50b24d74f17a9ef72b88d4ac05831b3}{\index{C\-B\-Query@{C\-B\-Query}!remove\-With\-Success\-Callback\-:\-Error\-Callback\-:@{remove\-With\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{remove\-With\-Success\-Callback\-:\-Error\-Callback\-:@{remove\-With\-Success\-Callback\-:\-Error\-Callback\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{remove\-With\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) remove\-With\-Success\-Callback\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_ab50b24d74f17a9ef72b88d4ac05831b3}
+Remove from the platform all of the items that match the query sent 
+\begin{DoxyParams}{Parameters}
+{\em success\-Callback} & A callback block that handles the returned data \\
+\hline
+{\em failure\-Callback} & A callback block that handles the errors returned \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_query_aa6df57d4b22629273cb22d39157ab234}{\index{C\-B\-Query@{C\-B\-Query}!set\-Collection\-I\-D\-:@{set\-Collection\-I\-D\-:}}
+\index{set\-Collection\-I\-D\-:@{set\-Collection\-I\-D\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{set\-Collection\-I\-D\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) set\-Collection\-I\-D\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{col\-I\-D}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_aa6df57d4b22629273cb22d39157ab234}
+Sets the collection I\-D attribute 
+\begin{DoxyParams}{Parameters}
+{\em col\-I\-D} & A string that will be set as the Collection I\-D \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_query_a38d2ee741a83dffaeefcc25e4d758c08}{\index{C\-B\-Query@{C\-B\-Query}!update\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}}
+\index{update\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}!CBQuery@{C\-B\-Query}}
+\subsubsection[{update\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) update\-With\-Changes\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-Mutable\-Dictionary $\ast$)}]{changes}
+\item[{SuccessCallback:(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a38d2ee741a83dffaeefcc25e4d758c08}
+Updates on the platform all the items that match the query sent 
+\begin{DoxyParams}{Parameters}
+{\em changes} & A dictoinary of all the changes that will be applied to the items that match the query \\
+\hline
+{\em success\-Callback} & A callback block that handles the returned data \\
+\hline
+{\em failure\-Callback} & A callback block that handles the errors returned \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_c_b_query_ad7e594dc30699c9dbae407e55b588b00}{\index{C\-B\-Query@{C\-B\-Query}!collection\-I\-D@{collection\-I\-D}}
+\index{collection\-I\-D@{collection\-I\-D}!CBQuery@{C\-B\-Query}}
+\subsubsection[{collection\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String$\ast$) collection\-I\-D\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_query_ad7e594dc30699c9dbae407e55b588b00}
+The string that represent the I\-D of the collection that will be queried \hypertarget{interface_c_b_query_a6751257a696c57bd191fca92204fdfa7}{\index{C\-B\-Query@{C\-B\-Query}!O\-R@{O\-R}}
+\index{O\-R@{O\-R}!CBQuery@{C\-B\-Query}}
+\subsubsection[{O\-R}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-Mutable\-Array$\ast$) O\-R\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_query_a6751257a696c57bd191fca92204fdfa7}
+An array of query objects that is used when you create an or statement and combine two queries. \hypertarget{interface_c_b_query_a896792b3b7ffa4a297fb91daedae2672}{\index{C\-B\-Query@{C\-B\-Query}!query@{query}}
+\index{query@{query}!CBQuery@{C\-B\-Query}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-Mutable\-Dictionary$\ast$) query\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_query_a896792b3b7ffa4a297fb91daedae2672}
+A dictonary that holds the keys and values that make up the query 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-B\-Query.\-h\item 
+C\-B\-Query.\-m\end{DoxyCompactItemize}

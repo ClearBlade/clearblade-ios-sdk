@@ -1,0 +1,96 @@
+\hypertarget{protocol_m_q_t_t_client_delegate-p}{\section{$<$M\-Q\-T\-T\-Client\-Delegate$>$ Protocol Reference}
+\label{protocol_m_q_t_t_client_delegate-p}\index{$<$\-M\-Q\-T\-T\-Client\-Delegate$>$@{$<$\-M\-Q\-T\-T\-Client\-Delegate$>$}}
+}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(void) -\/ \hyperlink{protocol_m_q_t_t_client_delegate-p_abb74a5596c9ad44a7052211b93e37cc9}{did\-Connect\-:}
+\item 
+(void) -\/ \hyperlink{protocol_m_q_t_t_client_delegate-p_af2c500a4d472477e679d645c5b27d85c}{did\-Disconnect}
+\item 
+(void) -\/ \hyperlink{protocol_m_q_t_t_client_delegate-p_ae779c7d4627f8aa3e154b42b76433884}{did\-Publish\-:}
+\item 
+(void) -\/ \hyperlink{protocol_m_q_t_t_client_delegate-p_a6222052eaf37f65f0b535daac93b917b}{did\-Receive\-Message\-:}
+\item 
+(void) -\/ \hyperlink{protocol_m_q_t_t_client_delegate-p_a1ace3cd8729f0f4ae0f0b4426005fbc6}{did\-Subscribe\-:granted\-Qos\-:}
+\item 
+(void) -\/ \hyperlink{protocol_m_q_t_t_client_delegate-p_a0413071b5250d70186de525049240038}{did\-Unsubscribe\-:}
+\end{DoxyCompactItemize}
+
+
+\subsection{Method Documentation}
+\hypertarget{protocol_m_q_t_t_client_delegate-p_abb74a5596c9ad44a7052211b93e37cc9}{\index{M\-Q\-T\-T\-Client\-Delegate-\/p@{M\-Q\-T\-T\-Client\-Delegate-\/p}!did\-Connect\-:@{did\-Connect\-:}}
+\index{did\-Connect\-:@{did\-Connect\-:}!MQTTClientDelegate-p@{M\-Q\-T\-T\-Client\-Delegate-\/p}}
+\subsubsection[{did\-Connect\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) did\-Connect\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-U\-Integer)}]{code}
+\end{DoxyParamCaption}
+}}\label{protocol_m_q_t_t_client_delegate-p_abb74a5596c9ad44a7052211b93e37cc9}
+Method that gets called upon successful connection 
+\begin{DoxyParams}{Parameters}
+{\em code} & N\-S\-U\-Integer that represents the connection code \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_m_q_t_t_client_delegate-p_af2c500a4d472477e679d645c5b27d85c}{\index{M\-Q\-T\-T\-Client\-Delegate-\/p@{M\-Q\-T\-T\-Client\-Delegate-\/p}!did\-Disconnect@{did\-Disconnect}}
+\index{did\-Disconnect@{did\-Disconnect}!MQTTClientDelegate-p@{M\-Q\-T\-T\-Client\-Delegate-\/p}}
+\subsubsection[{did\-Disconnect}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) did\-Disconnect 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{protocol_m_q_t_t_client_delegate-p_af2c500a4d472477e679d645c5b27d85c}
+Method that gets called when the client gets disconnected from the host \hypertarget{protocol_m_q_t_t_client_delegate-p_ae779c7d4627f8aa3e154b42b76433884}{\index{M\-Q\-T\-T\-Client\-Delegate-\/p@{M\-Q\-T\-T\-Client\-Delegate-\/p}!did\-Publish\-:@{did\-Publish\-:}}
+\index{did\-Publish\-:@{did\-Publish\-:}!MQTTClientDelegate-p@{M\-Q\-T\-T\-Client\-Delegate-\/p}}
+\subsubsection[{did\-Publish\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) did\-Publish\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-U\-Integer)}]{message\-Id}
+\end{DoxyParamCaption}
+}}\label{protocol_m_q_t_t_client_delegate-p_ae779c7d4627f8aa3e154b42b76433884}
+Method that gets called when the client publishes 
+\begin{DoxyParams}{Parameters}
+{\em message\-Id} & N\-S\-U\-Integer that represents the message I\-D \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_m_q_t_t_client_delegate-p_a6222052eaf37f65f0b535daac93b917b}{\index{M\-Q\-T\-T\-Client\-Delegate-\/p@{M\-Q\-T\-T\-Client\-Delegate-\/p}!did\-Receive\-Message\-:@{did\-Receive\-Message\-:}}
+\index{did\-Receive\-Message\-:@{did\-Receive\-Message\-:}!MQTTClientDelegate-p@{M\-Q\-T\-T\-Client\-Delegate-\/p}}
+\subsubsection[{did\-Receive\-Message\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) did\-Receive\-Message\-: 
+\begin{DoxyParamCaption}
+\item[{({\bf M\-Q\-T\-T\-Message} $\ast$)}]{mqtt\-\_\-msg}
+\end{DoxyParamCaption}
+}}\label{protocol_m_q_t_t_client_delegate-p_a6222052eaf37f65f0b535daac93b917b}
+Method that gets called when the client receives a message 
+\begin{DoxyParams}{Parameters}
+{\em mqtt\-\_\-msg} & \hyperlink{interface_m_q_t_t_message}{M\-Q\-T\-T\-Message} that is returned to the client \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_m_q_t_t_client_delegate-p_a1ace3cd8729f0f4ae0f0b4426005fbc6}{\index{M\-Q\-T\-T\-Client\-Delegate-\/p@{M\-Q\-T\-T\-Client\-Delegate-\/p}!did\-Subscribe\-:granted\-Qos\-:@{did\-Subscribe\-:granted\-Qos\-:}}
+\index{did\-Subscribe\-:granted\-Qos\-:@{did\-Subscribe\-:granted\-Qos\-:}!MQTTClientDelegate-p@{M\-Q\-T\-T\-Client\-Delegate-\/p}}
+\subsubsection[{did\-Subscribe\-:granted\-Qos\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) did\-Subscribe\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-U\-Integer)}]{message\-Id}
+\item[{grantedQos:(N\-S\-Array $\ast$)}]{qos}
+\end{DoxyParamCaption}
+}}\label{protocol_m_q_t_t_client_delegate-p_a1ace3cd8729f0f4ae0f0b4426005fbc6}
+Method that gets called upon subscription 
+\begin{DoxyParams}{Parameters}
+{\em message\-Id} & Id of the message that was sent \\
+\hline
+{\em qos} & The Quality of service at which messages will be received \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_m_q_t_t_client_delegate-p_a0413071b5250d70186de525049240038}{\index{M\-Q\-T\-T\-Client\-Delegate-\/p@{M\-Q\-T\-T\-Client\-Delegate-\/p}!did\-Unsubscribe\-:@{did\-Unsubscribe\-:}}
+\index{did\-Unsubscribe\-:@{did\-Unsubscribe\-:}!MQTTClientDelegate-p@{M\-Q\-T\-T\-Client\-Delegate-\/p}}
+\subsubsection[{did\-Unsubscribe\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) did\-Unsubscribe\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-U\-Integer)}]{message\-Id}
+\end{DoxyParamCaption}
+}}\label{protocol_m_q_t_t_client_delegate-p_a0413071b5250d70186de525049240038}
+Method that gets called when the client unsubscribes 
+\begin{DoxyParams}{Parameters}
+{\em message\-Id} & I\-D of the message sent upon unsubscribe \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this protocol was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+M\-Q\-T\-T\-Client.\-h\end{DoxyCompactItemize}

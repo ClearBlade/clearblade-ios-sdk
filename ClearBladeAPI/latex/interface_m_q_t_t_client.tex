@@ -1,0 +1,255 @@
+\hypertarget{interface_m_q_t_t_client}{\section{M\-Q\-T\-T\-Client Class Reference}
+\label{interface_m_q_t_t_client}\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}}
+}
+Inheritance diagram for M\-Q\-T\-T\-Client\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_m_q_t_t_client}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(\hyperlink{interface_m_q_t_t_client}{M\-Q\-T\-T\-Client} $\ast$) -\/ \hyperlink{interface_m_q_t_t_client_a2ca50eb85a638fe1dd3415eaa55b79eb}{init\-With\-Client\-Id\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_afd942b93568e259fba6b22abec4bea59}{set\-Message\-Retry\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a209e35ab865030b42518b0f94713694a}{connect}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_affe3571b6b972fb3f41ceea7778de723}{connect\-To\-Host\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a8a2180a68956d6a897f068994e5c8864}{reconnect}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a5da21136f56343f0db9dba70e0384ba9}{disconnect}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a8af6c4267519439b5d0b2eb91bc0eb8d}{set\-Will\-:to\-Topic\-:with\-Qos\-:retain\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a70b2a3eb06df7dc5f12b550d4df3a28a}{clear\-Will}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_adad97fb0b40b931c232de1b691155fbd}{publish\-String\-:to\-Topic\-:with\-Qos\-:retain\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_aa49277b1d3806e73cc16a1aa13a6ecfc}{subscribe\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a8d389ce309a69c1049caf92ed2c70e59}{subscribe\-:with\-Qos\-:}
+\item 
+(void) -\/ \hyperlink{interface_m_q_t_t_client_a712c2fe6afed9d57794c81b483238ecc}{unsubscribe\-:}
+\item 
+\hypertarget{interface_m_q_t_t_client_aa51b52a52ad834465ac4e0ae27997895}{(void) -\/ {\bfseries loop\-:}}\label{interface_m_q_t_t_client_aa51b52a52ad834465ac4e0ae27997895}
+
+\end{DoxyCompactItemize}
+\subsection*{Class Methods}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{interface_m_q_t_t_client_addc8362ee9e927f944c604daf5f7e0c7}{(void) + {\bfseries initialize}}\label{interface_m_q_t_t_client_addc8362ee9e927f944c604daf5f7e0c7}
+
+\item 
+\hypertarget{interface_m_q_t_t_client_a28d3f42ae2595214b2c40794ca638c45}{(N\-S\-String $\ast$) + {\bfseries version}}\label{interface_m_q_t_t_client_a28d3f42ae2595214b2c40794ca638c45}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{interface_m_q_t_t_client_ae4f553d3d5b3f96833631fa71d089cae}{struct mosquitto $\ast$ {\bfseries mosq}}\label{interface_m_q_t_t_client_ae4f553d3d5b3f96833631fa71d089cae}
+
+\item 
+\hypertarget{interface_m_q_t_t_client_a947472d48ef128a407c579f3f03b6bb6}{N\-S\-Timer $\ast$ {\bfseries timer}}\label{interface_m_q_t_t_client_a947472d48ef128a407c579f3f03b6bb6}
+
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_m_q_t_t_client_a1f617c2783f5f49fe0eade772b848330}{host}
+\item 
+unsigned short \hyperlink{interface_m_q_t_t_client_a1d5b24d0ebc1a18fa8cb85a48381513e}{port}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_m_q_t_t_client_aba20ca92199c2b75f3993468db429aed}{username}
+\item 
+N\-S\-String $\ast$ \hyperlink{interface_m_q_t_t_client_adb44dfa2630f0ac31524a0823c1f00f4}{password}
+\item 
+unsigned short \hyperlink{interface_m_q_t_t_client_a39d172ccd9c5f7c4d7927a547c496d6e}{keep\-Alive}
+\item 
+B\-O\-O\-L \hyperlink{interface_m_q_t_t_client_a097920820d62efef6d17060fbabf3b09}{clean\-Session}
+\item 
+id$<$ \hyperlink{protocol_m_q_t_t_client_delegate-p}{M\-Q\-T\-T\-Client\-Delegate} $>$ \hyperlink{interface_m_q_t_t_client_ae177aa16bf5c66e71db4c21820de7623}{delegate}
+\end{DoxyCompactItemize}
+
+
+\subsection{Method Documentation}
+\hypertarget{interface_m_q_t_t_client_a70b2a3eb06df7dc5f12b550d4df3a28a}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!clear\-Will@{clear\-Will}}
+\index{clear\-Will@{clear\-Will}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{clear\-Will}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) clear\-Will 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a70b2a3eb06df7dc5f12b550d4df3a28a}
+Clears the will that was set with set\-Will(). \hypertarget{interface_m_q_t_t_client_a209e35ab865030b42518b0f94713694a}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!connect@{connect}}
+\index{connect@{connect}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{connect}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) connect 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a209e35ab865030b42518b0f94713694a}
+Connects to the host designated if the host has already been set. \hypertarget{interface_m_q_t_t_client_affe3571b6b972fb3f41ceea7778de723}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!connect\-To\-Host\-:@{connect\-To\-Host\-:}}
+\index{connect\-To\-Host\-:@{connect\-To\-Host\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{connect\-To\-Host\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) connect\-To\-Host\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String$\ast$)}]{host}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_affe3571b6b972fb3f41ceea7778de723}
+Connects to the given host. 
+\begin{DoxyParams}{Parameters}
+{\em host} & String that represents the host address. \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_m_q_t_t_client_a5da21136f56343f0db9dba70e0384ba9}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) disconnect 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a5da21136f56343f0db9dba70e0384ba9}
+Disconnect from the host. \hypertarget{interface_m_q_t_t_client_a2ca50eb85a638fe1dd3415eaa55b79eb}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!init\-With\-Client\-Id\-:@{init\-With\-Client\-Id\-:}}
+\index{init\-With\-Client\-Id\-:@{init\-With\-Client\-Id\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{init\-With\-Client\-Id\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf M\-Q\-T\-T\-Client} $\ast$) init\-With\-Client\-Id\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{client\-Id}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a2ca50eb85a638fe1dd3415eaa55b79eb}
+Initalize a new \hyperlink{interface_m_q_t_t_client}{M\-Q\-T\-T\-Client} object with a client\-I\-D 
+\begin{DoxyParams}{Parameters}
+{\em client\-Id} & String that represents the client I\-D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a newly initialized \hyperlink{interface_m_q_t_t_client}{M\-Q\-T\-T\-Client} 
+\end{DoxyReturn}
+\hypertarget{interface_m_q_t_t_client_adad97fb0b40b931c232de1b691155fbd}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!publish\-String\-:to\-Topic\-:with\-Qos\-:retain\-:@{publish\-String\-:to\-Topic\-:with\-Qos\-:retain\-:}}
+\index{publish\-String\-:to\-Topic\-:with\-Qos\-:retain\-:@{publish\-String\-:to\-Topic\-:with\-Qos\-:retain\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{publish\-String\-:to\-Topic\-:with\-Qos\-:retain\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) publish\-String\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{payload}
+\item[{toTopic:(N\-S\-String $\ast$)}]{topic}
+\item[{withQos:(N\-S\-U\-Integer)}]{qos}
+\item[{retain:(B\-O\-O\-L)}]{retain}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_adad97fb0b40b931c232de1b691155fbd}
+Publishes a string to the host on a given topic 
+\begin{DoxyParams}{Parameters}
+{\em payload} & String that holds the message to be sent \\
+\hline
+{\em topic} & String that represents the topic to which the message is sent \\
+\hline
+{\em qos} & N\-S\-U\-Integer that represents the quality of service level that the message will be sent with \\
+\hline
+{\em retain} & B\-O\-O\-L that flags the message to be retained or not \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_m_q_t_t_client_a8a2180a68956d6a897f068994e5c8864}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!reconnect@{reconnect}}
+\index{reconnect@{reconnect}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{reconnect}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) reconnect 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a8a2180a68956d6a897f068994e5c8864}
+Disconnect from the host and establish a new connection. \hypertarget{interface_m_q_t_t_client_afd942b93568e259fba6b22abec4bea59}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!set\-Message\-Retry\-:@{set\-Message\-Retry\-:}}
+\index{set\-Message\-Retry\-:@{set\-Message\-Retry\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{set\-Message\-Retry\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) set\-Message\-Retry\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-U\-Integer)}]{seconds}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_afd942b93568e259fba6b22abec4bea59}
+Sets how often the message will retry. 
+\begin{DoxyParams}{Parameters}
+{\em seconds} & N\-S\-U\-Integer that represent the amount of time between retries. \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_m_q_t_t_client_a8af6c4267519439b5d0b2eb91bc0eb8d}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!set\-Will\-:to\-Topic\-:with\-Qos\-:retain\-:@{set\-Will\-:to\-Topic\-:with\-Qos\-:retain\-:}}
+\index{set\-Will\-:to\-Topic\-:with\-Qos\-:retain\-:@{set\-Will\-:to\-Topic\-:with\-Qos\-:retain\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{set\-Will\-:to\-Topic\-:with\-Qos\-:retain\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) set\-Will\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{payload}
+\item[{toTopic:(N\-S\-String $\ast$)}]{will\-Topic}
+\item[{withQos:(N\-S\-U\-Integer)}]{will\-Qos}
+\item[{retain:(B\-O\-O\-L)}]{retain}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a8af6c4267519439b5d0b2eb91bc0eb8d}
+Message to be sent upon disconnect 
+\begin{DoxyParams}{Parameters}
+{\em payload} & String that holds the message to be sent \\
+\hline
+{\em will\-Topic} & String that represents the topic to which the Will message is sent \\
+\hline
+{\em will\-Qos} & N\-S\-U\-Integer that represents the quality of service level that the message will be sent with \\
+\hline
+{\em retain} & B\-O\-O\-L that flags the message to be retained or not \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_m_q_t_t_client_aa49277b1d3806e73cc16a1aa13a6ecfc}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!subscribe\-:@{subscribe\-:}}
+\index{subscribe\-:@{subscribe\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{subscribe\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) subscribe\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_aa49277b1d3806e73cc16a1aa13a6ecfc}
+Subscribes to the given topic to receive messages sent to that topic 
+\begin{DoxyParams}{Parameters}
+{\em topic} & String that represents the topic to be listened on \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_m_q_t_t_client_a8d389ce309a69c1049caf92ed2c70e59}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!subscribe\-:with\-Qos\-:@{subscribe\-:with\-Qos\-:}}
+\index{subscribe\-:with\-Qos\-:@{subscribe\-:with\-Qos\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{subscribe\-:with\-Qos\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) {\bf subscribe\-:} 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{topic}
+\item[{withQos:(N\-S\-U\-Integer)}]{qos}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a8d389ce309a69c1049caf92ed2c70e59}
+Subscribes to the given topic to receive messages sent to that topic with the given Q\-O\-S 
+\begin{DoxyParams}{Parameters}
+{\em topic} & String that represents the topic to be listened on \\
+\hline
+{\em qos} & N\-S\-U\-Integer that represents the quality of service level that the message will be recieved with \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_m_q_t_t_client_a712c2fe6afed9d57794c81b483238ecc}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!unsubscribe\-:@{unsubscribe\-:}}
+\index{unsubscribe\-:@{unsubscribe\-:}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{unsubscribe\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) unsubscribe\-: 
+\begin{DoxyParamCaption}
+\item[{(N\-S\-String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+}}\label{interface_m_q_t_t_client_a712c2fe6afed9d57794c81b483238ecc}
+Unsubscibes from the given topic 
+\begin{DoxyParams}{Parameters}
+{\em topic} & String that represents the topic from which to be unsubscribed \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_m_q_t_t_client_a097920820d62efef6d17060fbabf3b09}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!clean\-Session@{clean\-Session}}
+\index{clean\-Session@{clean\-Session}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{clean\-Session}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (B\-O\-O\-L) clean\-Session\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_client_a097920820d62efef6d17060fbabf3b09}
+Boolean to flag a clean session. \hypertarget{interface_m_q_t_t_client_ae177aa16bf5c66e71db4c21820de7623}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!delegate@{delegate}}
+\index{delegate@{delegate}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{delegate}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id$<${\bf M\-Q\-T\-T\-Client\-Delegate}$>$) delegate\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_client_ae177aa16bf5c66e71db4c21820de7623}
+Pointer to the delegate object that will handle messages when received. \hypertarget{interface_m_q_t_t_client_a1f617c2783f5f49fe0eade772b848330}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!host@{host}}
+\index{host@{host}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{host}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String $\ast$) host\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [retain]}}}\label{interface_m_q_t_t_client_a1f617c2783f5f49fe0eade772b848330}
+The string that holds the host address. \hypertarget{interface_m_q_t_t_client_a39d172ccd9c5f7c4d7927a547c496d6e}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!keep\-Alive@{keep\-Alive}}
+\index{keep\-Alive@{keep\-Alive}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{keep\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (unsigned short) keep\-Alive\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_client_a39d172ccd9c5f7c4d7927a547c496d6e}
+The amount of time to keep alive \hypertarget{interface_m_q_t_t_client_adb44dfa2630f0ac31524a0823c1f00f4}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!password@{password}}
+\index{password@{password}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{password}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String $\ast$) password\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [retain]}}}\label{interface_m_q_t_t_client_adb44dfa2630f0ac31524a0823c1f00f4}
+The string that holds the password of the client. \hypertarget{interface_m_q_t_t_client_a1d5b24d0ebc1a18fa8cb85a48381513e}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!port@{port}}
+\index{port@{port}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{port}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (unsigned short) port\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_m_q_t_t_client_a1d5b24d0ebc1a18fa8cb85a48381513e}
+The port number of the host. \hypertarget{interface_m_q_t_t_client_aba20ca92199c2b75f3993468db429aed}{\index{M\-Q\-T\-T\-Client@{M\-Q\-T\-T\-Client}!username@{username}}
+\index{username@{username}!MQTTClient@{M\-Q\-T\-T\-Client}}
+\subsubsection[{username}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\-S\-String $\ast$) username\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [retain]}}}\label{interface_m_q_t_t_client_aba20ca92199c2b75f3993468db429aed}
+The string that holds the username of the client. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+M\-Q\-T\-T\-Client.\-h\item 
+M\-Q\-T\-T\-Client.\-m\end{DoxyCompactItemize}

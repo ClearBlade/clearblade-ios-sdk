@@ -52,7 +52,7 @@ Updates an item or a set of items on the Platform that match the given query.
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) updateWithQuery: (CBQuery *) query WithChanges:(NSMutableDictionary *)changes SuccessCallback: (void (^)(CBItem *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
+-(void) updateWithQuery: (CBQuery *) query WithChanges:(NSMutableDictionary *)changes SuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
 /**
 Removes an item or a set of items on the Platform that match the given query.
 @param query A CBQuery object that defines what you want removed from the Platform

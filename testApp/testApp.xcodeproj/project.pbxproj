@@ -22,7 +22,6 @@
 		CB35AD5017EB6ED500C74058 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB35AD4E17EB6ED500C74058 /* InfoPlist.strings */; };
 		CB35AD5217EB6ED500C74058 /* testAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB35AD5117EB6ED500C74058 /* testAppTests.m */; };
 		CB981ADB17F36D61001EB89C /* MQTTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB981ADA17F36D61001EB89C /* MQTTViewController.m */; };
-		CBD0CAF817F4A354001A30CF /* .Makefile.swp in Resources */ = {isa = PBXBuildFile; fileRef = CBD0CA2B17F4A354001A30CF /* .Makefile.swp */; };
 		CBD0CAF917F4A354001A30CF /* CBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD0CA2E17F4A354001A30CF /* CBCollection.m */; };
 		CBD0CAFA17F4A354001A30CF /* CBHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD0CA3017F4A354001A30CF /* CBHTTPClient.m */; };
 		CBD0CAFB17F4A354001A30CF /* CBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD0CA3217F4A354001A30CF /* CBItem.m */; };
@@ -410,7 +409,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB35AD3F17EB6ED500C74058 /* Images.xcassets in Resources */,
-				CBD0CAF817F4A354001A30CF /* .Makefile.swp in Resources */,
 				CB35AD3117EB6ED500C74058 /* InfoPlist.strings in Resources */,
 				CBD0CAFE17F4A354001A30CF /* dox.config in Resources */,
 				CB35AD3A17EB6ED500C74058 /* Main.storyboard in Resources */,

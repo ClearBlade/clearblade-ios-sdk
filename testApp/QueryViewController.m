@@ -85,7 +85,7 @@
             break;
     }
     [query fetchWithSuccessCallback:^(NSMutableArray *stuff) {
-        NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
+        //NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
         NSMutableString *str = [[NSMutableString alloc] init];
         for (int i = 0; i < [stuff count]; i++) {
             [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];

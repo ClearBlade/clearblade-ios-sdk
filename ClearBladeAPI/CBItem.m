@@ -32,7 +32,7 @@
     if ([data objectForKey:@"itemId"]) {
         CBQuery *query = [[CBQuery alloc] initWithCollectionID:collectionID];
         [query updateWithChanges:data SuccessCallback:^(NSMutableArray *stuff) {
-	data = [[stuff objectAtIndex:0] data];
+	data = (NSMutableDictionary *)[[stuff objectAtIndex:0] data];
         } ErrorCallback:nil];
     } else {
         CBCollection *col = [[CBCollection alloc] initWithCollectionID: collectionID];

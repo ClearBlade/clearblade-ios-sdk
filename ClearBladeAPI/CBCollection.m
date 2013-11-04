@@ -133,7 +133,7 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-		/*NSLog(@"%@", [JSON description]);
+		NSLog(@"%@", [JSON description]);
 		NSMutableArray *arr = [NSMutableArray arrayWithArray:JSON];
    		NSMutableArray *arrayOfItems = [[NSMutableArray alloc]init];
         for (int i = 0; i < [arr count]; i++) {
@@ -145,9 +145,9 @@
                 CBItem *newItem = [[CBItem alloc] initWithData: newdict collectionID:collectionID];
                 [arrayOfItems addObject:newItem];
             }
-        }*/
-	CBItem *newItem = [[CBItem alloc] initWithData:JSON collectionID:collectionID];
-	successCallback(newItem);
+        }
+	//CBItem *newItem = [[CBItem alloc] initWithData:JSON collectionID:collectionID];
+	successCallback(arrayOfItems);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         failureCallback(error, JSON);
     }];

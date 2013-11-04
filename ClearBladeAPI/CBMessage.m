@@ -7,7 +7,7 @@
 //
 
 #import "CBMessage.h"
-#import "libmosquitto/mosquitto.h"
+#include "libmosquitto/mosquitto.h"
 
 @implementation CBMessage
 @dynamic payloadText;

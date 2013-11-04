@@ -7,7 +7,7 @@
 //
 
 #import "CBMessageClient.h"
-#import "libmosquitto/mosquitto.h"
+#include "libmosquitto/mosquitto.h"
 #import "ClearBlade.h"
 
 @interface CBMessageClient ()

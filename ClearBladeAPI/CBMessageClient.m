@@ -114,7 +114,7 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     }
     mosquitto_username_pw_set(self.client,
                               [[ClearBlade appKey] cStringUsingEncoding:NSUTF8StringEncoding],
-						  [[ClearBlade appSecret] cStringUsingEncodeing:NSUTF8StringEncoding]);
+						  [[ClearBlade appSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
     mosquitto_connect(self.client, [hostName.host cStringUsingEncoding:NSUTF8StringEncoding], [hostName.port intValue], 5);
     [self.clientThread start];
 }

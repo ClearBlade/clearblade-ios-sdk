@@ -9,14 +9,14 @@
  *******************************************************************************/
 
 #import "MQTTViewController.h"
-#import "MQTTClient.h"
+#import "CBMessageClient.h"
 
 @interface MQTTViewController ()
 
 @end
 
 @implementation MQTTViewController {
-    MQTTClient *client;
+    CBMessageClient *client;
     NSString *currentTopic;
 }
 
@@ -38,7 +38,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    client = [[MQTTClient alloc] initWithClientId:@"ClientID"];
+    client = [[CBMessageClient alloc] initWithClientId:@"ClientID"];
     [client setDelegate:self];
     
     [client connectToHost:@"ec2-23-23-31-115.compute-1.amazonaws.com"];

@@ -113,8 +113,13 @@
         [query equalTo:updateQuerVal.text for:updateQuerKey.text];
         NSMutableDictionary *changes = [[NSMutableDictionary alloc] init];
         [changes setObject:updateVal.text forKey:updateKey.text];
-        [col updateWithQuery:query WithChanges:changes SuccessCallback:^(CBItem *item){
-            display.text = [NSString stringWithFormat:@"NewStuff: %@", [[item data] description] ];
+        [col updateWithQuery:query WithChanges:changes SuccessCallback:^(NSMutableArray *stuff){
+            NSMutableString *str = [[NSMutableString alloc] init];
+            for (int i = 0; i < [stuff count]; i++) {
+                [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
+            }
+            NSLog(@"Str: %@", str);
+            display.text = str;
         } ErrorCallback:^(NSError *err, id JSON) {
             NSLog(@"%@", err);
             NSLog(@"%@", [JSON description]);

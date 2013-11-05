@@ -133,7 +133,7 @@
     if([OR count] < 1) {
         [OR addObject:query];
     }
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
+	CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
     [client setAppKey:[ClearBlade appKey] AppSecret:[ClearBlade appSecret]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:OR, nil];
@@ -175,7 +175,7 @@
         [OR addObject:query];
     }
     NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:OR, nil];
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
     [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
@@ -209,7 +209,7 @@
     if([OR count] < 1) {
         [OR addObject:query];
     }
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
     [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:OR, nil];

@@ -5,19 +5,31 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
+<<<<<<< HEAD
+	<string>5C550E6C-78EA-414A-90E8-A3CBF511E7EA</string>
+=======
 	<string>51C65D58-69B2-4A31-B5A5-825E6CFB2734</string>
+>>>>>>> feature-new-messages
 	<key>IDESourceControlProjectName</key>
 	<string>testApp</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+<<<<<<< HEAD
+		<key>1828A8C7-7D2E-49A8-835A-0D07ECC92C0E</key>
+=======
 		<key>B0A543CA-3421-4E0A-823D-65BDE6C0E370</key>
+>>>>>>> feature-new-messages
 		<string>ssh://github.com/ClearBlade/iOS-API.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>testApp/testApp.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+<<<<<<< HEAD
+		<key>1828A8C7-7D2E-49A8-835A-0D07ECC92C0E</key>
+=======
 		<key>B0A543CA-3421-4E0A-823D-65BDE6C0E370</key>
+>>>>>>> feature-new-messages
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +37,22 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
+<<<<<<< HEAD
+	<string>1828A8C7-7D2E-49A8-835A-0D07ECC92C0E</string>
+=======
 	<string>B0A543CA-3421-4E0A-823D-65BDE6C0E370</string>
+>>>>>>> feature-new-messages
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
+<<<<<<< HEAD
+			<string>1828A8C7-7D2E-49A8-835A-0D07ECC92C0E</string>
+=======
 			<string>B0A543CA-3421-4E0A-823D-65BDE6C0E370</string>
+>>>>>>> feature-new-messages
 			<key>IDESourceControlWCCName</key>
 			<string>iOS-API</string>
 		</dict>

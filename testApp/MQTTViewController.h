@@ -9,9 +9,9 @@
  *******************************************************************************/
 
 #import <UIKit/UIKit.h>
-#import "MQTTClient.h"
+#import "CBMessageClient.h"
 
-@interface MQTTViewController : UIViewController <MQTTClientDelegate>
+@interface MQTTViewController : UIViewController <CBMessageClientDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *topic;
 @property (strong, nonatomic) IBOutlet UISwitch *subSwitch;

@@ -29,11 +29,12 @@
 
 -(void) fetchWithSuccessCallback: (void (^)(NSMutableArray *))successCallback  ErrorCallback: (void (^)(NSError *, __strong id))failureCallback {
     
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
     [client setAppKey: [NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]] ];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableURLRequest *request = [client requestWithMethod:@"GET" path:path parameters:nil];
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSLog(@"DATA: %@", [JSON description]);
         NSMutableArray *arr = [NSMutableArray arrayWithArray:JSON];
         NSMutableArray *arrayOfItems = [[NSMutableArray alloc]init];
         for (int i = 0; i < [arr count]; i++) {
@@ -57,7 +58,7 @@
     if([query.OR count] < 1) {
         [query.OR addObject:query.query];
     }
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
     [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:query.OR, nil];
@@ -87,7 +88,7 @@
 }
 
 -(void) createWithData: (NSMutableDictionary *)data WithSuccessCallback: (void (^)(CBItem *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback {
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
     [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableURLRequest *request = [client requestWithMethod:@"POST" path:path parameters:nil];
@@ -95,6 +96,8 @@
     [request setHTTPBody:jsonData];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSLog(@"Request: %@", [request description]);
+    NSLog(@"Request: %@", [data description]);
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
 //        NSMutableArray *arr = [NSMutableArray arrayWithArray:JSON];
 //        NSMutableArray *arrayOfItems = [[NSMutableArray alloc]init];
@@ -121,7 +124,7 @@
         [query.OR addObject:query.query];
     }
     NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:[query OR], nil];
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
     [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
@@ -146,7 +149,12 @@
                 [arrayOfItems addObject:newItem];
             }
         }
+<<<<<<< HEAD
         successCallback(arrayOfItems);
+=======
+	//CBItem *newItem = [[CBItem alloc] initWithData:JSON collectionID:collectionID];
+	successCallback(arrayOfItems);
+>>>>>>> feature-new-messages
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         failureCallback(error, JSON);
     }];
@@ -157,7 +165,7 @@
     if([query.OR count] < 1) {
         [query.OR addObject:query.query];
     }
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://ec2-23-23-31-115.compute-1.amazonaws.com:8080"]];
     [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
     NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
     NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:query.OR, nil];

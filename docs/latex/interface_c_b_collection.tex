@@ -22,7 +22,7 @@ Inheritance diagram for C\-B\-Collection\-:\begin{figure}[H]
 \item 
 (void) -\/ \hyperlink{interface_c_b_collection_a393aef7a45fd8018d3ac32ced65a0fe7}{create\-With\-Data\-:\-With\-Success\-Callback\-:\-Error\-Callback\-:}
 \item 
-(void) -\/ \hyperlink{interface_c_b_collection_aa81d5745750e040b5333ab23db03884e}{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}
+(void) -\/ \hyperlink{interface_c_b_collection_a0d233e2e398223d991aa0667f2249594}{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}
 \item 
 (void) -\/ \hyperlink{interface_c_b_collection_abace3dfeee95833dfca05e9040426372}{remove\-With\-Query\-:\-Success\-Callback\-:\-Error\-Callback\-:}
 \end{DoxyCompactItemize}
@@ -126,17 +126,16 @@ Removes an item or a set of items on the Platform that match the given query.
 {\em failure\-Callback} & Callback Block to handle errors returned \\
 \hline
 \end{DoxyParams}
-\hypertarget{interface_c_b_collection_aa81d5745750e040b5333ab23db03884e}{\index{C\-B\-Collection@{C\-B\-Collection}!update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}}
+\hypertarget{interface_c_b_collection_a0d233e2e398223d991aa0667f2249594}{\index{C\-B\-Collection@{C\-B\-Collection}!update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}}
 \index{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:@{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}!CBCollection@{C\-B\-Collection}}
 \subsubsection[{update\-With\-Query\-:\-With\-Changes\-:\-Success\-Callback\-:\-Error\-Callback\-:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) update\-With\-Query\-: 
 \begin{DoxyParamCaption}
 \item[{({\bf C\-B\-Query} $\ast$)}]{query}
 \item[{WithChanges:(N\-S\-Mutable\-Dictionary $\ast$)}]{changes}
-\item[{SuccessCallback:({\bf C\-B\-Item} $\ast$)}]{success\-Callback}
-\item[{ErrorCallback:(N\-S\-Error $\ast$)}]{}
-\item[{(\-\_\-\-\_\-strong id)}]{failure\-Callback}
+\item[{SuccessCallback:(N\-S\-Mutable\-Array $\ast$)}]{success\-Callback}
+\item[{ErrorCallback:(N\-S\-Error $\ast$, \-\_\-\-\_\-strong id)}]{failure\-Callback}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_collection_aa81d5745750e040b5333ab23db03884e}
+}}\label{interface_c_b_collection_a0d233e2e398223d991aa0667f2249594}
 Updates an item or a set of items on the Platform that match the given query. 
 \begin{DoxyParams}{Parameters}
 {\em query} & A \hyperlink{interface_c_b_query}{C\-B\-Query} object that defines what you want updated on the Platform \\

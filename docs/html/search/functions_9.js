@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['reconnect',['reconnect',['../interface_m_q_t_t_client.html#a8a2180a68956d6a897f068994e5c8864',1,'MQTTClient']]],
-  ['refresh',['refresh',['../interface_c_b_item.html#a613055bfa99fa8059f521976ec9ac0eb',1,'CBItem']]],
-  ['removewithquery_3asuccesscallback_3aerrorcallback_3a',['removeWithQuery:SuccessCallback:ErrorCallback:',['../interface_c_b_collection.html#abace3dfeee95833dfca05e9040426372',1,'CBCollection']]],
-  ['removewithsuccesscallback_3aerrorcallback_3a',['removeWithSuccessCallback:ErrorCallback:',['../interface_c_b_query.html#ab50b24d74f17a9ef72b88d4ac05831b3',1,'CBQuery']]]
+  ['save',['save',['../interface_c_b_item.html#ad09f007f812f568c3da0c4fd0f92a231',1,'CBItem']]],
+  ['setappkey_3aappsecret_3a',['setAppKey:AppSecret:',['../interface_c_b_h_t_t_p_client.html#affe94c0f2e4358e5d8717f5af3cbb3e5',1,'CBHTTPClient']]],
+  ['setcollectionid_3a',['setCollectionID:',['../interface_c_b_query.html#aa6df57d4b22629273cb22d39157ab234',1,'CBQuery']]],
+  ['seturl_3a',['setUrl:',['../interface_c_b_h_t_t_p_client.html#ad5a36148d93216e8f41e81b4f0000d66',1,'CBHTTPClient']]]
 ];

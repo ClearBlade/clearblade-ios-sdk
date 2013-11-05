@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keepalive',['keepAlive',['../interface_m_q_t_t_client.html#a39d172ccd9c5f7c4d7927a547c496d6e',1,'MQTTClient']]]
+  ['query',['query',['../interface_c_b_query.html#a896792b3b7ffa4a297fb91daedae2672',1,'CBQuery']]]
 ];

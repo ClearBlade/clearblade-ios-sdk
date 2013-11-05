@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keepalive',['keepAlive',['../interface_m_q_t_t_client.html#a39d172ccd9c5f7c4d7927a547c496d6e',1,'MQTTClient']]]
+  ['notequalto_3afor_3a',['notEqualTo:for:',['../interface_c_b_query.html#a6f38448b1fa8cfeb6fb0e9a6661e2643',1,'CBQuery']]]
 ];

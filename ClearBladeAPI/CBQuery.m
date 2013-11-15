@@ -14,229 +14,135 @@
 #import "CBItem.h"
 #import "ClearBlade.h"
 
+@interface CBQuery ()
+-(CBHTTPClient *)clientForCollectionID:(NSString *)collectionID;
+@end
+
 @implementation CBQuery
 
-@synthesize OR;
-@synthesize query;
-@synthesize collectionID;
+@synthesize OR = _OR;
+@synthesize query = _query;
+@synthesize collectionID = _collectionID;
+
++(CBQuery *)queryWithCollectionID:(NSString *)collectionID {
+    return [[CBQuery alloc] initWithCollectionID:collectionID];
+}
+
+-(CBHTTPClient *)clientForCollectionID:(NSString *)collectionID {
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+    [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
+    return client;
+}
 
 -(CBQuery *) initWithCollectionID:(NSString *)colID {
     self = [super init];
-    query = [[NSMutableDictionary alloc] init];
-    OR = [[NSMutableArray alloc] init];
-    
-    collectionID = colID;
+    if (self) {
+        self.collectionID = colID;
+    }
     return self;
 }
 
+-(NSMutableDictionary *)query {
+    if (!_query) {
+        _query = [[NSMutableDictionary alloc] init];
+    }
+    return _query;
+}
+-(NSMutableArray *)OR {
+    if (!_OR) {
+        _OR = [NSMutableArray arrayWithObject:self.query];
+    }
+    return _OR;
+}
 -(void) setCollectionID:(NSString *) colID {
-    collectionID = colID;
+    _collectionID = colID;
 }
 
 -(CBQuery *) equalTo:(NSString *)value for:(NSString *)key {
-    if (!([query objectForKey:@"EQ"])) {
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        NSMutableArray *eqArr = [[NSMutableArray alloc] init];
-        [eqDict setObject:value forKey:key];
-        [eqArr addObject:eqDict];
-        [query setObject:eqArr forKey:@"EQ"];
-    } else {
-        NSMutableArray *eqArr = [query objectForKey:@"EQ"];
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        [eqDict setValue:value forKey:key];
-        [eqArr addObject:eqDict];
-    }
+    return [self addParameterWithValue:value forKey:key inQueryParameter:@"EQ"];
     return self;
 }
 
 -(CBQuery *) notEqualTo:(NSString *)value for:(NSString *)key {
-    if (!([query objectForKey:@"NEQ"])) {
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        NSMutableArray *eqArr = [[NSMutableArray alloc] init];
-        [eqDict setObject:value forKey:key];
-        [eqArr addObject:eqDict];
-        [query setObject:eqArr forKey:@"NEQ"];
-    } else {
-        NSMutableArray *eqArr = [query objectForKey:@"NEQ"];
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        [eqDict setValue:value forKey:key];
-        [eqArr addObject:eqDict];
-    }
-    return self;
+    return [self addParameterWithValue:value forKey:key inQueryParameter:@"NEQ"];
 }
 
 -(CBQuery *) greaterThan:(NSString *)value for:(NSString *)key {
-    if (!([query objectForKey:@"GT"])) {
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        NSMutableArray *eqArr = [[NSMutableArray alloc] init];
-        [eqDict setObject:value forKey:key];
-        [eqArr addObject:eqDict];
-        [query setObject:eqArr forKey:@"GT"];
-    } else {
-        NSMutableArray *eqArr = [query objectForKey:@"GT"];
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        [eqDict setValue:value forKey:key];
-        [eqArr addObject:eqDict];
-    }
-    return self;
+    return [self addParameterWithValue:value forKey:key inQueryParameter:@"GT"];
 }
 
 -(CBQuery *) lessThan:(NSString *)value for:(NSString *)key {
-    if (!([query objectForKey:@"LT"])) {
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        NSMutableArray *eqArr = [[NSMutableArray alloc] init];
-        [eqDict setObject:value forKey:key];
-        [eqArr addObject:eqDict];
-        [query setObject:eqArr forKey:@"LT"];
-    } else {
-        NSMutableArray *eqArr = [query objectForKey:@"LT"];
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        [eqDict setValue:value forKey:key];
-        [eqArr addObject:eqDict];
-    }
-    return self;
+    return [self addParameterWithValue:value forKey:key inQueryParameter:@"LT"];
 }
 
 -(CBQuery *) greaterThanEqualTo:(NSString *)value for:(NSString *)key {
-    if (!([query objectForKey:@"GTE"])) {
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        NSMutableArray *eqArr = [[NSMutableArray alloc] init];
-        [eqDict setObject:value forKey:key];
-        [eqArr addObject:eqDict];
-        [query setObject:eqArr forKey:@"GTE"];
-    } else {
-        NSMutableArray *eqArr = [query objectForKey:@"GTE"];
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        [eqDict setValue:value forKey:key];
-        [eqArr addObject:eqDict];
-    }
-    return self;
+    return [self addParameterWithValue:value forKey:key inQueryParameter:@"GTE"];
 }
 
 -(CBQuery *) lessThanEqualTo:(NSString *)value for:(NSString *)key {
-    if (!([query objectForKey:@"LTE"])) {
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        NSMutableArray *eqArr = [[NSMutableArray alloc] init];
-        [eqDict setObject:value forKey:key];
-        [eqArr addObject:eqDict];
-        [query setObject:eqArr forKey:@"LTE"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:@"LTE"];
+}
+
+-(CBQuery *) addParameterWithValue:(NSString *)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
+    NSMutableDictionary * query = self.query;
+    NSDictionary * keyValuePair = @{key: value};
+    NSMutableArray * parameterArray = [query objectForKey:parameter];
+    if (parameterArray) {
+        [parameterArray addObject:keyValuePair];
     } else {
-        NSMutableArray *eqArr = [query objectForKey:@"LTE"];
-        NSMutableDictionary *eqDict = [[NSMutableDictionary alloc] init];
-        [eqDict setValue:value forKey:key];
-        [eqArr addObject:eqDict];
+        parameterArray = [NSMutableArray arrayWithObject:keyValuePair];
+        [query setObject:parameterArray forKey:parameter];
     }
     return self;
 }
 
--(void) fetchWithSuccessCallback: (void (^)(NSMutableArray *))successCallback  ErrorCallback: (void (^)(NSError *, __strong id))failureCallback {
-    if([OR count] < 1) {
-        [OR addObject:query];
-    }
-	CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
+-(NSMutableURLRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
+    NSString * path = [NSString stringWithFormat:@"api/%@", self.collectionID];
+    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
     [client setAppKey:[ClearBlade appKey] AppSecret:[ClearBlade appSecret]];
-    NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
-    NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:OR, nil];
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:metaQuery options:0 error:nil];
-    NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-    NSMutableDictionary *queryParam = [[NSMutableDictionary alloc] init];
-    [queryParam setValue:jsonString forKey:@"query"];
-    NSMutableURLRequest *request = [client requestWithMethod:@"GET" path:path parameters:queryParam];
-    NSLog(@"Request: %@", [request description]);
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSMutableArray *arrayOfItems;
-        if (JSON == NULL) {
-            arrayOfItems = [[NSMutableArray alloc] init];
-        } else {
-            NSLog(@"DATA: %@", [JSON description]);
-            NSMutableArray *arr = [NSMutableArray arrayWithArray:JSON];
-            arrayOfItems = [[NSMutableArray alloc]init];
-            int c = [arr count];
-            for (int i = 0; i < c; i++) {
-                for (id key in arr[i]) {
-                    NSMutableDictionary *newdict = [[NSMutableDictionary alloc] init];
-                    for (id secondKey in [arr[i] objectForKey:key]) {
-                        [newdict setObject:[[arr[i] objectForKey:key] objectForKey:secondKey] forKey:secondKey];
-                    }
-                    CBItem *newItem = [[CBItem alloc] initWithData: newdict collectionID:collectionID];
-                    [arrayOfItems addObject:newItem];
-                }
-            }
+    return [client requestWithMethod:method path:path parameters:parameters];
+}
+
+-(void)executeRequest:(NSURLRequest *)apiRequest
+  withSuccessCallback:(void (^)(NSMutableArray *))successCallback
+  withFailureCallback:(void (^)(NSError *, __strong id))failureCallback {
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:apiRequest
+                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse * response, id JSON) {
+        NSMutableArray * itemArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:JSON withCollectionID:self.collectionID];
+        if (successCallback) {
+            successCallback(itemArray);
         }
-        successCallback(arrayOfItems);
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        failureCallback(error, JSON);
+    } failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error, id JSON) {
+        if (failureCallback) {
+            failureCallback(error, JSON);
+        }
     }];
     [operation start];
 }
 
+-(void) fetchWithSuccessCallback: (void (^)(NSMutableArray *))successCallback  ErrorCallback: (void (^)(NSError *, __strong id))failureCallback {
+    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:@[self.OR] options:0 error:nil]
+                                                 encoding:NSUTF8StringEncoding];
+    NSMutableURLRequest *fetchRequest = [self requestWithMethod:@"GET" withParameters:@{@"query": jsonString}];
+    [self executeRequest:fetchRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
+}
+
 -(void) updateWithChanges:(NSMutableDictionary *)changes SuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback {
-    if([OR count] < 1) {
-        [OR addObject:query];
-    }
-    NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:OR, nil];
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
-    [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
-    NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
-    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    [data setObject:metaQuery forKey:@"query"];
-    [data setObject:changes forKey:@"$set"];
-    NSMutableURLRequest *request = [client requestWithMethod:@"PUT" path:path parameters:nil];
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
-    [request setHTTPBody:jsonData];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-		NSMutableArray *arr = [NSMutableArray arrayWithArray:JSON];
-        NSMutableArray *arrayOfItems = [[NSMutableArray alloc]init];
-        for (int i = 0; i < [arr count]; i++) {
-			NSMutableDictionary *newdict = [[NSMutableDictionary alloc] init];
-            for (id key in arr[i]) {
-				[newdict setObject:[arr[i] objectForKey: key] forKey: key];
-			}
-			CBItem *newItem = [[CBItem alloc] initWithData: newdict collectionID:collectionID];
-			[arrayOfItems addObject:newItem];
-        }
-        successCallback(arrayOfItems);
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        failureCallback(error, JSON);
-    }];
-    [operation start];
+    NSMutableURLRequest *updateRequest = [self requestWithMethod:@"PUT" withParameters:nil];
+    updateRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": @[self.OR], @"$set": changes}
+                                                             options:0
+                                                               error:nil];
+    [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [self executeRequest:updateRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
 
 -(void) removeWithSuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback {
-    if([OR count] < 1) {
-        [OR addObject:query];
-    }
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://platform.clearblade.com"]];
-    [client setAppKey:[NSString stringWithFormat:@"%@", [ClearBlade appKey]] AppSecret:[NSString stringWithFormat:@"%@", [ClearBlade appSecret]]];
-    NSString *path = [NSString stringWithFormat:@"api/%@", collectionID];
-    NSMutableArray *metaQuery = [[NSMutableArray alloc] initWithObjects:OR, nil];
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:metaQuery options:0 error:nil];
-    NSString* jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-    NSMutableDictionary *queryParam = [[NSMutableDictionary alloc] init];
-    [queryParam setValue:jsonString forKey:@"query"];
-    NSMutableURLRequest *request = [client requestWithMethod:@"DELETE" path:path parameters:queryParam];
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSMutableArray *arr = [NSMutableArray arrayWithArray:JSON];
-        NSMutableArray *arrayOfItems = [[NSMutableArray alloc]init];
-        for (int i = 0; i < [arr count]; i++) {
-            for (id key in arr[i]) {
-                NSMutableDictionary *newdict = [[NSMutableDictionary alloc] init];
-                for (id secondKey in [arr[i] objectForKey:key]) {
-                    [newdict setObject:[[arr[i] objectForKey:key] objectForKey:secondKey] forKey:secondKey];
-                }
-                CBItem *newItem = [[CBItem alloc] initWithData: newdict collectionID:collectionID];
-                [arrayOfItems addObject:newItem];
-            }
-        }
-        successCallback(arrayOfItems);
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        failureCallback(error, JSON);
-    }];
-    [operation start];
+    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:@[self.OR] options:0 error:nil]
+                                                 encoding:NSUTF8StringEncoding];
+    NSMutableURLRequest *removeRequest = [self requestWithMethod:@"DELETE" withParameters:@{@"query": jsonString}];
+    [self executeRequest:removeRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
-
 
 @end

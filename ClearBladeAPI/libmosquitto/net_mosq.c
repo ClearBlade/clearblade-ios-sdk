@@ -89,6 +89,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "time_mosq.h"
 #include "util_mosq.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 #ifdef WITH_TLS
 int tls_ex_index_mosq = -1;
 #endif
@@ -926,3 +929,4 @@ int _mosquitto_packet_read(struct mosquitto *mosq)
 	return rc;
 }
 
+#pragma clang diagnostic pop

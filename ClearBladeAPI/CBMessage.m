@@ -11,6 +11,9 @@
 
 @implementation CBMessage
 @dynamic payloadText;
+@synthesize payloadData = _payloadData;
+@synthesize topic = _topic;
+
 -(id)initWithMosquittoMessage:(const struct mosquitto_message *)message {
     self = [super init];
     if (self) {

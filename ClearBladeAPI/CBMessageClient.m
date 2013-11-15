@@ -69,6 +69,11 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 }
 
 @implementation CBMessageClient
+@synthesize client = _client;
+@synthesize delegate = _delegate;
+@synthesize clientThread = _clientThread;
+@synthesize topics = _topics;
+
 -(NSMutableDictionary *)topics {
     if (!_topics) {
         _topics = [[NSMutableDictionary alloc] init];

@@ -26,6 +26,12 @@ An array of query objects that is used when you create an or statement and combi
 The string that represent the ID of the collection that will be queried
 */
 @property (strong, nonatomic) NSString *collectionID;
+
+/**
+Creates a query object that will operate on the collection with the collectionID
+
+*/
++(CBQuery *)queryWithCollectionID:(NSString *)collectionID;
 /**
 Initializes the query object and sets the collectionID
 @param colID A string that is set as collectionID

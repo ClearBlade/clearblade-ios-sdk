@@ -19,6 +19,14 @@ Class for dealing with ClearBlade Platform Collections.
 The string that represents the collection ID.
 */
 @property (strong, nonatomic) NSString *collectionID;
+
+/**
+Initialize a new CBCollection object
+@param collectionID The string that will be used to identify the collection on the server
+@returns a newly initialized object
+*/
++(CBCollection *)collectionWithID:(NSString *)collectionID;
+
 /**
 Initialize a new CBCollection object
 @param colID The string that will be used to identify the collection on the server

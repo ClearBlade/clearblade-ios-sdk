@@ -60,6 +60,9 @@ typedef int ssize_t;
 #define HAVE_PSELECT
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 void _mosquitto_destroy(struct mosquitto *mosq);
 static int _mosquitto_reconnect(struct mosquitto *mosq, bool blocking);
 static int _mosquitto_connect_init(struct mosquitto *mosq, const char *host, int port, int keepalive, const char *bind_address);
@@ -1220,3 +1223,5 @@ int mosquitto_sub_topic_tokens_free(char ***topics, int count)
 	return MOSQ_ERR_SUCCESS;
 }
 
+
+#pragma clang diagnostic pop

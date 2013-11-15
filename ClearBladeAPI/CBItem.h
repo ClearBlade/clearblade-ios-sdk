@@ -21,13 +21,24 @@ A dictionary that holds the data that was stored in the platform.
 A string holding the ID of the collection to which this item belongs
 */
 @property (strong, nonatomic) NSString *collectionID;
+
+/**
+Creates an Item with data belonging to the collection with collectionID
+@param inputData A dictionary that holds data for the item
+@param collectionID The ID of the collection this item will belong to
+@returns The newly created CBItem
+*/
++(CBItem *)itemWithData:(NSDictionary *)inputData withCollectionID:(NSString *)collectionID;
+
++(NSMutableArray *)arrayOfCBItemsFromArrayOfDictionaries:(NSArray *)itemArray withCollectionID:(NSString *)collectionID;
+
 /**
 Initializes the Item with data and sets the data and collectionID.
 @param inputData A dictionary that holds data for the item
 @param colID A string that holds the ID of the collection to which this item belongs 
 @returns the newly created CBItem
 */
--(CBItem *) initWithData: (NSDictionary *) inputData collectionID:(NSString *) colID;
+-(CBItem *) initWithData: (NSDictionary *) inputData withCollectionID:(NSString *) colID;
 /**
 Saves any changes that have been made to the data property to the Platform
 This will update the server

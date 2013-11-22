@@ -1,10 +1,12 @@
-//
-//  CBMessageClient.m
-//  Chat
-//
-//  Created by Tyler Dodge on 10/30/13.
-//  Copyright (c) 2013 Tyler Dodge. All rights reserved.
-//
+/*******************************************************************************
+ * Copyright 2013 ClearBlade, Inc
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Any redistribution of this program in any form must include this copyright
+ *******************************************************************************/
 
 #import "CBMessageClient.h"
 #include "mosquitto.h"
@@ -36,7 +38,7 @@ static void CBMessageClient_onConnect(struct mosquitto * mosq, void * voidClient
             [client handleConnect:CBMessageClientConnectErrorProtocol];
             break;
         case 2:
-            [client handleConnect:CBMessageClientConnectRefusedConnection];
+            [client handleConnect:CBMessageClientConnectInvalidAppSecret];
             break;
         case 3:
             [client handleConnect:CBMessageClientConnectUnavailable];
@@ -118,8 +120,8 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
         hostName = [NSURL URLWithString:[@"tcp://" stringByAppendingString:[hostName absoluteString]]];
     }
     mosquitto_username_pw_set(self.client,
-                              [[ClearBlade appKey] cStringUsingEncoding:NSUTF8StringEncoding],
-						  [[ClearBlade appSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
+                              [[[ClearBlade settings] appKey] cStringUsingEncoding:NSUTF8StringEncoding],
+                              [[[ClearBlade settings] appSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
     mosquitto_connect(self.client, [hostName.host cStringUsingEncoding:NSUTF8StringEncoding], [hostName.port intValue], 5);
     [self.clientThread start];
 }
@@ -134,11 +136,17 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 }
 -(void)handleConnect:(CBMessageClientConnectStatus)status {
     id<CBMessageClientDelegate> delegate = self.delegate;
-    if ([delegate respondsToSelector:@selector(messageClient:didConnect:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate messageClient:self didConnect:status];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (status == CBMessageClientConnectSuccess) {
+            if ([delegate respondsToSelector:@selector(messageClientDidConnect:)]) {
+                [delegate messageClientDidConnect:self];
+            }
+        } else {
+            if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {
+                [delegate messageClient:self didFailToConnect:status];
+            }
+        }
+    });
 }
 -(void)handleMessage:(CBMessage *)message {
     id<CBMessageClientDelegate> delegate = self.delegate;
@@ -150,9 +158,10 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 }
 -(void)handlePublish:(NSString *)topic {
     id<CBMessageClientDelegate> delegate = self.delegate;
-    if ([delegate respondsToSelector:@selector(messageClient:didPublish:)]) {
+    if ([delegate respondsToSelector:@selector(messageClient:didPublishToTopic:withMessage:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate messageClient:self didPublish:topic];
+            CBMessage * message = [CBMessage messageWithTopic:topic withPayloadText:@""];
+            [delegate messageClient:self didPublishToTopic:topic withMessage:message];
         });
     }
 }
@@ -160,7 +169,8 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     id<CBMessageClientDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(messageClient:didUnsubscribe:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate messageClient:self didPublish:topic];
+            CBMessage * message = [CBMessage messageWithTopic:topic withPayloadText:@""];
+            [delegate messageClient:self didPublishToTopic:topic withMessage:message];
         });
     }
     

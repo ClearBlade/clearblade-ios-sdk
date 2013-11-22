@@ -11,16 +11,37 @@
 #import "CBHTTPClient.h"
 
 @implementation CBHTTPClient
+@synthesize settings = _settings;
 
-@synthesize baseURL;
-
--(void) setUrl: (NSString *) URL {
-    baseURL = [NSURL URLWithString:URL];
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings {
+    self = [super initWithBaseURL:[settings serverAddress]];
+    if (self) {
+        self.settings = settings;
+    }
+    return self;
 }
 
--(void) setAppKey: (NSString *) key AppSecret: (NSString *) secret {
-    [self setDefaultHeader:@"ClearBlade-AppKey" value:key];
-    [self setDefaultHeader:@"ClearBlade-AppSecret" value:secret];
+-(NSMutableURLRequest *)requestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
+    ClearBlade * settings = self.settings;
+    return [super requestWithMethod:method
+                               path:[settings fullServerAddressWithPath:path].path
+                         parameters:parameters];
+}
+
+-(ClearBlade *)settings {
+    ClearBlade * settingsRef = _settings;
+    @synchronized (settingsRef) {
+        if (!settingsRef) {
+            [self setSettings:[ClearBlade settings]];
+        }
+    }
+    return settingsRef;
+}
+
+-(void)setSettings:(ClearBlade *)settings {
+    [self setDefaultHeader:@"ClearBlade-AppKey" value:[settings appKey]];
+    [self setDefaultHeader:@"ClearBlade-AppSecret" value:[settings appSecret]];
+    _settings = settings;
 }
 
 @end

@@ -92,7 +92,7 @@
         }
         NSLog(@"Str: %@", str);
         self.display.text = str;
-    } ErrorCallback:nil];
+    } withErrorCallback:nil];
 }
 
 -(IBAction) updateClick {
@@ -123,14 +123,14 @@
     }
     NSMutableDictionary *changes = [[NSMutableDictionary alloc] init];
     [changes setObject:self.updateVal.text forKey:self.updateKey.text];
-    [query updateWithChanges:changes SuccessCallback:^(NSMutableArray *stuff) {
+    [query updateWithChanges:changes withSuccessCallback:^(NSMutableArray *stuff) {
         NSMutableString *str = [[NSMutableString alloc] init];
         for (uint i = 0; i < [stuff count]; i++) {
             [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
         }
         NSLog(@"Str: %@", str);
         self.display.text = str;
-    } ErrorCallback:nil];
+    } withErrorCallback:nil];
 
 }
 
@@ -167,7 +167,7 @@
         }
         NSLog(@"Str: %@", str);
         self.display.text = str;
-    } ErrorCallback:nil];
+    } withErrorCallback:nil];
 }
 
 @end

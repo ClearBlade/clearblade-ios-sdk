@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import "CBQuery.h"
 #import "CBAPI.h"
+
 /**
 Class for dealing with ClearBlade Platform Collections.
 */
@@ -38,21 +39,26 @@ Fetches the entire collection from the Platform. The returned data will be retur
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) fetchWithSuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
+-(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback
+               withErrorCallback:(CBQueryErrorCallback)failureCallback;
 /**
 Fetches all data from the collection that matches a particular query
 @param query A CBQuery object that defines what you want returned from the Platform
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) fetchWithQuery: (CBQuery*) query SuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
+-(void) fetchWithQuery: (CBQuery*) query
+   withSuccessCallback:(CBQuerySuccessCallback)successCallback
+     withErrorCallback:(CBQueryErrorCallback)failureCallback;
 /**
 Creates a new Item in the collection in the Platform. This creates a new item on the server.
 @param data A Dictionary that contains the object that you want the item in the platform to represent
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) createWithData: (NSMutableDictionary *)data WithSuccessCallback: (void (^)(CBItem *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
+-(void) createWithData:(NSMutableDictionary *)data
+   withSuccessCallback:(CBItemSuccessCallback)successCallback
+     withErrorCallback:(CBItemErrorCallback)failureCallback;
 /**
 Updates an item or a set of items on the Platform that match the given query.
 @param query A CBQuery object that defines what you want updated on the Platform
@@ -60,13 +66,18 @@ Updates an item or a set of items on the Platform that match the given query.
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) updateWithQuery: (CBQuery *) query WithChanges:(NSMutableDictionary *)changes SuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
+-(void) updateWithQuery:(CBQuery *) query
+            withChanges:(NSMutableDictionary *)changes
+    withSuccessCallback:(CBQuerySuccessCallback)successCallback
+      withErrorCallback:(CBQueryErrorCallback)failureCallback;
 /**
 Removes an item or a set of items on the Platform that match the given query.
 @param query A CBQuery object that defines what you want removed from the Platform
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) removeWithQuery: (CBQuery*) query SuccessCallback: (void (^)(NSMutableArray *))successCallback ErrorCallback: (void (^)(NSError *, __strong id))failureCallback;
+-(void) removeWithQuery:(CBQuery *)query
+    withSuccessCallback:(CBQuerySuccessCallback)successCallback
+      withErrorCallback:(CBQueryErrorCallback)failureCallback;
 
 @end

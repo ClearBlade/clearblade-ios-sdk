@@ -67,14 +67,14 @@
     } else {
         CBCollection *col = [[CBCollection alloc] initWithCollectionID:self.colID.text];
         [col fetchWithSuccessCallback:^(NSMutableArray *stuff) {
-            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
+            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] objectForKey:@"name"]);
             NSMutableString *str = [[NSMutableString alloc] init];
             for (int i = 0; i < (int)stuff.count; i++) {
                 [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
             }
             NSLog(@"Str: %@", str);
             self.display.text = str;
-        } ErrorCallback:^(NSError *err, id stuff) {
+        } withErrorCallback:^(NSError *err, id stuff) {
             self.display.text = [err description];
         }];
     }
@@ -93,9 +93,9 @@
         NSMutableDictionary *createData = [[NSMutableDictionary alloc] init];
         [createData setValue:self.createName.text forKey:@"name"];
         [createData setValue:self.createAge.text forKey:@"age"];
-        [col createWithData:createData WithSuccessCallback:^(CBItem *item) {
-            self.display.text = [NSString stringWithFormat:@"NewStuff: %@", [[item data] description] ];
-        } ErrorCallback:nil];
+        [col createWithData:createData withSuccessCallback:^(CBItem * item) {
+            self.display.text = [NSString stringWithFormat:@"NewStuff: %@", [item description]];
+        } withErrorCallback:nil];
     }
 }
 
@@ -113,15 +113,15 @@
         [query equalTo:self.updateQuerVal.text for:self.updateQuerKey.text];
         NSMutableDictionary *changes = [[NSMutableDictionary alloc] init];
         [changes setObject:self.updateVal.text forKey:self.updateKey.text];
-        [col updateWithQuery:query WithChanges:changes SuccessCallback:^(NSMutableArray *stuff) {
-            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
+        [col updateWithQuery:query withChanges:changes withSuccessCallback:^(NSMutableArray *stuff) {
+            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] objectForKey:@"name"]);
             NSMutableString *str = [[NSMutableString alloc] init];
             for (uint i = 0; i < [stuff count]; i++) {
                 [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
             }
             NSLog(@"Str: %@", str);
             self.display.text = str;
-        } ErrorCallback:^(NSError *err, id JSON) {
+        } withErrorCallback:^(NSError *err, id JSON) {
             NSLog(@"%@", err);
             NSLog(@"%@", [JSON description]);
         }];
@@ -140,14 +140,14 @@
         CBCollection *col = [[CBCollection alloc] initWithCollectionID:self.colID.text];
         CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.colID.text];
         [query equalTo:self.deleteQuerVal.text for:self.deleteQuerKey.text];
-        [col removeWithQuery:query SuccessCallback:^(NSMutableArray *stuff) {
+        [col removeWithQuery:query withSuccessCallback:^(NSMutableArray *stuff) {
             NSMutableString *str = [[NSMutableString alloc] init];
             for (uint i = 0; i < [stuff count]; i++) {
                 [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
             }
             NSLog(@"Str: %@", str);
             self.display.text = str;
-        } ErrorCallback:nil];
+        } withErrorCallback:nil];
     }
 }
 

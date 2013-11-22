@@ -58,7 +58,7 @@
 
         return NO;
     } else {
-        [ClearBlade initAppKey:key.text AppSecret:secret.text];
+        [ClearBlade initSettingsWithAppKey:key.text withAppSecret:secret.text];
         return YES;
     }
 }

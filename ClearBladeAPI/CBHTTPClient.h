@@ -9,25 +9,15 @@
  *******************************************************************************/
 
 #import <AFNetworking/AFNetworking.h>
+#import "ClearBlade.h"
 /**
 Class used for making REST calls to the platform.
 This is a subclass of AFHTTPClient
 */
 @interface CBHTTPClient : AFHTTPClient
-/**
-NSURL that holds the url that the Client will use
-*/
-@property (strong, nonatomic) NSURL *baseURL;
-/**
-Sets the baseUrl property that will be used by the client to communicate with the platform
-@param URL Tht NSURL that is set as the baseURL
-*/
--(void) setUrl: (NSString *) URL;
-/**
-Sets that AppKey and AppSecret that get attached to the request headers for all requests to the platform
-@param key The app key that is used to identify the app being used
-@param secret The app secret that is used to authenticate the app being used
-*/
--(void) setAppKey: (NSString *) key AppSecret: (NSString *) secret;
+
+@property (atomic, weak) ClearBlade * settings;
+
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings;
 
 @end

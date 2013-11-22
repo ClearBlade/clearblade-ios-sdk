@@ -10,21 +10,51 @@
 
 #import "ClearBlade.h"
 
-static NSString *appKey;
-static NSString *appSecret;
+static ClearBlade * _settings = nil;
+
+@interface ClearBlade ()
+-(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress;
+@end
 
 @implementation ClearBlade
 
-+(NSString *)appKey {
-    return appKey;
++(instancetype)settings {
+    if (!_settings) {
+        NSLog(@"App Key and App Secret should be set before calling any ClearBlade APIs");
+    }
+    return _settings;
 }
 
-+(NSString *)appSecret {
-    return appSecret;
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address {
+    _settings = [[ClearBlade alloc] initWithAppKey:key withAppSecret:secret withServerAddress:address];
+    return _settings;
 }
 
-+(void) initAppKey: (NSString *)key AppSecret: (NSString *)secret {
-    appKey = key;
-    appSecret = secret;
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret {
+    _settings = [[ClearBlade alloc] initWithAppKey:key withAppSecret:secret withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS];
+    return _settings;
 }
+
+@synthesize appSecret = _appSecret;
+@synthesize appKey = _appKey;
+@synthesize serverAddress = _serverAddress;
+
+-(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress {
+    self = [super init];
+    if (self) {
+        _appKey = key;
+        _appSecret = secret;
+        if (![serverAddress hasPrefix:@"http"]) {
+            serverAddress = [@"http://" stringByAppendingString:serverAddress];
+        }
+        _serverAddress = [NSURL URLWithString:serverAddress];
+    }
+    return self;
+}
+
+
+-(NSURL *)fullServerAddressWithPath:(NSString *)path {
+    return [self.serverAddress URLByAppendingPathComponent:path];
+}
+
 @end

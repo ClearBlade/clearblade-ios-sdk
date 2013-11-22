@@ -10,10 +10,27 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef CB_DEFAULT_PLATFORM_ADDRESS
+#define CB_DEFAULT_PLATFORM_ADDRESS @"platform.clearblade.com/api/"
+#endif
+
+
 @interface ClearBlade : NSObject
 
-+(NSString *) appKey;
-+(NSString *) appSecret;
-+(void) initAppKey: (NSString *)key AppSecret: (NSString *)secret;
++(instancetype)settings;
+
++(instancetype)initSettingsWithAppKey:(NSString *)key
+                        withAppSecret:(NSString *)secret;
+
++(instancetype)initSettingsWithAppKey:(NSString *)key
+                        withAppSecret:(NSString *)secret
+                    withServerAddress:(NSString *)address;
+
+
+@property (readonly, atomic) NSString * appKey;
+@property (readonly, atomic) NSString * appSecret;
+@property (readonly, atomic) NSURL * serverAddress;
+
+-(NSURL *)fullServerAddressWithPath:(NSString *)path;
 
 @end

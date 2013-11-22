@@ -10,12 +10,13 @@
 		787374FCE90341BBB4A39F0A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90293A2F3B8248099750E748 /* libPods.a */; };
 		8D348AB818318A7400C1516F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D348AB718318A7400C1516F /* SystemConfiguration.framework */; };
 		8D348ABA18318A8000C1516F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D348AB918318A8000C1516F /* MobileCoreServices.framework */; };
+		8D50BF20183680A9005EADCF /* AsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D50BF1F183680A9005EADCF /* AsyncTestCase.m */; };
+		8D50BF23183685CD005EADCF /* TestCBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D50BF22183685CD005EADCF /* TestCBItem.m */; };
 		8D7B01FD18316BDB00D053FE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD4517EB6ED500C74058 /* XCTest.framework */; };
 		8D7B01FE18316BDB00D053FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2617EB6ED500C74058 /* Foundation.framework */; };
 		8D7B01FF18316BDB00D053FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2A17EB6ED500C74058 /* UIKit.framework */; };
 		8D7B020518316BDB00D053FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D7B020318316BDB00D053FE /* InfoPlist.strings */; };
 		8D7B020F18316C1C00D053FE /* CBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7B020E18316C1C00D053FE /* CBQueryTests.m */; };
-		8D7B0214183170BB00D053FE /* CBSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7B0213183170BB00D053FE /* CBSemaphore.m */; };
 		CB35AD2717EB6ED500C74058 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2617EB6ED500C74058 /* Foundation.framework */; };
 		CB35AD2917EB6ED500C74058 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2817EB6ED500C74058 /* CoreGraphics.framework */; };
 		CB35AD2B17EB6ED500C74058 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2A17EB6ED500C74058 /* UIKit.framework */; };
@@ -80,13 +81,15 @@
 		8D348AB6183187F700C1516F /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		8D348AB718318A7400C1516F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8D348AB918318A8000C1516F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		8D50BF1E183680A9005EADCF /* AsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTestCase.h; sourceTree = "<group>"; };
+		8D50BF1F183680A9005EADCF /* AsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTestCase.m; sourceTree = "<group>"; };
+		8D50BF21183685CD005EADCF /* TestCBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCBItem.h; sourceTree = "<group>"; };
+		8D50BF22183685CD005EADCF /* TestCBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCBItem.m; sourceTree = "<group>"; };
 		8D7B01FC18316BDB00D053FE /* Clearblade API Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Clearblade API Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D7B020218316BDB00D053FE /* Clearblade API Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Clearblade API Tests-Info.plist"; sourceTree = "<group>"; };
 		8D7B020418316BDB00D053FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D7B020818316BDB00D053FE /* Clearblade API Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clearblade API Tests-Prefix.pch"; sourceTree = "<group>"; };
 		8D7B020E18316C1C00D053FE /* CBQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBQueryTests.m; sourceTree = "<group>"; };
-		8D7B0212183170BB00D053FE /* CBSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBSemaphore.h; sourceTree = "<group>"; };
-		8D7B0213183170BB00D053FE /* CBSemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBSemaphore.m; sourceTree = "<group>"; };
 		90293A2F3B8248099750E748 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB35AD2317EB6ED500C74058 /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB35AD2617EB6ED500C74058 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -203,8 +206,10 @@
 			children = (
 				8D7B020E18316C1C00D053FE /* CBQueryTests.m */,
 				8D7B020118316BDB00D053FE /* Supporting Files */,
-				8D7B0212183170BB00D053FE /* CBSemaphore.h */,
-				8D7B0213183170BB00D053FE /* CBSemaphore.m */,
+				8D50BF1E183680A9005EADCF /* AsyncTestCase.h */,
+				8D50BF1F183680A9005EADCF /* AsyncTestCase.m */,
+				8D50BF21183685CD005EADCF /* TestCBItem.h */,
+				8D50BF22183685CD005EADCF /* TestCBItem.m */,
 			);
 			path = "Clearblade API Tests";
 			sourceTree = "<group>";
@@ -517,8 +522,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D50BF20183680A9005EADCF /* AsyncTestCase.m in Sources */,
+				8D50BF23183685CD005EADCF /* TestCBItem.m in Sources */,
 				8D7B020F18316C1C00D053FE /* CBQueryTests.m in Sources */,
-				8D7B0214183170BB00D053FE /* CBSemaphore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,7 +746,6 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "testApp/testApp-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
@@ -782,7 +787,6 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "testApp/testApp-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;

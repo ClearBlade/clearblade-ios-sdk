@@ -56,7 +56,7 @@ Creates a new Item in the collection in the Platform. This creates a new item on
 @param successCallback Callback Block to handle successfully returned data
 @param failureCallback Callback Block to handle errors returned
 */
--(void) createWithData:(NSMutableDictionary *)data
+-(void) createWithData:(NSDictionary *)data
    withSuccessCallback:(CBItemSuccessCallback)successCallback
      withErrorCallback:(CBItemErrorCallback)failureCallback;
 /**
@@ -67,7 +67,7 @@ Updates an item or a set of items on the Platform that match the given query.
 @param failureCallback Callback Block to handle errors returned
 */
 -(void) updateWithQuery:(CBQuery *) query
-            withChanges:(NSMutableDictionary *)changes
+            withChanges:(NSDictionary *)changes
     withSuccessCallback:(CBQuerySuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback;
 /**

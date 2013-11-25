@@ -70,7 +70,7 @@ Updates on the platform all the items that match the query sent
 @param successCallback A callback block that handles the returned data
 @param failureCallback A callback block that handles the errors returned
 */
--(void) updateWithChanges:(NSMutableDictionary *)changes
+-(void) updateWithChanges:(NSDictionary *)changes
       withSuccessCallback:(CBQuerySuccessCallback)successCallback
         withErrorCallback:(CBQueryErrorCallback)failureCallback;
 

@@ -9,15 +9,10 @@
  *******************************************************************************/
 
 #import "CBCollection.h"
-#import "CBHTTPClient.h"
-#import <AFNetworking/AFNetworking.h>
 #import "ClearBlade.h"
 #import "CBItem.h"
 
-@implementation CBCollection {
-    CBHTTPClient *cbClient;
-}
-
+@implementation CBCollection
 @synthesize collectionID = _collectionID;
 
 +(CBCollection *)collectionWithID:(NSString *)collectionID {

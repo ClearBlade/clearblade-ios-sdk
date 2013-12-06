@@ -11,7 +11,7 @@
 #import "CBItem.h"
 #import "CBQuery.h"
 #import "CBCollection.h"
-#define CBITEM_ID_KEY @"itemId"
+#define CBITEM_ID_KEY @"item_id"
 
 @implementation CBItem
 

@@ -9,8 +9,7 @@
  *******************************************************************************/
 
 #import "CBQuery.h"
-#import "CBHTTPClient.h"
-#import <AFNetworking/AFNetworking.h>
+#import "CBHTTPRequest.h"
 #import "CBItem.h"
 #import "ClearBlade.h"
 
@@ -91,15 +90,29 @@
 }
 
 -(NSMutableURLRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
-    CBHTTPClient *client = [[CBHTTPClient alloc] initWithClearBladeSettings:[ClearBlade settings]];
-    return [client requestWithMethod:method path:self.collectionID parameters:parameters];
+    return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID];
 }
 
 -(void)executeRequest:(NSURLRequest *)apiRequest
   withSuccessCallback:(CBQuerySuccessCallback)successCallback
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:apiRequest
-                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse * response, id JSON) {
+    void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
+        NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
+        
+        id JSON;
+        if (httpResponse.statusCode != 200) {
+            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:nil];
+        }
+        if (!error) {
+            JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        }
+        
+        if (error) {
+            if (failureCallback) {
+                failureCallback(error, data);
+            }
+            return;
+        }
         NSMutableArray * responseItems = [NSMutableArray array];
         if ([JSON isKindOfClass:[NSDictionary class]]) {
             NSDictionary * jsonDictionary = (NSDictionary *)JSON;
@@ -113,12 +126,11 @@
         if (successCallback) {
             successCallback(itemArray);
         }
-    } failure:^(NSURLRequest * request, NSHTTPURLResponse * response, NSError * error, id JSON) {
-        if (failureCallback) {
-            failureCallback(error, JSON);
-        }
-    }];
-    [operation start];
+    };
+    
+    [NSURLConnection sendAsynchronousRequest:apiRequest
+                                       queue:[NSOperationQueue currentQueue]
+                           completionHandler:completionHandler];
 }
 
 -(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback

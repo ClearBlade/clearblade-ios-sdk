@@ -11,6 +11,8 @@
 #import <Foundation/Foundation.h>
 #import "CBItem.h"
 
+#define CBQUERY_NON_OK_ERROR @"Received Non 200 status from server"
+
 /**
 Callback for handling successful queries
 @param foundItems array of CBItems that match the query

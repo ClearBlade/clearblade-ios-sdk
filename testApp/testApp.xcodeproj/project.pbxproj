@@ -17,6 +17,7 @@
 		8D7B01FF18316BDB00D053FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2A17EB6ED500C74058 /* UIKit.framework */; };
 		8D7B020518316BDB00D053FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D7B020318316BDB00D053FE /* InfoPlist.strings */; };
 		8D7B020F18316C1C00D053FE /* CBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7B020E18316C1C00D053FE /* CBQueryTests.m */; };
+		8DBDBFCF184E74F1004EE60A /* CBHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBDBFCE184E74F1004EE60A /* CBHTTPRequest.m */; };
 		CB35AD2717EB6ED500C74058 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2617EB6ED500C74058 /* Foundation.framework */; };
 		CB35AD2917EB6ED500C74058 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2817EB6ED500C74058 /* CoreGraphics.framework */; };
 		CB35AD2B17EB6ED500C74058 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD2A17EB6ED500C74058 /* UIKit.framework */; };
@@ -35,7 +36,6 @@
 		CBDADCF817EB7A3C00D6AEFB /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDADCED17EB7A3C00D6AEFB /* TableViewController.m */; };
 		CBDADCF917EB7A3C00D6AEFB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDADCEF17EB7A3C00D6AEFB /* ViewController.m */; };
 		CBF5B9B91828206F0061532F /* CBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF5B98C1828206F0061532F /* CBCollection.m */; };
-		CBF5B9BA1828206F0061532F /* CBHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF5B98E1828206F0061532F /* CBHTTPClient.m */; };
 		CBF5B9BB1828206F0061532F /* CBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF5B9901828206F0061532F /* CBItem.m */; };
 		CBF5B9BC1828206F0061532F /* CBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF5B9921828206F0061532F /* CBMessage.m */; };
 		CBF5B9BD1828206F0061532F /* CBMessageClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF5B9941828206F0061532F /* CBMessageClient.m */; };
@@ -90,6 +90,8 @@
 		8D7B020418316BDB00D053FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D7B020818316BDB00D053FE /* Clearblade API Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clearblade API Tests-Prefix.pch"; sourceTree = "<group>"; };
 		8D7B020E18316C1C00D053FE /* CBQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBQueryTests.m; sourceTree = "<group>"; };
+		8DBDBFCD184E74F1004EE60A /* CBHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBHTTPRequest.h; sourceTree = "<group>"; };
+		8DBDBFCE184E74F1004EE60A /* CBHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBHTTPRequest.m; sourceTree = "<group>"; };
 		90293A2F3B8248099750E748 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB35AD2317EB6ED500C74058 /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB35AD2617EB6ED500C74058 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -120,8 +122,6 @@
 		CBF5B98A1828206F0061532F /* CBAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBAPI.h; sourceTree = "<group>"; };
 		CBF5B98B1828206F0061532F /* CBCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBCollection.h; sourceTree = "<group>"; };
 		CBF5B98C1828206F0061532F /* CBCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBCollection.m; sourceTree = "<group>"; };
-		CBF5B98D1828206F0061532F /* CBHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBHTTPClient.h; sourceTree = "<group>"; };
-		CBF5B98E1828206F0061532F /* CBHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBHTTPClient.m; sourceTree = "<group>"; };
 		CBF5B98F1828206F0061532F /* CBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBItem.h; sourceTree = "<group>"; };
 		CBF5B9901828206F0061532F /* CBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBItem.m; sourceTree = "<group>"; };
 		CBF5B9911828206F0061532F /* CBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBMessage.h; sourceTree = "<group>"; };
@@ -301,8 +301,8 @@
 				CBF5B98A1828206F0061532F /* CBAPI.h */,
 				CBF5B98B1828206F0061532F /* CBCollection.h */,
 				CBF5B98C1828206F0061532F /* CBCollection.m */,
-				CBF5B98D1828206F0061532F /* CBHTTPClient.h */,
-				CBF5B98E1828206F0061532F /* CBHTTPClient.m */,
+				8DBDBFCD184E74F1004EE60A /* CBHTTPRequest.h */,
+				8DBDBFCE184E74F1004EE60A /* CBHTTPRequest.m */,
 				CBF5B98F1828206F0061532F /* CBItem.h */,
 				CBF5B9901828206F0061532F /* CBItem.m */,
 				CBF5B9911828206F0061532F /* CBMessage.h */,
@@ -536,7 +536,6 @@
 				CBF5B9CA1828206F0061532F /* send_mosq.c in Sources */,
 				CBF5B9BB1828206F0061532F /* CBItem.m in Sources */,
 				CBF5B9CB1828206F0061532F /* thread_mosq.c in Sources */,
-				CBF5B9BA1828206F0061532F /* CBHTTPClient.m in Sources */,
 				CBDADCF517EB7A3C00D6AEFB /* CollectionViewController.m in Sources */,
 				CBF5B9CE1828206F0061532F /* util_mosq.c in Sources */,
 				CB35AD3717EB6ED500C74058 /* AppDelegate.m in Sources */,
@@ -558,6 +557,7 @@
 				CBF5B9BF1828206F0061532F /* ClearBlade.m in Sources */,
 				CBF5B9C31828206F0061532F /* messages_mosq.c in Sources */,
 				CBF5B9CF1828206F0061532F /* will_mosq.c in Sources */,
+				8DBDBFCF184E74F1004EE60A /* CBHTTPRequest.m in Sources */,
 				CB35AD3317EB6ED500C74058 /* main.m in Sources */,
 				CBF5B9C61828206F0061532F /* read_handle.c in Sources */,
 				CBDADCF617EB7A3C00D6AEFB /* InitViewController.m in Sources */,

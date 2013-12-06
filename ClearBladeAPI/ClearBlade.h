@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
-#define CB_DEFAULT_PLATFORM_ADDRESS @"platform.clearblade.com/api/"
+#define CB_DEFAULT_PLATFORM_ADDRESS @"http://162.209.79.118/api/"
 #endif
 
 

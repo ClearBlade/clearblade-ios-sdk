@@ -14,15 +14,15 @@
 #define MAIN_COMPLETION @"main"
 //#define PROD
 #ifdef PROD
-#define APP_KEY @"5277bd628ab3a37ce7f6f061"
-#define APP_SECRET @"0D2N19VB3FPYJYEBSOI4LVG6M97PKX"
+#define APP_KEY @"eafb90aa0af4c396d4e9fbbbd24d"
+#define APP_SECRET @"EAFB90AA0AB4AACFE9C2BBF7A7EE01"
 #define TEST_COLLECTION @"5281350e8ab3a3224cac7d4d"
-#define PLATFORM_ADDRESS @"http://platform.clearblade.com/api"
+#define PLATFORM_ADDRESS @"https://platform.clearblade.com/api"
 #else
-#define APP_KEY @"dce6d3a80af0e3afbed1818992c201"
-#define APP_SECRET @"D6D48AA70A96CAB8E89AFBB394F601"
-#define TEST_COLLECTION @"e89be8a80a889ebefba8e5fde032"
-#define PLATFORM_ADDRESS @"http://162.209.79.118/api/"
+#define APP_KEY @"eafb90aa0af4c396d4e9fbbbd24d"
+#define APP_SECRET @"EAFB90AA0AB4AACFE9C2BBF7A7EE01"
+#define TEST_COLLECTION @"f48591aa0ad0d9c0b3dac8f5a9a501"
+#define PLATFORM_ADDRESS @"https://platform.clearblade.com/api"
 #endif
 
 @interface CBQueryTests : AsyncTestCase
@@ -44,11 +44,9 @@
 
 - (void)testSingleArgumentFetch {
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST"
-                                           withIntColumn:@(5)
-                                          withDateColumn:[NSDate date]
-                                          withBlobColumn:[NSData data]
-                                       withBooleanColumn:true];
-    [[CBQuery queryWithCollectionID:item.collectionID] removeWithSuccessCallback:^(NSArray * items) {
+                                           withIntColumn:5];
+    item.collectionID = TEST_COLLECTION;
+    [[[CBQuery queryWithCollectionID:item.collectionID] equalTo:@(5) for:item.intColumnName] removeWithSuccessCallback:^(NSArray * items) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);

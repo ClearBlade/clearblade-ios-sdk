@@ -38,7 +38,9 @@
 -(CBItem *) initWithData: (NSMutableDictionary *) inputData withCollectionID:(NSString *) colID {
     self = [super init];
     self.collectionID = colID;
-    self.data = inputData;
+    for (NSString * key in inputData.keyEnumerator) {
+        self.data[key.lowercaseString] = inputData[key.lowercaseString];
+    }
     return self;
 }
 
@@ -47,6 +49,13 @@
 }
 -(void)setItemID:(NSString *)itemID {
     [self.data setObject:itemID forKey:CBITEM_ID_KEY];
+}
+
+-(NSMutableDictionary *)data {
+    if (!_data) {
+        _data = [NSMutableDictionary dictionary];
+    }
+    return _data;
 }
 
 
@@ -120,11 +129,11 @@
 }
 
 -(id)objectForKey:(NSString *)key {
-    return [self.data objectForKey:key];
+    return [self.data objectForKey:key.lowercaseString];
 }
 
 -(void)setObject:(id)value forKey:(NSString *)key {
-    [self.data setObject:value forKey:key];
+    [self.data setObject:value forKey:key.lowercaseString];
 }
 
 -(bool)isEqualToCBItem:(CBItem *)item {

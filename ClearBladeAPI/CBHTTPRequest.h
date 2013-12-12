@@ -12,7 +12,7 @@
 @interface CBHTTPRequest : NSMutableURLRequest
 @property (atomic, weak) ClearBlade * settings;
 
-+(instancetype)requestWithMethod:(NSString *)path withCollection:(NSString *)collectionID;
++(instancetype)requestWithMethod:(NSString *)path withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters;
 
--(instancetype)initWithClearBladeSettings:(ClearBlade *)settings withMethod:(NSString *)path withCollection:(NSString *)collectionID;
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings withMethod:(NSString *)path withCollection:(NSString *)collectionID withParameters:(NSDictionary *)params;
 @end

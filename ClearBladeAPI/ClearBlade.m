@@ -44,17 +44,20 @@ static ClearBlade * _settings = nil;
     if (self) {
         _appKey = key;
         _appSecret = secret;
-        if (![serverAddress hasPrefix:@"http"]) {
-            serverAddress = [@"http://" stringByAppendingString:serverAddress];
-        }
-        _serverAddress = [NSURL URLWithString:serverAddress];
+        self.serverAddress = serverAddress;
     }
     return self;
 }
-
-
--(NSURL *)fullServerAddressWithPath:(NSString *)path {
-    return [self.serverAddress URLByAppendingPathComponent:path];
+-(void)setServerAddress:(NSString *)serverAddress {
+    if (![serverAddress hasPrefix:@"http"]) {
+        serverAddress = [@"https://" stringByAppendingString:serverAddress];
+    }
+    if (![serverAddress hasSuffix:@"/"]) {
+        serverAddress = [serverAddress stringByAppendingString:@"/"];
+    }
+    _serverAddress = serverAddress;
 }
+
+
 
 @end

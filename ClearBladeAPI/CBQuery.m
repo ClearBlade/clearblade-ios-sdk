@@ -51,32 +51,32 @@
     _collectionID = colID;
 }
 
--(CBQuery *) equalTo:(NSString *)value for:(NSString *)key {
+-(CBQuery *) equalTo:(id)value for:(NSString *)key {
     return [self addParameterWithValue:value forKey:key inQueryParameter:@"EQ"];
     return self;
 }
 
--(CBQuery *) notEqualTo:(NSString *)value for:(NSString *)key {
+-(CBQuery *) notEqualTo:(id)value for:(NSString *)key {
     return [self addParameterWithValue:value forKey:key inQueryParameter:@"NEQ"];
 }
 
--(CBQuery *) greaterThan:(NSString *)value for:(NSString *)key {
+-(CBQuery *) greaterThan:(NSNumber *)value for:(NSString *)key {
     return [self addParameterWithValue:value forKey:key inQueryParameter:@"GT"];
 }
 
--(CBQuery *) lessThan:(NSString *)value for:(NSString *)key {
+-(CBQuery *) lessThan:(NSNumber *)value for:(NSString *)key {
     return [self addParameterWithValue:value forKey:key inQueryParameter:@"LT"];
 }
 
--(CBQuery *) greaterThanEqualTo:(NSString *)value for:(NSString *)key {
+-(CBQuery *) greaterThanEqualTo:(NSNumber *)value for:(NSString *)key {
     return [self addParameterWithValue:value forKey:key inQueryParameter:@"GTE"];
 }
 
--(CBQuery *) lessThanEqualTo:(NSString *)value for:(NSString *)key {
+-(CBQuery *) lessThanEqualTo:(NSNumber *)value for:(NSString *)key {
     return [self addParameterWithValue:value forKey:key inQueryParameter:@"LTE"];
 }
 
--(CBQuery *) addParameterWithValue:(NSString *)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
+-(CBQuery *) addParameterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
     NSMutableDictionary * query = self.query;
     NSDictionary * keyValuePair = [self dictionaryValuesToStrings:@{key: value}];
     NSMutableArray * parameterArray = [query objectForKey:parameter];
@@ -90,7 +90,7 @@
 }
 
 -(NSMutableURLRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
-    return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID];
+    return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters];
 }
 
 -(void)executeRequest:(NSURLRequest *)apiRequest
@@ -98,15 +98,16 @@
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
+        NSURLRequest * request = apiRequest;
         
         id JSON;
-        if (httpResponse.statusCode != 200) {
+        if (!error && httpResponse.statusCode != 200) {
             error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:nil];
         }
         if (!error) {
             JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         }
-        
+        NSString * text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (error) {
             if (failureCallback) {
                 failureCallback(error, data);
@@ -115,10 +116,7 @@
         }
         NSMutableArray * responseItems = [NSMutableArray array];
         if ([JSON isKindOfClass:[NSDictionary class]]) {
-            NSDictionary * jsonDictionary = (NSDictionary *)JSON;
-            for (id value in [jsonDictionary objectEnumerator]) {
-                [responseItems addObject:value];
-            }
+            responseItems = @[JSON].mutableCopy;
         } else {
             responseItems = JSON;
         }
@@ -135,7 +133,9 @@
 
 -(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback
                withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:@[self.OR] options:0 error:NULL]
+    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fullQuery]
+                                                                                          options:0
+                                                                                            error:NULL]
                                                  encoding:NSUTF8StringEncoding];
     NSMutableURLRequest *fetchRequest = [self requestWithMethod:@"GET" withParameters:@{@"query": jsonString}];
     [self executeRequest:fetchRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
@@ -145,7 +145,7 @@
       withSuccessCallback:(CBQuerySuccessCallback)successCallback
         withErrorCallback:(CBQueryErrorCallback)failureCallback {
     NSMutableURLRequest *updateRequest = [self requestWithMethod:@"PUT" withParameters:nil];
-    updateRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": @[self.OR], @"$set": changes}
+    updateRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": [self fullQuery], @"$set": changes}
                                                              options:0
                                                                error:NULL];
     [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -156,7 +156,9 @@
 
 -(void) removeWithSuccessCallback:(CBQuerySuccessCallback)successCallback
                 withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:@[self.OR] options:0 error:NULL]
+    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fullQuery]
+                                                                                          options:0
+                                                                                            error:NULL]
                                                  encoding:NSUTF8StringEncoding];
     NSMutableURLRequest *removeRequest = [self requestWithMethod:@"DELETE" withParameters:@{@"query": jsonString}];
     [self executeRequest:removeRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
@@ -166,9 +168,23 @@
     NSMutableDictionary * stringDictionary = [NSMutableDictionary dictionary];
     for (id key in dictionary.keyEnumerator) {
         id value = [dictionary objectForKey:key];
-        [stringDictionary setObject:[value description] forKey:key];
+        if (![value isKindOfClass:[NSNumber class]]) {
+            value = [value description];
+        }
+        [stringDictionary setObject:value forKey:key];
     }
     return stringDictionary;
+}
+-(NSArray *)fullQuery {
+    NSMutableArray * finalOrArray = [NSMutableArray array];
+    for (NSDictionary * orClause in self.OR) {
+        NSMutableArray * keyValuePairList = [NSMutableArray array];
+        for (id key in orClause.keyEnumerator) {
+            [keyValuePairList addObject:@{key:orClause[key]}];
+        }
+        [finalOrArray addObject:keyValuePairList];
+    }
+    return finalOrArray;
 }
 -(void)insertItem:(CBItem *)item
 withSuccessCallback:(CBQuerySuccessCallback)successCallback

@@ -11,7 +11,8 @@
 #import <Foundation/Foundation.h>
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
-#define CB_DEFAULT_PLATFORM_ADDRESS @"http://162.209.79.118/api/"
+#define CB_DEFAULT_PLATFORM_ADDRESS @"https://platform.clearblade.com/api/"
+#define CB_DEFAULT_MESSAGING @"https://platform.clearblade.com/api/"
 #endif
 
 
@@ -29,8 +30,7 @@
 
 @property (readonly, atomic) NSString * appKey;
 @property (readonly, atomic) NSString * appSecret;
-@property (readonly, atomic) NSURL * serverAddress;
+@property (readonly, atomic) NSString * serverAddress;
 
--(NSURL *)fullServerAddressWithPath:(NSString *)path;
 
 @end

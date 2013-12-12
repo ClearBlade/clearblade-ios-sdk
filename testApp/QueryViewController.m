@@ -69,16 +69,16 @@
             [query notEqualTo:self.fetchVal.text for:self.fetchKey.text];
             break;
         case 2:
-            [query greaterThan:self.fetchVal.text for:self.fetchKey.text];
+            [query greaterThan:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         case 3:
-            [query lessThan:self.fetchVal.text for:self.fetchKey.text];
+            [query lessThan:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         case 4:
-            [query greaterThanEqualTo:self.fetchVal.text for:self.fetchKey.text];
+            [query greaterThanEqualTo:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         case 5:
-            [query lessThanEqualTo:self.fetchVal.text for:self.fetchKey.text];
+            [query lessThanEqualTo:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         default:
             [query equalTo:self.fetchVal.text for:self.fetchKey.text];
@@ -106,19 +106,19 @@
             [query notEqualTo:self.updateQuerVal.text for:self.updateQuerKey.text];
             break;
         case 2:
-            [query greaterThan:self.updateQuerVal.text for:self.updateQuerKey.text];
+            [query greaterThan:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         case 3:
-            [query lessThan:self.updateQuerVal.text for:self.updateQuerKey.text];
+            [query lessThan:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         case 4:
-            [query greaterThanEqualTo:self.updateQuerVal.text for:self.updateQuerKey.text];
+            [query greaterThanEqualTo:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         case 5:
-            [query lessThanEqualTo:self.updateQuerVal.text for:self.updateQuerKey.text];
+            [query lessThanEqualTo:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         default:
-            [query equalTo:self.updateQuerVal.text for:self.updateQuerKey.text];
+            [query equalTo:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
     }
     NSMutableDictionary *changes = [[NSMutableDictionary alloc] init];
@@ -145,19 +145,19 @@
             [query notEqualTo:self.removeVal.text for:self.removeKey.text];
             break;
         case 2:
-            [query greaterThan:self.removeVal.text for:self.removeKey.text];
+            [query greaterThan:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         case 3:
-            [query lessThan:self.removeVal.text for:self.removeKey.text];
+            [query lessThan:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         case 4:
-            [query greaterThanEqualTo:self.removeVal.text for:self.removeKey.text];
+            [query greaterThanEqualTo:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         case 5:
-            [query lessThanEqualTo:self.removeVal.text for:self.removeKey.text];
+            [query lessThanEqualTo:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         default:
-            [query equalTo:self.removeVal.text for:self.removeKey.text];
+            [query equalTo:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
     }
     [query removeWithSuccessCallback:^(NSMutableArray *stuff) {

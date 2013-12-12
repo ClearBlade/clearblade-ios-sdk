@@ -99,41 +99,41 @@ Creates an equality clause and adds it to the query
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) equalTo: (NSString *) value for: (NSString *)key;
+-(CBQuery *) equalTo: (id) value for: (NSString *)key;
 /**
 Creates an inequality clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) notEqualTo: (NSString *) value for: (NSString *)key;
+-(CBQuery *) notEqualTo: (id) value for: (NSString *)key;
 /**
 Creates a greater than clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) greaterThan: (NSString *) value for: (NSString *)key;
+-(CBQuery *) greaterThan: (NSNumber *) value for: (NSString *)key;
 /**
 Creates a less than clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) lessThan: (NSString *) value for: (NSString *)key;
+-(CBQuery *) lessThan: (NSNumber *) value for: (NSString *)key;
 /**
 Creates a greater than or equal to clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) greaterThanEqualTo: (NSString *) value for: (NSString *)key;
+-(CBQuery *) greaterThanEqualTo:(NSNumber *) value for: (NSString *)key;
 /**
 Creates a less than or equal to clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) lessThanEqualTo: (NSString *) value for: (NSString *)key;
+-(CBQuery *) lessThanEqualTo: (NSNumber *) value for: (NSString *)key;
 
 @end

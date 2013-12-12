@@ -9,14 +9,9 @@
 #import "CBItem.h"
 
 @interface TestCBItem : CBItem
-+(instancetype)itemWithStringColumn:(NSString *)stringColumn
-                      withIntColumn:(NSNumber *)intColumn
-                     withDateColumn:(NSDate *)dateColumn
-                     withBlobColumn:(NSData *)blobColumn
-                  withBooleanColumn:(bool)booleanColumn;
++(instancetype)itemWithStringColumn:(NSString *)stringColumn withIntColumn:(int)intColumn;
 @property (nonatomic) NSString *stringColumn;
 @property (nonatomic) NSNumber *intColumn;
-@property (nonatomic) NSDate *dateColumn;
-@property (nonatomic) NSData *blobColumn;
-@property (nonatomic) bool booleanColumn;
+@property (nonatomic, readonly) NSString * stringColumnName;
+@property (nonatomic, readonly) NSString * intColumnName;
 @end

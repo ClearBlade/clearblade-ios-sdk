@@ -87,9 +87,9 @@ static ClearBlade * _settings = nil;
 -(void)setMessagingAddress:(NSString *)messagingAddress {
     @synchronized (_messagingAddress) {
         if ([messagingAddress hasPrefix:@"https"]) {
-            messagingAddress = [messagingAddress substringFromIndex:@"https".length];
+            messagingAddress = [@"tcp" stringByAppendingString:[messagingAddress substringFromIndex:@"https".length]];
         } else if ([messagingAddress hasPrefix:@"http"]) {
-            messagingAddress = [messagingAddress substringFromIndex:@"http".length];
+            messagingAddress = [@"tcp" stringByAppendingString:[messagingAddress substringFromIndex:@"http".length]];
         } else if (![messagingAddress hasPrefix:@"tcp"]) {
             messagingAddress = [@"tcp://" stringByAppendingString:messagingAddress];
         }

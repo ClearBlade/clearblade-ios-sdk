@@ -116,7 +116,6 @@
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
-        NSURLRequest * request = apiRequest;
         
         id JSON;
         if (!error && httpResponse.statusCode != 200) {
@@ -125,7 +124,6 @@
         if (!error) {
             JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         }
-        NSString * text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (error) {
             if (failureCallback) {
                 failureCallback(error, data);

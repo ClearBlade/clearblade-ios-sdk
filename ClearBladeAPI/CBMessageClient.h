@@ -22,6 +22,15 @@ typedef enum {
     /** The message broker cannot handle anymore connections */
     CBMessageClientConnectUnavailable,
     
+    /** The url given is malformed */
+    CBMessageClientConnectMalformedURL,
+    
+    /** A system level error happend, you can check errno to find the reason */
+    CBMessageClientConnectErrnoSet,
+    
+    /** Could not connect to the server on that port. Usually means you're using the wrong port, or the wrong server */
+    CBMessageClientConnectServerNotFound,
+    
     /** The message client connected successfully */
     CBMessageClientConnectSuccess
 } CBMessageClientConnectStatus;

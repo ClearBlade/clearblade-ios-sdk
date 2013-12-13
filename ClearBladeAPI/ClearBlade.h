@@ -12,7 +12,7 @@
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
 #define CB_DEFAULT_PLATFORM_ADDRESS @"https://platform.clearblade.com/api/"
-#define CB_DEFAULT_MESSAGING @"https://platform.clearblade.com/api/"
+#define CB_DEFAULT_MESSAGING @"https://messaging.clearblade.com"
 #endif
 
 

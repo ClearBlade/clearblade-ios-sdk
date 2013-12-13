@@ -11,40 +11,33 @@
 #import "CBAPI.h"
 
 @interface CBMessageClientTests : AsyncTestCase <CBMessageClientDelegate>
-@property (strong, nonatomic) void (^connectHandler)();
-@property (strong, nonatomic) void (^connectFailHandler)(CBMessageClientConnectStatus);
-@property (strong, nonatomic) void (^disconnectHandler)();
-@property (strong, nonatomic) CBMessageClient * client;
+@property (weak, nonatomic) void (^connectHandler)();
+@property (weak, nonatomic) void (^connectFailHandler)(CBMessageClientConnectStatus);
+@property (weak, nonatomic) void (^disconnectHandler)();
+@property (weak, nonatomic) CBMessageClient * client;
 @end
 
+typedef void (^BlockHandler)();
+typedef void (^ConnectFailHandler)(CBMessageClientConnectStatus);
 @implementation CBMessageClientTests
 
--(void (^)())connectHandler {
-    if (!_connectHandler) {
-        _connectHandler = ^() {};
-    }
-    return _connectHandler;
-}
--(void (^)())disconnectHandler {
-    if (!_disconnectHandler) {
-        _disconnectHandler = ^() {};
-    }
-    return _disconnectHandler;
-}
--(void (^)(CBMessageClientConnectStatus))connectFailHandler {
-    if (!_connectFailHandler) {
-        _connectFailHandler = ^(CBMessageClientConnectStatus status) {};
-    }
-    return _connectFailHandler;
-}
 -(void)messageClientDidConnect:(CBMessageClient *)client {
-    self.connectHandler();
+    BlockHandler connectHandler = self.connectHandler;
+    if (connectHandler) {
+        connectHandler();
+    }
 }
 -(void)messageClient:(CBMessageClient *)client didFailToConnect:(CBMessageClientConnectStatus)reason {
-    self.connectFailHandler(reason);
+    ConnectFailHandler connectFailHandler = self.connectFailHandler;
+    if (connectFailHandler) {
+        connectFailHandler(reason);
+    }
 }
 -(void)messageClientDidDisconnect:(CBMessageClient *)client {
-    self.disconnectHandler();
+    BlockHandler disconnectHandler = self.disconnectHandler;
+    if (disconnectHandler) {
+        self.disconnectHandler();
+    }
 }
 
 - (void)setUp
@@ -57,9 +50,6 @@
 {
     // Put teardown code here; it will be run once, after the last test case.
     [super tearDown];
-    self.connectFailHandler = nil;
-    self.connectHandler = nil;
-    self.disconnectHandler = nil;
     [self.client disconnect];
     self.client = nil;
 }
@@ -74,18 +64,21 @@
 
 - (void)testConnectDisconnect
 {
-    __weak AsyncTestCase * weakSelf = self;
-    self.connectHandler = ^{
-        [weakSelf signalAsyncComplete:MAIN_COMPLETION];
+    BlockHandler connectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
     };
-    self.disconnectHandler = ^{
-        [weakSelf signalAsyncComplete:MAIN_COMPLETION];
+    BlockHandler disconnectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
     };
-    self.connectFailHandler = ^(CBMessageClientConnectStatus status) {
+    ConnectFailHandler connectFailHandler = ^(CBMessageClientConnectStatus status) {
         XCTFail(@"Unexpected failure for message client with status %d", status);
     };
+    self.connectFailHandler = connectFailHandler;
+    self.connectHandler = connectHandler;
+    self.disconnectHandler = disconnectHandler;
+    
     [self.client connect];
-    //[self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
 @end

@@ -176,8 +176,35 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     mosquitto_username_pw_set(self.client,
                               [[[ClearBlade settings] appKey] cStringUsingEncoding:NSUTF8StringEncoding],
                               [[[ClearBlade settings] appSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
-    mosquitto_connect(self.client, [hostName.host cStringUsingEncoding:NSUTF8StringEncoding], [hostName.port intValue], 5);
-    [self.clientThread start];
+    int port;
+    if (hostName.port == nil) {
+        port = 1883;
+    } else {
+        port = [hostName.port intValue];
+    }
+    int response = mosquitto_connect(self.client, [hostName.host cStringUsingEncoding:NSUTF8StringEncoding], port, 5);
+    id<CBMessageClientDelegate> delegate = self.delegate;
+    switch (response) {
+        case MOSQ_ERR_SUCCESS:
+            [self.clientThread start];
+            break;
+        case MOSQ_ERR_INVAL:
+            if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {
+                [delegate messageClient:self didFailToConnect:CBMessageClientConnectMalformedURL];
+            }
+            break;
+        case MOSQ_ERR_ERRNO:
+            if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {
+                CBMessageClientConnectStatus status = CBMessageClientConnectErrnoSet;
+                if (errno == 2) { //No File found
+                    status = CBMessageClientConnectServerNotFound;
+                }
+                [delegate messageClient:self didFailToConnect:status];
+            }
+            break;
+        default:
+            break;
+    }
 }
 -(NSThread *)clientThread {
     if (!_clientThread) {

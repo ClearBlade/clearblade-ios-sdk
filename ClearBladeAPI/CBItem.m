@@ -39,7 +39,7 @@
     self = [super init];
     self.collectionID = colID;
     for (NSString * key in inputData.keyEnumerator) {
-        self.data[key.lowercaseString] = inputData[key.lowercaseString];
+        self.data[key.lowercaseString] = inputData[key];
     }
     return self;
 }
@@ -75,7 +75,6 @@
 
 -(CBQuerySuccessCallback)handleSuccessCallback:(CBItemSuccessCallback)successCallback {
     return ^(NSMutableArray *foundItems) {
-        self.data = (NSMutableDictionary *)[(CBItem *)[foundItems objectAtIndex:0] data];
         if (successCallback) {
             successCallback(self);
         }
@@ -90,7 +89,7 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"Parent Collection <%@>, Payload Dictionary %@", self.collectionID, self.data];
+    return [NSString stringWithFormat:@"CBItem: Parent Collection <%@>, Payload Dictionary %@", self.collectionID, self.data];
 }
 
 -(void) refreshWithSuccessCallback:(CBItemSuccessCallback)successCallback

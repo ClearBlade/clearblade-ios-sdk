@@ -31,14 +31,6 @@ Class representing a query that can be used in operations on Platform
 */
 @interface CBQuery : NSObject
 /**
-A dictonary that holds the keys and values that make up the query
-*/
-@property (strong, nonatomic) NSMutableDictionary *query;
-/**
-An array of query objects that is used when you create an or statement and combine two queries.
-*/
-@property (strong, nonatomic) NSMutableArray *OR;
-/**
 The string that represent the ID of the collection that will be queried
 */
 @property (strong, nonatomic) NSString *collectionID;
@@ -135,5 +127,27 @@ Creates a less than or equal to clause and adds it to the query
 @return The query with the new clause added
 */
 -(CBQuery *) lessThanEqualTo: (NSNumber *) value for: (NSString *)key;
+/**
+Adds an Or Clause to the query. This makes it so all previous clauses
+are placed to the leftside of the OR, and now all future clauses will 
+be added to the rightside of the OR. 
+This edits the query in place, so it's returning the same object
+ 
+Or clauses are the topmost section of a query, so any Or clause that's added
+will be to the top. Below is how this maps to SQL
+
+CBQuery Example:
+[[[[[[CBQuery queryWithCollectionID] equalTo:@"value1" for:@"key1"] 
+                                     startNextOrClause]
+                                     equalTo:@"value2" for:@"key2"]
+                                     equalTo:@"value3" for:@"key3"]
+                                     startNextOrClause]
+                                     equalTo:@"value4" for @"key4"]
+SQL Example
+WHERE "key1" = "value1" OR "key2" = "value2" AND "key3" = "value3" OR "key4" = "value4"
+ 
+@return This query with the new Or clause
+*/
+-(CBQuery *) startNextOrClause;
 
 @end

@@ -13,38 +13,64 @@
 static ClearBlade * _settings = nil;
 
 @interface ClearBlade ()
--(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress;
+-(instancetype)initWithAppKey:(NSString *)key
+                withAppSecret:(NSString *)secret
+            withServerAddress:(NSString *)serverAddress
+         withMessagingAddress:(NSString *)messagingAddress;
 @end
 
 @implementation ClearBlade
 
 +(instancetype)settings {
-    if (!_settings) {
-        NSLog(@"App Key and App Secret should be set before calling any ClearBlade APIs");
+    @synchronized (_settings) {
+        if (!_settings) {
+            NSLog(@"App Key and App Secret should be set before calling any ClearBlade APIs");
+        }
+        return _settings;
     }
-    return _settings;
 }
 
 +(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address {
-    _settings = [[ClearBlade alloc] initWithAppKey:key withAppSecret:secret withServerAddress:address];
-    return _settings;
+    @synchronized (_settings) {
+        _settings = [[ClearBlade alloc] initWithAppKey:key
+                                         withAppSecret:secret
+                                     withServerAddress:address
+                                  withMessagingAddress:address];
+        return _settings;
+    }
 }
 
 +(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret {
-    _settings = [[ClearBlade alloc] initWithAppKey:key withAppSecret:secret withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS];
-    return _settings;
+    @synchronized (_settings) {
+        _settings = [[ClearBlade alloc] initWithAppKey:key
+                                         withAppSecret:secret
+                                     withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS
+                                  withMessagingAddress:CB_DEFAULT_MESSAGING];
+        return _settings;
+    }
+}
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress {
+    @synchronized (_settings) {
+        _settings = [[ClearBlade alloc] initWithAppKey:key
+                                         withAppSecret:secret
+                                     withServerAddress:address
+                                  withMessagingAddress:messagingAddress];
+        return _settings;
+    }
 }
 
 @synthesize appSecret = _appSecret;
 @synthesize appKey = _appKey;
 @synthesize serverAddress = _serverAddress;
+@synthesize messagingAddress = _messagingAddress;
 
--(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress {
+-(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress {
     self = [super init];
     if (self) {
         _appKey = key;
         _appSecret = secret;
         self.serverAddress = serverAddress;
+        self.messagingAddress = messagingAddress;
     }
     return self;
 }
@@ -58,6 +84,28 @@ static ClearBlade * _settings = nil;
     _serverAddress = serverAddress;
 }
 
+-(void)setMessagingAddress:(NSString *)messagingAddress {
+    @synchronized (_messagingAddress) {
+        if ([messagingAddress hasPrefix:@"https"]) {
+            messagingAddress = [messagingAddress substringFromIndex:@"https".length];
+        } else if ([messagingAddress hasPrefix:@"http"]) {
+            messagingAddress = [messagingAddress substringFromIndex:@"http".length];
+        } else if (![messagingAddress hasPrefix:@"tcp"]) {
+            messagingAddress = [@"tcp://" stringByAppendingString:messagingAddress];
+        }
+        _messagingAddress = [NSURL URLWithString:messagingAddress];
+    }
+}
+-(NSURL *)messagingAddress {
+    @synchronized (_messagingAddress) {
+        return _messagingAddress;
+    }
+}
 
+-(NSString *)description {
+    return [NSString
+            stringWithFormat:@"ClearBlade Settings: App Key <%@>, App Secret <%@>, Server Address <%@>, Messaging Address <%@>",
+            self.appKey, self.appSecret, self.serverAddress, self.messagingAddress];
+}
 
 @end

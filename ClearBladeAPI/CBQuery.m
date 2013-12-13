@@ -12,8 +12,17 @@
 #import "CBHTTPRequest.h"
 #import "CBItem.h"
 #import "ClearBlade.h"
+#define CBQUERY_EQ @"EQ"
+#define CBQUERY_NEQ @"NEQ"
+#define CBQUERY_GT @"GT"
+#define CBQUERY_GTE @"GTE"
+#define CBQUERY_LT @"LT"
+#define CBQUERY_LTE @"LTE"
 
 @interface CBQuery ()
+@property (strong, nonatomic) NSMutableDictionary *query;
+@property (strong, nonatomic) NSMutableArray *OR;
+
 -(NSDictionary *)dictionaryValuesToStrings:(NSDictionary *)dictionary;
 @end
 
@@ -52,28 +61,37 @@
 }
 
 -(CBQuery *) equalTo:(id)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:@"EQ"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_EQ];
     return self;
 }
 
 -(CBQuery *) notEqualTo:(id)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:@"NEQ"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_NEQ];
 }
 
 -(CBQuery *) greaterThan:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:@"GT"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_GT];
 }
 
 -(CBQuery *) lessThan:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:@"LT"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_LT];
 }
 
 -(CBQuery *) greaterThanEqualTo:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:@"GTE"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_GTE];
 }
 
 -(CBQuery *) lessThanEqualTo:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:@"LTE"];
+    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_LTE];
+}
+
+-(CBQuery *)startNextOrClause {
+    if ([self.query count] > 0) {
+        NSMutableDictionary * newQuery = [NSMutableDictionary dictionary];
+        [self.OR addObject:newQuery];
+        self.query = newQuery;
+    }
+    return self;
 }
 
 -(CBQuery *) addParameterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
@@ -195,6 +213,47 @@ withSuccessCallback:(CBQuerySuccessCallback)successCallback
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [self executeRequest:insertRequest withSuccessCallback:successCallback withFailureCallback:errorCallback];
+}
+
+-(NSString *)description {
+    NSString * whereClause = @"";
+    bool isFirst = true;
+    for (NSDictionary * orClause in self.OR) {
+        if (isFirst) {
+            isFirst = false;
+        } else if (orClause.count > 0) { //Want to ignore the situation where the last dictionary is empty
+            whereClause = [whereClause stringByAppendingString:@" OR "];
+        }
+        for (NSString * key in orClause.keyEnumerator) {
+            NSString * operator = nil;
+            if ([key isEqualToString:CBQUERY_EQ]) {
+                operator = @"=";
+            } else if ([key isEqualToString:CBQUERY_NEQ]) {
+                operator = @"!=";
+            } else if ([key isEqualToString:CBQUERY_GT]) {
+                operator = @">";
+            } else if ([key isEqualToString:CBQUERY_GTE]) {
+                operator = @">=";
+            } else if ([key isEqualToString:CBQUERY_LT]) {
+                operator = @"<";
+            } else if ([key isEqualToString:CBQUERY_LTE]) {
+                operator = @"<=";
+            }
+            bool isFirstFieldInAndBlock = true;
+            for (NSDictionary * field in [orClause objectForKey:key]) {
+                if (isFirstFieldInAndBlock) {
+                    isFirstFieldInAndBlock = false;
+                } else {
+                    whereClause = [whereClause stringByAppendingString:@" AND "];
+                }
+                for (NSString * fieldName in field.keyEnumerator) {
+                    whereClause = [whereClause stringByAppendingString:
+                                   [NSString stringWithFormat:@"%@ %@ '%@'", fieldName, operator, [field objectForKey:fieldName]]];
+                }
+            }
+        }
+    }
+    return [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <%@>", self.collectionID, whereClause];
 }
 
 @end

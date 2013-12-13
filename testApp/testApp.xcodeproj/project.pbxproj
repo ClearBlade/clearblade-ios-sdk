@@ -10,6 +10,8 @@
 		787374FCE90341BBB4A39F0A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90293A2F3B8248099750E748 /* libPods.a */; };
 		8D348AB818318A7400C1516F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D348AB718318A7400C1516F /* SystemConfiguration.framework */; };
 		8D348ABA18318A8000C1516F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D348AB918318A8000C1516F /* MobileCoreServices.framework */; };
+		8D3EF95C185BA30D003E5F9D /* CBItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EF95B185BA30D003E5F9D /* CBItemTests.m */; };
+		8D3EF95E185BA578003E5F9D /* CBMessageClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3EF95D185BA578003E5F9D /* CBMessageClientTests.m */; };
 		8D50BF20183680A9005EADCF /* AsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D50BF1F183680A9005EADCF /* AsyncTestCase.m */; };
 		8D50BF23183685CD005EADCF /* TestCBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D50BF22183685CD005EADCF /* TestCBItem.m */; };
 		8D7B01FD18316BDB00D053FE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB35AD4517EB6ED500C74058 /* XCTest.framework */; };
@@ -81,6 +83,8 @@
 		8D348AB6183187F700C1516F /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		8D348AB718318A7400C1516F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8D348AB918318A8000C1516F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		8D3EF95B185BA30D003E5F9D /* CBItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBItemTests.m; sourceTree = "<group>"; };
+		8D3EF95D185BA578003E5F9D /* CBMessageClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBMessageClientTests.m; sourceTree = "<group>"; };
 		8D50BF1E183680A9005EADCF /* AsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTestCase.h; sourceTree = "<group>"; };
 		8D50BF1F183680A9005EADCF /* AsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTestCase.m; sourceTree = "<group>"; };
 		8D50BF21183685CD005EADCF /* TestCBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCBItem.h; sourceTree = "<group>"; };
@@ -205,11 +209,13 @@
 			isa = PBXGroup;
 			children = (
 				8D7B020E18316C1C00D053FE /* CBQueryTests.m */,
-				8D7B020118316BDB00D053FE /* Supporting Files */,
+				8D3EF95B185BA30D003E5F9D /* CBItemTests.m */,
+				8D3EF95D185BA578003E5F9D /* CBMessageClientTests.m */,
 				8D50BF1E183680A9005EADCF /* AsyncTestCase.h */,
 				8D50BF1F183680A9005EADCF /* AsyncTestCase.m */,
 				8D50BF21183685CD005EADCF /* TestCBItem.h */,
 				8D50BF22183685CD005EADCF /* TestCBItem.m */,
+				8D7B020118316BDB00D053FE /* Supporting Files */,
 			);
 			path = "Clearblade API Tests";
 			sourceTree = "<group>";
@@ -525,6 +531,8 @@
 				8D50BF20183680A9005EADCF /* AsyncTestCase.m in Sources */,
 				8D50BF23183685CD005EADCF /* TestCBItem.m in Sources */,
 				8D7B020F18316C1C00D053FE /* CBQueryTests.m in Sources */,
+				8D3EF95C185BA30D003E5F9D /* CBItemTests.m in Sources */,
+				8D3EF95E185BA578003E5F9D /* CBMessageClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

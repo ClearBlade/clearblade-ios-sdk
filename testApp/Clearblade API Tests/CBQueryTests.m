@@ -10,20 +10,6 @@
 #import "AsyncTestCase.h"
 #import "TestCBItem.h"
 #import "CBAPI.h"
-#define STRING_COLUMN @"StringColumn"
-#define MAIN_COMPLETION @"main"
-//#define PROD
-#ifdef PROD
-#define APP_KEY @"eafb90aa0af4c396d4e9fbbbd24d"
-#define APP_SECRET @"EAFB90AA0AB4AACFE9C2BBF7A7EE01"
-#define TEST_COLLECTION @"5281350e8ab3a3224cac7d4d"
-#define PLATFORM_ADDRESS @"https://platform.clearblade.com/api"
-#else
-#define APP_KEY @"eafb90aa0af4c396d4e9fbbbd24d"
-#define APP_SECRET @"EAFB90AA0AB4AACFE9C2BBF7A7EE01"
-#define TEST_COLLECTION @"f48591aa0ad0d9c0b3dac8f5a9a501"
-#define PLATFORM_ADDRESS @"https://platform.clearblade.com/api"
-#endif
 
 @interface CBQueryTests : AsyncTestCase
 @property (strong, nonatomic) CBQuery * defaultQuery;
@@ -42,11 +28,29 @@
     [super tearDown];
 }
 
+-(void)testQueryDescription {
+    CBQuery * query = [CBQuery queryWithCollectionID:TEST_COLLECTION];
+    NSString * expectedFormat = [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <>", TEST_COLLECTION];
+    XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Empty query should have this format");
+    expectedFormat = [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <key1 = 'value1'>", TEST_COLLECTION];
+    [query equalTo:@"value1" for:@"key1"];
+    XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Single argument query should have this format");
+    
+    expectedFormat = [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <key1 = 'value1' AND key2 = 'value2'>", TEST_COLLECTION];
+    [query equalTo:@"value2" for:@"key2"];
+    XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Two argument query should have this format");
+    [query startNextOrClause];
+    XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Empty or clause should be ignored");
+    [query equalTo:@"value3" for:@"key3"];
+    expectedFormat = [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <key1 = 'value1' AND key2 = 'value2' OR key3 = 'value3'>", TEST_COLLECTION];
+    XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Query with or clause should have this format");
+}
+
 - (void)testSingleArgumentFetch {
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST"
                                            withIntColumn:5];
     item.collectionID = TEST_COLLECTION;
-    [[[CBQuery queryWithCollectionID:item.collectionID] equalTo:@(5) for:item.intColumnName] removeWithSuccessCallback:^(NSArray * items) {
+    [[[CBQuery queryWithCollectionID:item.collectionID] equalTo:@"TEST" for:item.stringColumnName] removeWithSuccessCallback:^(NSArray * items) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);
@@ -66,7 +70,8 @@
     
     [self.defaultQuery fetchWithSuccessCallback:^(NSMutableArray * array) {
         XCTAssertTrue([array count] == 1, @"Should be single response to equal to Test One");
-        XCTAssertTrue([item isEqualToCBItem:[array objectAtIndex:0]], @"Should be item inserted");
+        CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
+        XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);

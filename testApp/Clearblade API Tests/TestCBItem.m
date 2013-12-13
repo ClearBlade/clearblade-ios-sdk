@@ -45,4 +45,10 @@
     item.intColumn = @(intColumn);
     return item;
 }
++(instancetype)itemFromCBItem:(CBItem *)item {
+    TestCBItem * newItem = [TestCBItem itemWithStringColumn:[item objectForKey:STRING_COLUMN]
+                                              withIntColumn:[[item objectForKey:INT_COLUMN] intValue]];
+    newItem.itemID = item.itemID;
+    return newItem;
+}
 @end

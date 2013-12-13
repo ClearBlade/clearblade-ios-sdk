@@ -20,8 +20,9 @@
 -(void)handleSubscribe:(NSString *)topic;
 -(void)handleUnsubscribe:(NSString *)topic;
 @property (nonatomic) struct mosquitto * client;
-@property (strong, nonatomic) NSMutableDictionary * topics;
+@property (strong, atomic) NSMutableDictionary * topics;
 @property (strong, nonatomic) NSThread * clientThread;
+@property (strong, atomic) NSNumber * isConnectedContainer;
 @end
  /* * 0 - success
   * * 1 - connection refused (unacceptable protocol version)
@@ -75,18 +76,74 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 @synthesize delegate = _delegate;
 @synthesize clientThread = _clientThread;
 @synthesize topics = _topics;
+@synthesize isConnectedContainer = _isConnectedContainer;
+@synthesize host = _host;
+
+@dynamic isConnected;
+
+-(NSURL *)host {
+    if (self.isConnected) {
+        @synchronized (_host) {
+            return _host;
+        }
+    }
+    return nil;
+}
+
+-(void)setHost:(NSURL *)host {
+    @synchronized (_host) {
+        _host = host;
+    }
+}
+
+-(bool)isConnected {
+    return [self.isConnectedContainer boolValue];
+}
+
+
++(instancetype)client {
+    return [[CBMessageClient alloc] init];
+}
 
 -(NSMutableDictionary *)topics {
-    if (!_topics) {
-        _topics = [[NSMutableDictionary alloc] init];
+    @synchronized (_topics) {
+        if (!_topics) {
+            _topics = [[NSMutableDictionary alloc] init];
+        }
+        return _topics;
     }
-    return _topics;
 }
+
+-(void)setTopics:(NSMutableDictionary *)topics {
+    @synchronized (_topics) {
+        _topics = topics;
+    }
+}
+
 -(id)init {
     self = [super init];
     if (self) {
     }
     return self;
+}
+-(void)finalize {
+    if (self.isConnected) {
+        [self disconnect];
+    }
+}
+
+-(void)connect {
+    [self connectToHost:[[ClearBlade settings] messagingAddress]];
+}
+
+-(void)disconnect {
+    if (self.isConnected) {
+        mosquitto_disconnect(self.client);
+        mosquitto_destroy(self.client);
+        
+        //The thread should finish up after disconnecting anyway, this is to avoid trying to start with it again.
+        self.clientThread = nil;
+    }
 }
 -(struct mosquitto *)client {
     if (!_client) {
@@ -116,9 +173,6 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     }
 }
 -(void)connectToHost:(NSURL *)hostName {
-    if (hostName.host == nil) {
-        hostName = [NSURL URLWithString:[@"tcp://" stringByAppendingString:[hostName absoluteString]]];
-    }
     mosquitto_username_pw_set(self.client,
                               [[[ClearBlade settings] appKey] cStringUsingEncoding:NSUTF8StringEncoding],
                               [[[ClearBlade settings] appSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -136,6 +190,8 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 }
 -(void)handleConnect:(CBMessageClientConnectStatus)status {
     id<CBMessageClientDelegate> delegate = self.delegate;
+    self.isConnectedContainer = @(true);
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if (status == CBMessageClientConnectSuccess) {
             if ([delegate respondsToSelector:@selector(messageClientDidConnect:)]) {
@@ -186,11 +242,22 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 }
 -(void)handleDisconnect {
     id<CBMessageClientDelegate> delegate = self.delegate;
+    
+    self.isConnectedContainer = false;
+    
     if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [delegate messageClientDidDisconnect:self];
         });
     }
 }
-                                
+
+-(NSString *)description {
+    if (self.isConnected) {
+        return [NSString stringWithFormat:@"CBMessageClient: Connected to Host <%@>", self.host];
+    } else {
+        return @"CBMessageClient: Not connected to a server";
+    }
+}
+
 @end

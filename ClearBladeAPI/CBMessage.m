@@ -59,4 +59,8 @@
 -(void)setPayloadText:(NSString *)payloadText {
     _payloadData = [payloadText dataUsingEncoding:NSUTF8StringEncoding];
 }
+
+-(NSString *)description {
+    return [NSString stringWithFormat:@"CBMessage: Topic <%@>, Message <%@>", self.topic, self.payloadText];
+}
 @end

@@ -10,6 +10,7 @@
 
 @interface TestCBItem : CBItem
 +(instancetype)itemWithStringColumn:(NSString *)stringColumn withIntColumn:(int)intColumn;
++(instancetype)itemFromCBItem:(CBItem *)item;
 @property (nonatomic) NSString *stringColumn;
 @property (nonatomic) NSNumber *intColumn;
 @property (nonatomic, readonly) NSString * stringColumnName;

@@ -7,28 +7,85 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "AsyncTestCase.h"
+#import "CBAPI.h"
 
-@interface CBMessageClientTests : AsyncTestCase
-
+@interface CBMessageClientTests : AsyncTestCase <CBMessageClientDelegate>
+@property (strong, nonatomic) void (^connectHandler)();
+@property (strong, nonatomic) void (^connectFailHandler)(CBMessageClientConnectStatus);
+@property (strong, nonatomic) void (^disconnectHandler)();
+@property (strong, nonatomic) CBMessageClient * client;
 @end
 
 @implementation CBMessageClientTests
 
+-(void (^)())connectHandler {
+    if (!_connectHandler) {
+        _connectHandler = ^() {};
+    }
+    return _connectHandler;
+}
+-(void (^)())disconnectHandler {
+    if (!_disconnectHandler) {
+        _disconnectHandler = ^() {};
+    }
+    return _disconnectHandler;
+}
+-(void (^)(CBMessageClientConnectStatus))connectFailHandler {
+    if (!_connectFailHandler) {
+        _connectFailHandler = ^(CBMessageClientConnectStatus status) {};
+    }
+    return _connectFailHandler;
+}
+-(void)messageClientDidConnect:(CBMessageClient *)client {
+    self.connectHandler();
+}
+-(void)messageClient:(CBMessageClient *)client didFailToConnect:(CBMessageClientConnectStatus)reason {
+    self.connectFailHandler(reason);
+}
+-(void)messageClientDidDisconnect:(CBMessageClient *)client {
+    self.disconnectHandler();
+}
+
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here; it will be run once, before the first test case.
+    [ClearBlade initSettingsWithAppKey:APP_KEY withAppSecret:APP_SECRET];
 }
 
 - (void)tearDown
 {
     // Put teardown code here; it will be run once, after the last test case.
     [super tearDown];
+    self.connectFailHandler = nil;
+    self.connectHandler = nil;
+    self.disconnectHandler = nil;
+    [self.client disconnect];
+    self.client = nil;
 }
 
-- (void)testExample
+-(CBMessageClient *)client {
+    if (!_client) {
+        _client = [CBMessageClient client];
+        _client.delegate = self;
+    }
+    return _client;
+}
+
+- (void)testConnectDisconnect
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    __weak AsyncTestCase * weakSelf = self;
+    self.connectHandler = ^{
+        [weakSelf signalAsyncComplete:MAIN_COMPLETION];
+    };
+    self.disconnectHandler = ^{
+        [weakSelf signalAsyncComplete:MAIN_COMPLETION];
+    };
+    self.connectFailHandler = ^(CBMessageClientConnectStatus status) {
+        XCTFail(@"Unexpected failure for message client with status %d", status);
+    };
+    [self.client connect];
+    //[self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
 @end

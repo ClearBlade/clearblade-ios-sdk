@@ -49,6 +49,7 @@ typedef int ssize_t;
 #include "read_handle.h"
 #include "send_mosq.h"
 #include "util_mosq.h"
+#include "will_mosq.h"
 
 int _mosquitto_will_set(struct mosquitto *mosq, const char *topic, int payloadlen, const void *payload, int qos, bool retain)
 {

@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D542788185FC5B500E17A34 /* AsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542781185FC5B500E17A34 /* AsyncTestCase.m */; };
+		8D54278A185FC5B500E17A34 /* CBItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542783185FC5B500E17A34 /* CBItemTests.m */; };
+		8D54278B185FC5B500E17A34 /* CBMessageClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542784185FC5B500E17A34 /* CBMessageClientTests.m */; };
+		8D54278C185FC5B500E17A34 /* CBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542785185FC5B500E17A34 /* CBQueryTests.m */; };
+		8D542790185FC5BC00E17A34 /* TestCBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D54278F185FC5BC00E17A34 /* TestCBItem.m */; };
+		8D542791185FC69800E17A34 /* CBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A338185A24DB003506C1 /* CBAPI.framework */; };
 		8DF2A33C185A24DB003506C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A33B185A24DB003506C1 /* Foundation.framework */; };
 		8DF2A34D185A24DB003506C1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A34C185A24DB003506C1 /* XCTest.framework */; };
 		8DF2A34E185A24DB003506C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A33B185A24DB003506C1 /* Foundation.framework */; };
 		8DF2A350185A24DB003506C1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A34F185A24DB003506C1 /* UIKit.framework */; };
-		8DF2A355185A24DB003506C1 /* CBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A338185A24DB003506C1 /* CBAPI.framework */; };
 		8DF2A35B185A24DB003506C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8DF2A359185A24DB003506C1 /* InfoPlist.strings */; };
-		8DF2A35D185A24DB003506C1 /* CBAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A35C185A24DB003506C1 /* CBAPITests.m */; };
 		8DF2A375185A2577003506C1 /* CBAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A366185A2577003506C1 /* CBAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DF2A376185A2577003506C1 /* CBCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A367185A2577003506C1 /* CBCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DF2A377185A2577003506C1 /* CBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A368185A2577003506C1 /* CBCollection.m */; };
@@ -80,6 +84,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D542780185FC5B500E17A34 /* AsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTestCase.h; sourceTree = "<group>"; };
+		8D542781185FC5B500E17A34 /* AsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTestCase.m; sourceTree = "<group>"; };
+		8D542783185FC5B500E17A34 /* CBItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBItemTests.m; sourceTree = "<group>"; };
+		8D542784185FC5B500E17A34 /* CBMessageClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBMessageClientTests.m; sourceTree = "<group>"; };
+		8D542785185FC5B500E17A34 /* CBQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBQueryTests.m; sourceTree = "<group>"; };
+		8D54278E185FC5BC00E17A34 /* TestCBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCBItem.h; sourceTree = "<group>"; };
+		8D54278F185FC5BC00E17A34 /* TestCBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCBItem.m; sourceTree = "<group>"; };
 		8DF2A338185A24DB003506C1 /* CBAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = CBAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF2A33B185A24DB003506C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8DF2A34B185A24DB003506C1 /* CBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +98,6 @@
 		8DF2A34F185A24DB003506C1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		8DF2A358185A24DB003506C1 /* CBAPITests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CBAPITests-Info.plist"; sourceTree = "<group>"; };
 		8DF2A35A185A24DB003506C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8DF2A35C185A24DB003506C1 /* CBAPITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CBAPITests.m; sourceTree = "<group>"; };
 		8DF2A366185A2577003506C1 /* CBAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBAPI.h; path = ClearBladeAPI/CBAPI.h; sourceTree = SOURCE_ROOT; };
 		8DF2A367185A2577003506C1 /* CBCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBCollection.h; path = ClearBladeAPI/CBCollection.h; sourceTree = SOURCE_ROOT; };
 		8DF2A368185A2577003506C1 /* CBCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBCollection.m; path = ClearBladeAPI/CBCollection.m; sourceTree = SOURCE_ROOT; };
@@ -150,9 +160,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D542791185FC69800E17A34 /* CBAPI.framework in Frameworks */,
 				8DF2A34D185A24DB003506C1 /* XCTest.framework in Frameworks */,
 				8DF2A350185A24DB003506C1 /* UIKit.framework in Frameworks */,
-				8DF2A355185A24DB003506C1 /* CBAPI.framework in Frameworks */,
 				8DF2A34E185A24DB003506C1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,7 +235,13 @@
 		8DF2A356185A24DB003506C1 /* CBAPITests */ = {
 			isa = PBXGroup;
 			children = (
-				8DF2A35C185A24DB003506C1 /* CBAPITests.m */,
+				8D542780185FC5B500E17A34 /* AsyncTestCase.h */,
+				8D542781185FC5B500E17A34 /* AsyncTestCase.m */,
+				8D542783185FC5B500E17A34 /* CBItemTests.m */,
+				8D542784185FC5B500E17A34 /* CBMessageClientTests.m */,
+				8D542785185FC5B500E17A34 /* CBQueryTests.m */,
+				8D54278E185FC5BC00E17A34 /* TestCBItem.h */,
+				8D54278F185FC5BC00E17A34 /* TestCBItem.m */,
 				8DF2A357185A24DB003506C1 /* Supporting Files */,
 			);
 			path = CBAPITests;
@@ -453,7 +469,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DF2A35D185A24DB003506C1 /* CBAPITests.m in Sources */,
+				8D54278B185FC5B500E17A34 /* CBMessageClientTests.m in Sources */,
+				8D542790185FC5BC00E17A34 /* TestCBItem.m in Sources */,
+				8D542788185FC5B500E17A34 /* AsyncTestCase.m in Sources */,
+				8D54278A185FC5B500E17A34 /* CBItemTests.m in Sources */,
+				8D54278C185FC5B500E17A34 /* CBQueryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,7 +623,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CBAPI/CBAPI-Prefix.pch";
+				GCC_PREFIX_HEADER = "CBAPI-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -626,7 +646,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CBAPI/CBAPI-Prefix.pch";
+				GCC_PREFIX_HEADER = "CBAPI-Prefix.pch";
 				INFOPLIST_FILE = "CBAPITests/CBAPITests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

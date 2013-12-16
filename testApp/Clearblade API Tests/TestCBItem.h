@@ -9,8 +9,10 @@
 #import "CBItem.h"
 
 @interface TestCBItem : CBItem
-+(instancetype)itemWithStringColumn:(NSString *)stringColumn withIntColumn:(int)intColumn;
++(instancetype)itemWithStringColumn:(NSString *)stringColumn withIntColumn:(int)intColumn withCollectionID:(NSString *)collectionID;
 +(instancetype)itemFromCBItem:(CBItem *)item;
++(NSString *)stringColumnName;
++(NSString *)intColumnName;
 @property (nonatomic) NSString *stringColumn;
 @property (nonatomic) NSNumber *intColumn;
 @property (nonatomic, readonly) NSString * stringColumnName;

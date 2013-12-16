@@ -15,3 +15,4 @@ build/
 !default.mode1v3
 !default.mode2v3
 !default.perspectivev3
+*.xccheckout

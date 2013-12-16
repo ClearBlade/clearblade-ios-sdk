@@ -17,16 +17,16 @@
 
 @implementation CollectionViewController
 
-@synthesize colID;
-@synthesize display;
-@synthesize createAge;
-@synthesize createName;
-@synthesize updateQuerKey;
-@synthesize updateQuerVal;
-@synthesize updateKey;
-@synthesize updateVal;
-@synthesize deleteQuerKey;
-@synthesize deleteQuerVal;
+@synthesize colID = _colID;
+@synthesize display = _display;
+@synthesize createAge = _createAge;
+@synthesize createName = _createName;
+@synthesize updateQuerKey = _updateQuerKey;
+@synthesize updateQuerVal = _updateQuerVal;
+@synthesize updateKey = _updateKey;
+@synthesize updateVal = _updateVal;
+@synthesize deleteQuerKey = _deleteQuerKey;
+@synthesize deleteQuerVal = _deleteQuerVal;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,8 +46,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    display.layer.borderWidth = 1.0f;
-    display.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.display.layer.borderWidth = 1.0f;
+    self.display.layer.borderColor = [[UIColor grayColor] CGColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,7 +57,7 @@
 }
 
 -(IBAction) fetchClicked {
-    if ([colID.text isEqualToString:@""]){
+    if ([self.colID.text isEqualToString:@""]){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Initialized"
                                                         message:@"You must enter your collection ID in order to fetch."
                                                        delegate:nil
@@ -65,23 +65,23 @@
                                               otherButtonTitles:nil];
         [alert show];
     } else {
-        CBCollection *col = [[CBCollection alloc] initWithCollectionID:colID.text];
+        CBCollection *col = [[CBCollection alloc] initWithCollectionID:self.colID.text];
         [col fetchWithSuccessCallback:^(NSMutableArray *stuff) {
-            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
+            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] objectForKey:@"name"]);
             NSMutableString *str = [[NSMutableString alloc] init];
-            for (int i = 0; i < [stuff count]; i++) {
+            for (int i = 0; i < (int)stuff.count; i++) {
                 [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
             }
             NSLog(@"Str: %@", str);
-            display.text = str;
-        } ErrorCallback:^(NSError *err, id stuff) {
-            display.text = [err description];
+            self.display.text = str;
+        } withErrorCallback:^(NSError *err, id stuff) {
+            self.display.text = [err description];
         }];
     }
 }
 
 -(IBAction) createClicked {
-    if ([colID.text isEqualToString:@""]){
+    if ([self.colID.text isEqualToString:@""]){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Initialized"
                                                         message:@"You must enter your collection ID in order to fetch."
                                                        delegate:nil
@@ -89,18 +89,18 @@
                                               otherButtonTitles:nil];
         [alert show];
     } else {
-        CBCollection *col = [[CBCollection alloc] initWithCollectionID:colID.text];
+        CBCollection *col = [[CBCollection alloc] initWithCollectionID:self.colID.text];
         NSMutableDictionary *createData = [[NSMutableDictionary alloc] init];
-        [createData setValue:createName.text forKey:@"name"];
-        [createData setValue:createAge.text forKey:@"age"];
-        [col createWithData:createData WithSuccessCallback:^(CBItem *item) {
-            display.text = [NSString stringWithFormat:@"NewStuff: %@", [[item data] description] ];
-        } ErrorCallback:nil];
+        [createData setValue:self.createName.text forKey:@"name"];
+        [createData setValue:self.createAge.text forKey:@"age"];
+        [col createWithData:createData withSuccessCallback:^(CBItem * item) {
+            self.display.text = [NSString stringWithFormat:@"NewStuff: %@", [item description]];
+        } withErrorCallback:nil];
     }
 }
 
 -(IBAction) updateClicked {
-    if ([colID.text isEqualToString:@""]){
+    if ([self.colID.text isEqualToString:@""]){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Initialized"
                                                         message:@"You must enter your collection ID in order to fetch."
                                                        delegate:nil
@@ -108,20 +108,20 @@
                                               otherButtonTitles:nil];
         [alert show];
     } else {
-        CBCollection *col = [[CBCollection alloc] initWithCollectionID:colID.text];
-        CBQuery *query = [[CBQuery alloc] initWithCollectionID:colID.text];
-        [query equalTo:updateQuerVal.text for:updateQuerKey.text];
+        CBCollection *col = [[CBCollection alloc] initWithCollectionID:self.colID.text];
+        CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.colID.text];
+        [query equalTo:self.updateQuerVal.text for:self.updateQuerKey.text];
         NSMutableDictionary *changes = [[NSMutableDictionary alloc] init];
-        [changes setObject:updateVal.text forKey:updateKey.text];
-        [col updateWithQuery:query WithChanges:changes SuccessCallback:^(NSMutableArray *stuff) {
-            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
+        [changes setObject:self.updateVal.text forKey:self.updateKey.text];
+        [col updateWithQuery:query withChanges:changes withSuccessCallback:^(NSMutableArray *stuff) {
+            NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] objectForKey:@"name"]);
             NSMutableString *str = [[NSMutableString alloc] init];
-            for (int i = 0; i < [stuff count]; i++) {
+            for (uint i = 0; i < [stuff count]; i++) {
                 [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
             }
             NSLog(@"Str: %@", str);
-            display.text = str;
-        } ErrorCallback:^(NSError *err, id JSON) {
+            self.display.text = str;
+        } withErrorCallback:^(NSError *err, id JSON) {
             NSLog(@"%@", err);
             NSLog(@"%@", [JSON description]);
         }];
@@ -129,7 +129,7 @@
 }
 
 -(IBAction) deleteClicked {
-    if ([colID.text isEqualToString:@""]){
+    if ([self.colID.text isEqualToString:@""]){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Initialized"
                                                         message:@"You must enter your collection ID in order to fetch."
                                                        delegate:nil
@@ -137,17 +137,17 @@
                                               otherButtonTitles:nil];
         [alert show];
     } else {
-        CBCollection *col = [[CBCollection alloc] initWithCollectionID:colID.text];
-        CBQuery *query = [[CBQuery alloc] initWithCollectionID:colID.text];
-        [query equalTo:deleteQuerVal.text for:deleteQuerKey.text];
-        [col removeWithQuery:query SuccessCallback:^(NSMutableArray *stuff) {
+        CBCollection *col = [[CBCollection alloc] initWithCollectionID:self.colID.text];
+        CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.colID.text];
+        [query equalTo:self.deleteQuerVal.text for:self.deleteQuerKey.text];
+        [col removeWithQuery:query withSuccessCallback:^(NSMutableArray *stuff) {
             NSMutableString *str = [[NSMutableString alloc] init];
-            for (int i = 0; i < [stuff count]; i++) {
+            for (uint i = 0; i < [stuff count]; i++) {
                 [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
             }
             NSLog(@"Str: %@", str);
-            display.text = str;
-        } ErrorCallback:nil];
+            self.display.text = str;
+        } withErrorCallback:nil];
     }
 }
 

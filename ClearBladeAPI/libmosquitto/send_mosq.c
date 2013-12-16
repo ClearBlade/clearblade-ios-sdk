@@ -48,6 +48,9 @@ extern uint64_t g_pub_bytes_sent;
 #  endif
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 int _mosquitto_send_pingreq(struct mosquitto *mosq)
 {
 	int rc;
@@ -286,3 +289,5 @@ int _mosquitto_send_real_publish(struct mosquitto *mosq, uint16_t mid, const cha
 
 	return _mosquitto_packet_queue(mosq, packet);
 }
+
+#pragma clang diagnostic pop

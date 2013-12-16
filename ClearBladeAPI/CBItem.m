@@ -136,12 +136,26 @@
 }
 
 -(bool)isEqualToCBItem:(CBItem *)item {
-    if (item.data.count != self.data.count) {
+    bool ignoreItemID = false;
+    int selfCount = self.data.count;
+    int otherCount = item.data.count;
+    if (item.itemID == nil) {
+        otherCount += 1;
+        ignoreItemID = true;
+    }
+    if (self.itemID == nil) {
+        selfCount += 1;
+        ignoreItemID = true;
+    }
+    if (selfCount != otherCount) {
         return false;
     }
     
     for (id key in self.data) {
-        if (![[self.data objectForKey:key] isEqual:[item.data objectForKey:key]]) {
+        if (ignoreItemID && [key isEqualToString:CBITEM_ID_KEY]) {
+            //skip if it's an item id
+        }
+        else if (![[self.data objectForKey:key] isEqual:[item.data objectForKey:key]]) {
             return false;
         }
     }

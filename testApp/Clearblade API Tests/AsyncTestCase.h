@@ -18,7 +18,7 @@
 #else
 #define APP_KEY @"eafb90aa0af4c396d4e9fbbbd24d"
 #define APP_SECRET @"EAFB90AA0AB4AACFE9C2BBF7A7EE01"
-#define TEST_COLLECTION @"f48591aa0ad0d9c0b3dac8f5a9a501"
+#define TEST_COLLECTION @"cef2faaa0accc3a2acd7cfd3d39c01"
 #define PLATFORM_ADDRESS @"https://platform.clearblade.com/api"
 #endif
 

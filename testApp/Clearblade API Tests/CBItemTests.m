@@ -41,4 +41,16 @@
     XCTAssertFalse([itemWithMoreKeys isEqualToCBItem:item], @"Should not be equal to object with more keys");
 }
 
+-(void)testIgnoresItemIDIfNil {
+    CBItem * item = [CBItem itemWithData:@{@"one": @"one-response"} withCollectionID:TEST_COLLECTION];
+    CBItem * otherItem = [CBItem itemWithData:@{@"one": @"one-response"} withCollectionID:TEST_COLLECTION];
+    XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should equal when both item ids are nil");
+    XCTAssertTrue([otherItem isEqualToCBItem:item], @"Should equal when both item ids are nil");
+    item.itemID = @"1234";
+    XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should equal when one item id is nil");
+    XCTAssertTrue([otherItem isEqualToCBItem:item], @"Should equal when one item id is nil");
+    otherItem.itemID = @"12345";
+    XCTAssertFalse([otherItem isEqualToCBItem:item], @"When both ids are set, should check if they are the same");
+}
+
 @end

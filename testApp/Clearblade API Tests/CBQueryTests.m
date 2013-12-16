@@ -46,6 +46,63 @@
     XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Query with or clause should have this format");
 }
 
+- (void)testMultipleReturnedFetch {
+    TestCBItem * item1 = [TestCBItem itemWithStringColumn:@"TEST" withIntColumn:5];
+    TestCBItem * item2 = [TestCBItem itemWithStringColumn:@"TEST" withIntColumn:6];
+    item1.collectionID = TEST_COLLECTION;
+    item2.collectionID = TEST_COLLECTION;
+    [[[CBQuery queryWithCollectionID:item1.collectionID] equalTo:@"TEST" for:item1.stringColumnName] removeWithSuccessCallback:^(NSArray * items) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError *error, id JSON) {
+        XCTFail(@"Unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [[CBQuery queryWithCollectionID:item1.collectionID] insertItem:item1 withSuccessCallback:^(NSMutableArray *successItems) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError * error, id JSON) {
+        XCTFail(@"Unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    [[CBQuery queryWithCollectionID:item1.collectionID] insertItem:item1 withSuccessCallback:^(NSMutableArray *successItems) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError * error, id JSON) {
+        XCTFail(@"Unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    [[[CBQuery queryWithCollectionID:item1.collectionID] equalTo:@"TEST" for:item1.stringColumnName] fetchWithSuccessCallback:^(NSMutableArray * items) {
+        bool isItem1InArray = false;
+        bool isItem2InArray = false;
+        for (CBItem * item in items) {
+            TestCBItem * testItem = [TestCBItem itemFromCBItem:item];
+            if ([testItem isEqualToCBItem:item1]) {
+                isItem1InArray = true;
+            } else if ([testItem isEqualToCBItem:item2]) {
+                isItem2InArray = true;
+            }
+        }
+        XCTAssertTrue(isItem1InArray, @"%@ should be in fetch return: %@", item1, items);
+        XCTAssertTrue(isItem2InArray, @"%@ should be in fetch return: %@", item2, items);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError *error, id JSON) {
+        XCTFail(@"Unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    [[[CBQuery queryWithCollectionID:item1.collectionID] equalTo:@"TEST" for:item1.stringColumnName] removeWithSuccessCallback:^(NSArray * items) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError *error, id JSON) {
+        XCTFail(@"Unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+}
+
 - (void)testSingleArgumentFetch {
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST"
                                            withIntColumn:5];
@@ -79,7 +136,6 @@
     }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     [self.defaultQuery removeWithSuccessCallback:^(NSMutableArray * array) {
-        XCTAssertTrue([array count] == 1, @"Should be single item removed");
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);

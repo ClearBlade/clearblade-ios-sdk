@@ -149,11 +149,14 @@
 
 -(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback
                withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fullQuery]
-                                                                                          options:0
-                                                                                            error:NULL]
-                                                 encoding:NSUTF8StringEncoding];
-    NSMutableURLRequest *fetchRequest = [self requestWithMethod:@"GET" withParameters:@{@"query": jsonString}];
+    NSDictionary * parameters = nil;
+    if (self.OR.count > 1 || self.query.count > 0) {
+        parameters = @{@"query":[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fullQuery]
+                                                                                               options:0
+                                                                                                 error:NULL]
+                                                      encoding:NSUTF8StringEncoding]};
+    }
+    NSMutableURLRequest *fetchRequest = [self requestWithMethod:@"GET" withParameters:parameters];
     [self executeRequest:fetchRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 

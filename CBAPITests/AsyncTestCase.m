@@ -32,8 +32,14 @@
     [self setKey:completionKey withComplete:true];
 }
 -(void)waitForAsyncCompletion:(NSString *)completionKey {
-    while (![self isKeyComplete:completionKey]) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    NSDate * startTime = [NSDate date];
+    bool failedToEnd = false;
+    while (![self isKeyComplete:completionKey] && !failedToEnd) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        failedToEnd = [[NSDate date] timeIntervalSinceDate:startTime] > 10;
+    }
+    if (failedToEnd) {
+        XCTFail(@"Timeout exceeded");
     }
     [self setKey:completionKey withComplete:false];
 }

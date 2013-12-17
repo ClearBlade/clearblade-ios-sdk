@@ -101,6 +101,9 @@ Delegate selector to handle when a message client fails to connect to the server
 /** The host that this client is connected to. */
 @property (atomic, readonly) NSURL * host;
 
+/** The list of topics this client is currently subscribed to */
+@property (atomic, readonly) NSArray * topics;
+
 /** Connects the client to the default host, specified in [ClearBlade settings] */
 -(void)connect;
 
@@ -125,4 +128,10 @@ Subscribes the message client to a topic
 @param topic The topic the message client connected to
 */
 -(void)subscribeToTopic:(NSString *)topic;
+
+/**
+Unsubscribes the message client to a topic
+@param topic The topic to unsubscribe from
+*/
+-(void)unsubscribeFromTopic:(NSString *)topic;
 @end

@@ -19,8 +19,21 @@
 -(void)handlePublish:(NSString *)topic;
 -(void)handleSubscribe:(NSString *)topic;
 -(void)handleUnsubscribe:(NSString *)topic;
+
+-(void)addTopicToUnsubscribeList:(NSString *)topic withId:(int)messageId;
+-(void)removeTopicFromUnsubscribeListWithId:(int)messageId;
+
+-(NSString *)topicForId:(int)messageId;
+-(NSString *)topicFromUnsubscribeListForId:(int)messageId;
+
+-(void)addTopic:(NSString *)topic withId:(int)messageId;
+-(void)removeTopicWithId:(int)messageId;
+-(void)removeTopic:(NSString *)topic;
+
 @property (nonatomic) struct mosquitto * client;
-@property (strong, atomic) NSMutableDictionary * topics;
+@property (strong, nonatomic) NSMutableDictionary * topicDictionary;
+@property (strong, nonatomic) NSMutableDictionary * unsubscribeDictionary;
+
 @property (strong, nonatomic) NSThread * clientThread;
 @property (strong, atomic) NSNumber * isConnectedContainer;
 @end
@@ -55,12 +68,13 @@ static void CBMessageClient_onMessage(struct mosquitto * mosq, void * voidClient
 }
 static void CBMessageClient_onSubscribe(struct mosquitto * mosq, void * voidClient, int mid, int qos, const int * qos_list) {
     CBMessageClient * client = (__bridge CBMessageClient *)voidClient;
-    NSString * topic = [client.topics objectForKey:@(mid)];
+    NSString * topic = [client topicForId:mid];
     [client handleSubscribe:topic];
 }
 static void CBMessageClient_onUnsubscribe(struct mosquitto * mosq, void * voidClient, int mid) {
     CBMessageClient * client = (__bridge CBMessageClient *)voidClient;
-    NSString * topic = [client.topics objectForKey:@(mid)];
+    NSString * topic = [client topicFromUnsubscribeListForId:mid];
+    [client removeTopicFromUnsubscribeListWithId:mid];
     [client handleUnsubscribe:topic];
 }
 static void CBMessageClient_onDisconnect(struct mosquitto * mosq, void * voidClient, int id) {
@@ -78,8 +92,16 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 @synthesize topics = _topics;
 @synthesize isConnectedContainer = _isConnectedContainer;
 @synthesize host = _host;
+@synthesize topicDictionary = _topicDictionary;
+@synthesize unsubscribeDictionary = _unsubscribeDictionary;
 
 @dynamic isConnected;
+
+-(NSArray *)topics {
+    @synchronized (self.topicDictionary) {
+        return self.topicDictionary.allValues.copy;
+    }
+}
 
 -(NSURL *)host {
     if (self.isConnected) {
@@ -105,21 +127,6 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     return [[CBMessageClient alloc] init];
 }
 
--(NSMutableDictionary *)topics {
-    @synchronized (_topics) {
-        if (!_topics) {
-            _topics = [[NSMutableDictionary alloc] init];
-        }
-        return _topics;
-    }
-}
-
--(void)setTopics:(NSMutableDictionary *)topics {
-    @synchronized (_topics) {
-        _topics = topics;
-    }
-}
-
 -(id)init {
     self = [super init];
     if (self) {
@@ -130,6 +137,7 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     if (self.isConnected) {
         [self disconnect];
     }
+    mosquitto_destroy(self.client);
 }
 
 -(void)connect {
@@ -139,7 +147,6 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
 -(void)disconnect {
     if (self.isConnected) {
         mosquitto_disconnect(self.client);
-        mosquitto_destroy(self.client);
         
         //The thread should finish up after disconnecting anyway, this is to avoid trying to start with it again.
         self.clientThread = nil;
@@ -158,19 +165,21 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     return _client;
 }
 -(void)subscribeToTopic:(NSString *)topic {
-    @synchronized(self.topics) {
-        int messageId;
-        mosquitto_subscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding] , 0);
-        [self.topics setObject:topic forKey:@(messageId)];
-    }
+    int messageId;
+    mosquitto_subscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding] , 0);
+    [self addTopic:topic withId:messageId];
 }
+-(void)unsubscribeFromTopic:(NSString *)topic {
+    int messageId;
+    mosquitto_unsubscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding]);
+    [self addTopicToUnsubscribeList:topic withId:messageId];
+}
+
 -(void)publishMessage:(NSString *)message toTopic:(NSString *)topic {
-    @synchronized(self.topics) {
-        int messageId;
-        mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
-                          message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
-                          0, true);
-    }
+    int messageId;
+    mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
+                      message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
+                      0, true);
 }
 -(void)connectToHost:(NSURL *)hostName {
     mosquitto_username_pw_set(self.client,
@@ -252,8 +261,7 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     id<CBMessageClientDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(messageClient:didUnsubscribe:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            CBMessage * message = [CBMessage messageWithTopic:topic withPayloadText:@""];
-            [delegate messageClient:self didPublishToTopic:topic withMessage:message];
+            [delegate messageClient:self didUnsubscribe:topic];
         });
     }
     
@@ -271,6 +279,8 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
     id<CBMessageClientDelegate> delegate = self.delegate;
     
     self.isConnectedContainer = false;
+    self.topicDictionary = nil;
+    self.unsubscribeDictionary = nil;
     
     if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -284,6 +294,67 @@ static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, in
         return [NSString stringWithFormat:@"CBMessageClient: Connected to Host <%@>", self.host];
     } else {
         return @"CBMessageClient: Not connected to a server";
+    }
+}
+
+-(NSMutableDictionary *)topicDictionary {
+    if (!_topicDictionary) {
+        _topicDictionary = [[NSMutableDictionary alloc] init];
+    }
+    return _topicDictionary;
+}
+-(NSMutableDictionary *)unsubscribeDictionary {
+    if (!_unsubscribeDictionary) {
+        _unsubscribeDictionary = [NSMutableDictionary dictionary];
+    }
+    return _unsubscribeDictionary;
+}
+
+-(void)addTopic:(NSString *)topic withId:(int)messageId {
+    @synchronized (self.topicDictionary) {
+        [self.topicDictionary setObject:topic forKey:@(messageId)];
+    }
+}
+
+-(void)removeTopicWithId:(int)messageId {
+    @synchronized (self.topicDictionary) {
+        [self.topicDictionary removeObjectForKey:@(messageId)];
+    }
+}
+-(void)removeTopic:(NSString *)topic {
+    @synchronized (self.topicDictionary) {
+        for (id key in self.topicDictionary) {
+            if ([[self.topicDictionary objectForKey:key] isEqualToString:topic]) {
+                [self.topicDictionary removeObjectForKey:key];
+                return;
+            }
+        }
+    }
+}
+
+-(NSString *)topicForId:(int)messageId {
+    @synchronized (self.topicDictionary) {
+        return [self.topicDictionary objectForKey:@(messageId)];
+    }
+}
+
+-(void)addTopicToUnsubscribeList:(NSString *)topic withId:(int)messageId {
+    @synchronized (self.unsubscribeDictionary) {
+        [self.unsubscribeDictionary setObject:topic forKey:@(messageId)];
+    }
+}
+
+-(void)removeTopicFromUnsubscribeListWithId:(int)messageId {
+    @synchronized (self.unsubscribeDictionary) {
+        NSString * topic = [self.unsubscribeDictionary objectForKey:@(messageId)];
+        [self.unsubscribeDictionary removeObjectForKey:@(messageId)];
+        [self removeTopic:topic];
+    }
+}
+
+-(NSString *)topicFromUnsubscribeListForId:(int)messageId {
+    @synchronized (self.unsubscribeDictionary) {
+        return [self.unsubscribeDictionary objectForKey:@(messageId)];
     }
 }
 

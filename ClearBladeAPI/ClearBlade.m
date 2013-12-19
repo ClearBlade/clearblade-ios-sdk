@@ -149,6 +149,15 @@ static ClearBlade * _settings = nil;
         va_end(arguments);
     }
 }
+-(void)logExtra:(NSString *)format, ... {
+    if (self.loggingLevel >= CB_LOG_EXTRA) {
+        va_list arguments;
+        va_start(arguments, format);
+        NSLog(@"[EXTRA] %@", [[NSString alloc] initWithFormat:format arguments:arguments]);
+        va_end(arguments);
+    }
+    
+}
 -(int)generateID {
     @synchronized (self.nextID) {
         int nextId = [self.nextID intValue];

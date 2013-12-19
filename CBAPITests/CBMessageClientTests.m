@@ -10,8 +10,10 @@
 #import "AsyncTestCase.h"
 #import "CBAPI.h"
 
-#define TEST_TOPIC_ONE @"TEST"
-#define TEST_TOPIC_TWO @"TEST_TWO"
+#define TEST_TOPIC_ONE @"TEST_TOPIC_ONE"
+#define TEST_TOPIC_TWO @"TEST_TOPIC_TWO"
+#define TEST_PUBLISH_TOPIC_ONE @"TEST_PUB_ONE"
+#define TEST_PUBLISH_TOPIC_TWO @"TEST_PUB_TWO"
 #define TEST_MESSAGE_ONE @"Message 1"
 #define TEST_MESSAGE_TWO @"Message 2"
 #define TEST_MESSAGE_THREE @"Message 3"
@@ -212,7 +214,7 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
         XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"Should be the expected message");
         [self signalAsyncComplete:MAIN_COMPLETION];
     };
-    [publishClient publishMessage:TEST_TOPIC_ONE toTopic:TEST_MESSAGE_ONE];
+    [publishClient publishMessage:TEST_MESSAGE_ONE toTopic:TEST_TOPIC_ONE];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     [self.client disconnect];
     [publishClient disconnect];
@@ -239,34 +241,114 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
-        XCTAssertTrue([topic isEqualToString:TEST_TOPIC_ONE], @"Topic should be the expected topic");
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"Topic should be the expected topic");
         [self signalAsyncComplete:MAIN_COMPLETION];
     };
-    [self.client subscribeToTopic:TEST_TOPIC_ONE];
+    [self.client subscribeToTopic:TEST_PUBLISH_TOPIC_ONE];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
-        XCTAssertTrue([topic isEqualToString:TEST_TOPIC_TWO], @"Topic should be the expected topic");
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_TWO], @"Topic should be the expected topic");
         [self signalAsyncComplete:MAIN_COMPLETION];
     };
-    [self.client subscribeToTopic:TEST_TOPIC_TWO];
+    [self.client subscribeToTopic:TEST_PUBLISH_TOPIC_TWO];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     self.publishHandler = messageHandler = ^(CBMessageClient *client, NSString * topic, CBMessage * message) {
-        XCTAssertTrue([topic isEqualToString:TEST_TOPIC_ONE] , @"Should be expected topic");
-        XCTAssertTrue([message.topic isEqualToString:TEST_TOPIC_ONE], @"should be expected topic");
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE] , @"Should be expected topic");
+        XCTAssertTrue([message.topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"should be expected topic");
         XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"should be expected message");
         [self signalAsyncComplete:MAIN_COMPLETION];
     };
     self.receiveHandler = receiveHandler = ^(CBMessageClient * client, NSString * topic, CBMessage * message) {
-        XCTAssertTrue([topic isEqualToString:TEST_TOPIC_ONE] , @"Should be expected topic");
-        XCTAssertTrue([message.topic isEqualToString:TEST_TOPIC_ONE], @"should be expected topic");
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE] , @"Should be expected topic");
+        XCTAssertTrue([message.topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"should be expected topic");
         XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"should be expected message");
         [self signalAsyncComplete:RECEIVE_COMPLETION];
     };
-    [self.client publishMessage:TEST_MESSAGE_ONE toTopic:TEST_TOPIC_ONE];
+    [self.client publishMessage:TEST_MESSAGE_ONE toTopic:TEST_PUBLISH_TOPIC_ONE];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     [self waitForAsyncCompletion:RECEIVE_COMPLETION];
+    [self.client disconnect];
+}
+
+-(void)testDoubleSubscribe {
+    BlockHandler connectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    BlockHandler disconnectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    SubscribeHandler subscribeHandler;
+    MessageHandler messageHandler;
+    MessageHandler receiveHandler;
+    ConnectFailHandler connectFailHandler = ^(CBMessageClientConnectStatus status) {
+        XCTFail(@"Unexpected failure for message client with status %d", status);
+    };
+    self.connectFailHandler = connectFailHandler;
+    self.connectHandler = connectHandler;
+    self.disconnectHandler = disconnectHandler;
+    self.subscribeHandler = subscribeHandler;
+    NSString * randomTopic = [NSString stringWithFormat:@"Test_%d", arc4random()];
+    NSString * randomTopic2 = [NSString stringWithFormat:@"Test2_%d", arc4random()];
+    [self.client connect];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
+        XCTAssertTrue([topic isEqualToString:randomTopic], @"Topic should be the expected topic");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    [self.client subscribeToTopic:randomTopic];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
+        XCTAssertTrue([topic isEqualToString:randomTopic2], @"Topic should be the expected topic");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    [self.client subscribeToTopic:randomTopic2];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    self.publishHandler = messageHandler = ^(CBMessageClient *client, NSString * topic, CBMessage * message) {
+        XCTAssertTrue([topic isEqualToString:randomTopic] , @"Should be expected topic");
+        XCTAssertTrue([message.topic isEqualToString:randomTopic], @"should be expected topic");
+        XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"should be expected message");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    self.receiveHandler = receiveHandler = ^(CBMessageClient * client, NSString * topic, CBMessage * message) {
+        XCTAssertTrue([topic isEqualToString:randomTopic] , @"Should be expected topic");
+        XCTAssertTrue([message.topic isEqualToString:randomTopic], @"should be expected topic");
+        XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"should be expected message");
+        [self signalAsyncComplete:RECEIVE_COMPLETION];
+    };
+    [self.client publishMessage:TEST_MESSAGE_ONE toTopic:randomTopic];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self waitForAsyncCompletion:RECEIVE_COMPLETION];
+    [self.client disconnect];
+    
+    [self.client connect];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
+        XCTAssertTrue([topic isEqualToString:randomTopic], @"Topic should be the expected topic");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    [self.client subscribeToTopic:randomTopic];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    self.publishHandler = messageHandler = ^(CBMessageClient *client, NSString * topic, CBMessage * message) {
+        XCTAssertTrue([topic isEqualToString:randomTopic] , @"Should be expected topic");
+        XCTAssertTrue([message.topic isEqualToString:randomTopic], @"should be expected topic");
+        XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"should be expected message");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    self.receiveHandler = receiveHandler = ^(CBMessageClient * client, NSString * topic, CBMessage * message) {
+        XCTAssertTrue([topic isEqualToString:randomTopic] , @"Should be expected topic");
+        XCTAssertTrue([message.topic isEqualToString:randomTopic], @"should be expected topic");
+        XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"should be expected message");
+        [self signalAsyncComplete:RECEIVE_COMPLETION];
+    };
+    [self.client publishMessage:TEST_MESSAGE_ONE toTopic:randomTopic];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self waitForAsyncCompletion:RECEIVE_COMPLETION];
+    [self.client disconnect];
 }
 
 @end

@@ -18,12 +18,14 @@
 #define CBLogError(...) [[ClearBlade settings] logError:__VA_ARGS__,nil]
 #define CBLogWarning(...) [[ClearBlade settings] logWarning:__VA_ARGS__,nil]
 #define CBLogDebug(...) [[ClearBlade settings] logDebug:__VA_ARGS__,nil]
+#define CBLogExtra(...) [[ClearBlade settings] logExtra:__VA_ARGS__,nil]
 
 typedef enum {
     CB_LOG_NONE = 0,
     CB_LOG_ERROR = 1,
     CB_LOG_WARN = 2,
     CB_LOG_DEBUG = 3,
+    CB_LOG_EXTRA = 4
 } CBLoggingLevel;
 
 @interface ClearBlade : NSObject
@@ -66,6 +68,7 @@ typedef enum {
 -(void)logError:(NSString *)error,...;
 -(void)logWarning:(NSString *)warning,...;
 -(void)logDebug:(NSString *)debug,...;
+-(void)logExtra:(NSString *)extra,...;
 
 -(int)generateID; //Unique id, only guaranteed to be unique for this Clearblade settings.
 

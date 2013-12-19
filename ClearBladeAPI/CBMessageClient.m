@@ -81,7 +81,7 @@ static void CBMessageClient_onDisconnect(struct mosquitto * mosq, void * voidCli
     [client handleDisconnect];
 }
 static void CBMessageClient_onLog(struct mosquitto * mosq, void * voidClient, int mid, const char * text) {
-    CBLogDebug(@"%s", text);
+    CBLogExtra(@"%s", text);
 }
 static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient, int mid) {
     CBMessageClient * client = (__bridge CBMessageClient *)voidClient;

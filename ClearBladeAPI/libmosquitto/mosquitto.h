@@ -568,6 +568,9 @@ libmosq_EXPORT int mosquitto_disconnect(struct mosquitto *mosq);
  *	<mosquitto_max_inflight_messages_set>
  */
 libmosq_EXPORT int mosquitto_publish(struct mosquitto *mosq, int *mid, const char *topic, int payloadlen, const void *payload, int qos, bool retain);
+    
+libmosq_EXPORT uint16_t mosquitto_mid_peek(struct mosquitto *mosq);
+
 
 /*
  * Function: mosquitto_subscribe

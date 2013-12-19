@@ -23,7 +23,11 @@
     NSMutableArray * destinationArray = [NSMutableArray array];
     if ([itemArray isKindOfClass:[NSArray class]]) {
         for (NSDictionary * item in itemArray) {
-            [destinationArray addObject:[CBItem itemWithData:item withCollectionID:collectionID]];
+            if ([item isKindOfClass:[NSString class]]) { //Assumes strings are just item_ids
+                [destinationArray addObject:[CBItem itemWithData:@{CBITEM_ID_KEY: item } withCollectionID:collectionID]];
+            } else {
+                [destinationArray addObject:[CBItem itemWithData:item withCollectionID:collectionID]];
+            }
         }
     } else {
         [destinationArray addObject:[CBItem itemWithData:(NSDictionary *)itemArray withCollectionID:collectionID]];
@@ -62,12 +66,14 @@
 -(void) saveWithSuccessCallback:(CBItemSuccessCallback)successCallback
               withErrorCallback:(CBItemErrorCallback)errorCallback {
     CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.collectionID];
+    CBLogDebug(@"Saving %@", self);
     if (self.itemID) {
         [query updateWithChanges:self.data
              withSuccessCallback:[self handleSuccessCallback:successCallback]
                withErrorCallback:[self handleErrorCallback:errorCallback]];
     } else {
         [query insertItem:self
+     intoCollectionWithID:self.collectionID
       withSuccessCallback:[self handleSuccessCallback:successCallback]
         withErrorCallback:[self handleErrorCallback:errorCallback]];
     }
@@ -94,6 +100,7 @@
 
 -(void) refreshWithSuccessCallback:(CBItemSuccessCallback)successCallback
                  withErrorCallback:(CBItemErrorCallback)errorCallback {
+    CBLogDebug(@"Refreshing %@", self);
     if ([self validateWithErrorCallback:errorCallback]) {
         CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.collectionID];
         [query equalTo:self.itemID for:CBITEM_ID_KEY];
@@ -104,6 +111,7 @@
 
 -(void) removeWithSuccessCallback:(CBItemSuccessCallback)successCallback
                 withErrorCallback:(CBItemErrorCallback)errorCallback {
+    CBLogDebug(@"Removing %@", self);
     if ([self validateWithErrorCallback:errorCallback]) {
         CBQuery *query = [[CBQuery alloc] init];
         [query equalTo:self.itemID for:CBITEM_ID_KEY];

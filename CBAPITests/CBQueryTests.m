@@ -20,7 +20,7 @@
 
 - (void)setUp {
     [super setUp];
-    [ClearBlade initSettingsWithAppKey:APP_KEY withAppSecret:APP_SECRET withServerAddress:PLATFORM_ADDRESS];
+    [ClearBlade initSettingsWithAppKey:APP_KEY withAppSecret:APP_SECRET withServerAddress:PLATFORM_ADDRESS withLoggingLevel:TEST_LOGGING_LEVEL];
     self.defaultQuery = [CBQuery queryWithCollectionID:TEST_COLLECTION];
 }
 
@@ -47,7 +47,9 @@
 }
 
 - (void)insertItem:(CBItem *)item {
-    [[CBQuery queryWithCollectionID:item.collectionID] insertItem:item withSuccessCallback:^(NSMutableArray *successItems) {
+    [[CBQuery queryWithCollectionID:item.collectionID] insertItem:item
+                                             intoCollectionWithID:TEST_COLLECTION
+                                              withSuccessCallback:^(NSMutableArray *successItems) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Unexpected error %@", error);
@@ -181,6 +183,7 @@
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
      removeWithSuccessCallback:^(NSMutableArray *removed) {
+         XCTAssertTrue(removed.count == 3, @"Should remove 3 items");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Threw unexpected error %@", error);

@@ -39,7 +39,7 @@
         failedToEnd = [[NSDate date] timeIntervalSinceDate:startTime] > 10;
     }
     if (failedToEnd) {
-        XCTFail(@"Timeout exceeded");
+        XCTFail(@"Timeout exceeded %@", [NSThread callStackSymbols]);
     }
     [self setKey:completionKey withComplete:false];
 }

@@ -15,6 +15,16 @@
 #define CB_DEFAULT_MESSAGING @"https://messaging.clearblade.com"
 #endif
 
+#define CBLogError(...) [[ClearBlade settings] logError:__VA_ARGS__,nil]
+#define CBLogWarning(...) [[ClearBlade settings] logWarning:__VA_ARGS__,nil]
+#define CBLogDebug(...) [[ClearBlade settings] logDebug:__VA_ARGS__,nil]
+
+typedef enum {
+    CB_LOG_NONE = 0,
+    CB_LOG_ERROR = 1,
+    CB_LOG_WARN = 2,
+    CB_LOG_DEBUG = 3,
+} CBLoggingLevel;
 
 @interface ClearBlade : NSObject
 
@@ -25,17 +35,38 @@
 
 +(instancetype)initSettingsWithAppKey:(NSString *)key
                         withAppSecret:(NSString *)secret
+                     withLoggingLevel:(CBLoggingLevel)loggingLevel;
+
++(instancetype)initSettingsWithAppKey:(NSString *)key
+                        withAppSecret:(NSString *)secret
                     withServerAddress:(NSString *)address;
+
++(instancetype)initSettingsWithAppKey:(NSString *)key
+                        withAppSecret:(NSString *)secret
+                    withServerAddress:(NSString *)address
+                     withLoggingLevel:(CBLoggingLevel)loggingLevel;
 
 +(instancetype)initSettingsWithAppKey:(NSString *)key
                         withAppSecret:(NSString *)secret
                     withServerAddress:(NSString *)address
                  withMessagingAddress:(NSString *)messagingAddress;
 
++(instancetype)initSettingsWithAppKey:(NSString *)key
+                        withAppSecret:(NSString *)secret
+                    withServerAddress:(NSString *)address
+                 withMessagingAddress:(NSString *)messagingAddress
+                     withLoggingLevel:(CBLoggingLevel)loggingLevel;
+
 @property (readonly, atomic) NSString * appKey;
 @property (readonly, atomic) NSString * appSecret;
 @property (readonly, atomic) NSString * serverAddress;
 @property (readonly, atomic) NSURL * messagingAddress;
 
+@property (atomic) CBLoggingLevel loggingLevel;
+-(void)logError:(NSString *)error,...;
+-(void)logWarning:(NSString *)warning,...;
+-(void)logDebug:(NSString *)debug,...;
+
+-(int)generateID; //Unique id, only guaranteed to be unique for this Clearblade settings.
 
 @end

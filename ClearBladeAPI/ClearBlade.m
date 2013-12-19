@@ -9,6 +9,7 @@
  *******************************************************************************/
 
 #import "ClearBlade.h"
+#define CB_DEFAULT_LOGGING CB_LOG_WARN
 
 static ClearBlade * _settings = nil;
 
@@ -16,10 +17,13 @@ static ClearBlade * _settings = nil;
 -(instancetype)initWithAppKey:(NSString *)key
                 withAppSecret:(NSString *)secret
             withServerAddress:(NSString *)serverAddress
-         withMessagingAddress:(NSString *)messagingAddress;
+         withMessagingAddress:(NSString *)messagingAddress
+             withLoggingLevel:(CBLoggingLevel)loggingLevel;
+@property (strong, nonatomic) NSNumber * nextID;
 @end
 
 @implementation ClearBlade
+
 
 +(instancetype)settings {
     @synchronized (_settings) {
@@ -30,31 +34,42 @@ static ClearBlade * _settings = nil;
     }
 }
 
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address {
-    @synchronized (_settings) {
-        _settings = [[ClearBlade alloc] initWithAppKey:key
-                                         withAppSecret:secret
-                                     withServerAddress:address
-                                  withMessagingAddress:address];
-        return _settings;
-    }
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret {
+    return [ClearBlade initSettingsWithAppKey:key withAppSecret:secret withLoggingLevel:CB_DEFAULT_LOGGING];
+}
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withLoggingLevel:(CBLoggingLevel)loggingLevel {
+    return  [ClearBlade  initSettingsWithAppKey:key
+                                  withAppSecret:secret
+                              withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS
+                           withMessagingAddress:CB_DEFAULT_MESSAGING
+                               withLoggingLevel:loggingLevel];
 }
 
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret {
-    @synchronized (_settings) {
-        _settings = [[ClearBlade alloc] initWithAppKey:key
-                                         withAppSecret:secret
-                                     withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS
-                                  withMessagingAddress:CB_DEFAULT_MESSAGING];
-        return _settings;
-    }
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address {
+    return [ClearBlade initSettingsWithAppKey:key withAppSecret:secret withServerAddress:address withLoggingLevel:CB_DEFAULT_LOGGING];
 }
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withLoggingLevel:(CBLoggingLevel)loggingLevel {
+    return [ClearBlade initSettingsWithAppKey:key
+                                withAppSecret:secret
+                            withServerAddress:address
+                         withMessagingAddress:CB_DEFAULT_MESSAGING
+                             withLoggingLevel:loggingLevel];
+}
+
 +(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress {
+    return [ClearBlade initSettingsWithAppKey:key
+                                withAppSecret:secret
+                            withServerAddress:address
+                         withMessagingAddress:messagingAddress
+                             withLoggingLevel:CB_DEFAULT_LOGGING];
+}
++(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress withLoggingLevel:(CBLoggingLevel)loggingLevel {
     @synchronized (_settings) {
         _settings = [[ClearBlade alloc] initWithAppKey:key
                                          withAppSecret:secret
                                      withServerAddress:address
-                                  withMessagingAddress:messagingAddress];
+                                  withMessagingAddress:messagingAddress
+                                      withLoggingLevel:loggingLevel];
         return _settings;
     }
 }
@@ -63,14 +78,16 @@ static ClearBlade * _settings = nil;
 @synthesize appKey = _appKey;
 @synthesize serverAddress = _serverAddress;
 @synthesize messagingAddress = _messagingAddress;
+@synthesize nextID = _nextID;
 
--(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress {
+-(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress withLoggingLevel:(CBLoggingLevel)loggingLevel {
     self = [super init];
     if (self) {
         _appKey = key;
         _appSecret = secret;
         self.serverAddress = serverAddress;
         self.messagingAddress = messagingAddress;
+        self.loggingLevel = loggingLevel;
     }
     return self;
 }
@@ -106,6 +123,38 @@ static ClearBlade * _settings = nil;
     return [NSString
             stringWithFormat:@"ClearBlade Settings: App Key <%@>, App Secret <%@>, Server Address <%@>, Messaging Address <%@>",
             self.appKey, self.appSecret, self.serverAddress, self.messagingAddress];
+}
+
+-(void)logError:(NSString *)format, ... {
+    if (self.loggingLevel >= CB_LOG_ERROR) {
+        va_list arguments;
+        va_start(arguments, format);
+        NSLog(@"[ERROR] %@", [[NSString alloc] initWithFormat:format arguments:arguments]);
+        va_end(arguments);
+    }
+}
+-(void)logWarning:(NSString *)format, ... {
+    if (self.loggingLevel >= CB_LOG_WARN) {
+        va_list arguments;
+        va_start(arguments, format);
+        NSLog(@"[WARNING] %@", [[NSString alloc] initWithFormat:format arguments:arguments]);
+        va_end(arguments);
+    }
+}
+-(void)logDebug:(NSString *)format, ... {
+    if (self.loggingLevel >= CB_LOG_DEBUG) {
+        va_list arguments;
+        va_start(arguments, format);
+        NSLog(@"[DEBUG] %@", [[NSString alloc] initWithFormat:format arguments:arguments]);
+        va_end(arguments);
+    }
+}
+-(int)generateID {
+    @synchronized (self.nextID) {
+        int nextId = [self.nextID intValue];
+        self.nextID = @(nextId + 1);
+        return nextId;
+    }
 }
 
 @end

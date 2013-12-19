@@ -189,6 +189,11 @@ uint16_t _mosquitto_mid_generate(struct mosquitto *mosq)
 	
 	return mosq->last_mid;
 }
+uint16_t mosquitto_mid_peek(struct mosquitto *mosq)
+{
+    assert(mosq);
+    return mosq->last_mid + 1;
+}
 
 /* Search for + or # in a topic. Return MOSQ_ERR_INVAL if found.
  * Also returns MOSQ_ERR_INVAL if the topic string is too long.

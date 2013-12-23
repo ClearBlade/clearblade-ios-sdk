@@ -71,10 +71,12 @@ Updates on the platform all the items that match the query sent
 /**
 Inserts the object into the collection. Ignores any query parameters
 @param item The item to be inserted into the collection
+@param collectionID The ID of the collection to insert the item into
 @param successCallback A callback block that handles the return data
 @param errorCallback A callback block that handles the errors returned
 */
 -(void) insertItem:(CBItem *)item
+intoCollectionWithID:(NSString *)collectionID
 withSuccessCallback:(CBQuerySuccessCallback)successCallback
  withErrorCallback:(CBQueryErrorCallback)errorCallback;
 

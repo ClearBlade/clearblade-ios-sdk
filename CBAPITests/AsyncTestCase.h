@@ -7,13 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
-#define STRING_COLUMN @"StringColumn"
+#define STRING_COLUMN @"stringcolumn"
 #define MAIN_COMPLETION @"main"
 #define PROD
 #ifdef PROD
-#define APP_KEY @"f2f5f8aa0aba8bc7e4bdcd8ef142"
-#define APP_SECRET @"F2F5F8AA0AB4F2C4A4E1C387F3F801"
-#define TEST_COLLECTION @"8ef2a3ab0aecbfaf9abec4c7f9e701"
+#define APP_KEY @"e488a4ab0aea9fb4cc88dfa6ed36"
+#define APP_SECRET @"E488A4AB0A98E1A4D0CBE2CDF626"
+#define TEST_COLLECTION @"e889a4ab0ac69af5bbbba3ebfa2b"
 #define PLATFORM_ADDRESS @"http://platform.clearblade.com/api"
 #define MESSAGING_ADDRESS @"https://messaging.clearblade.com"
 #define TEST_LOGGING_LEVEL CB_LOG_DEBUG

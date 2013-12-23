@@ -134,8 +134,10 @@
     
     [self.defaultQuery fetchWithSuccessCallback:^(NSMutableArray * array) {
         XCTAssertTrue([array count] == 1, @"Should be single response to equal to Test One");
-        CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
-        XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
+        if (array.count == 1) {
+            CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
+            XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
+        }
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);

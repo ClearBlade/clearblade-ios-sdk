@@ -145,8 +145,8 @@
 
 -(bool)isEqualToCBItem:(CBItem *)item {
     bool ignoreItemID = false;
-    int selfCount = self.data.count;
-    int otherCount = item.data.count;
+    unsigned long selfCount = self.data.count;
+    unsigned long otherCount = item.data.count;
     if (item.itemID == nil) {
         otherCount += 1;
         ignoreItemID = true;

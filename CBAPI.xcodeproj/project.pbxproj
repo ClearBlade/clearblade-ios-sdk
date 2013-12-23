@@ -7,17 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D542788185FC5B500E17A34 /* AsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542781185FC5B500E17A34 /* AsyncTestCase.m */; };
-		8D54278A185FC5B500E17A34 /* CBItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542783185FC5B500E17A34 /* CBItemTests.m */; };
-		8D54278B185FC5B500E17A34 /* CBMessageClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542784185FC5B500E17A34 /* CBMessageClientTests.m */; };
-		8D54278C185FC5B500E17A34 /* CBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542785185FC5B500E17A34 /* CBQueryTests.m */; };
-		8D542790185FC5BC00E17A34 /* TestCBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D54278F185FC5BC00E17A34 /* TestCBItem.m */; };
-		8D542791185FC69800E17A34 /* CBAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A338185A24DB003506C1 /* CBAPI.framework */; };
+		8D6EBC701868B6EE0083623F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A34C185A24DB003506C1 /* XCTest.framework */; };
+		8D6EBC711868B6EE0083623F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A33B185A24DB003506C1 /* Foundation.framework */; };
+		8D6EBC991868B7F20083623F /* AsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542781185FC5B500E17A34 /* AsyncTestCase.m */; };
+		8D6EBC9A1868B7F20083623F /* CBItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542783185FC5B500E17A34 /* CBItemTests.m */; };
+		8D6EBC9B1868B7F20083623F /* CBMessageClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542784185FC5B500E17A34 /* CBMessageClientTests.m */; };
+		8D6EBC9C1868B7F20083623F /* CBQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542785185FC5B500E17A34 /* CBQueryTests.m */; };
+		8D6EBC9D1868B7F20083623F /* TestCBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D54278F185FC5BC00E17A34 /* TestCBItem.m */; };
+		8D6EBCA31868B9BB0083623F /* CBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A368185A2577003506C1 /* CBCollection.m */; };
+		8D6EBCA41868B9BB0083623F /* CBHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A36A185A2577003506C1 /* CBHTTPRequest.m */; };
+		8D6EBCA51868B9BB0083623F /* CBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A36C185A2577003506C1 /* CBItem.m */; };
+		8D6EBCA61868B9BB0083623F /* CBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A36E185A2577003506C1 /* CBMessage.m */; };
+		8D6EBCA71868B9BB0083623F /* CBMessageClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A370185A2577003506C1 /* CBMessageClient.m */; };
+		8D6EBCA81868B9BB0083623F /* CBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A372185A2577003506C1 /* CBQuery.m */; };
+		8D6EBCA91868B9BB0083623F /* ClearBlade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A374185A2577003506C1 /* ClearBlade.m */; };
+		8D6EBCAA1868B9BB0083623F /* logging_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A387185A2582003506C1 /* logging_mosq.c */; };
+		8D6EBCAB1868B9BB0083623F /* memory_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A389185A2582003506C1 /* memory_mosq.c */; };
+		8D6EBCAC1868B9BB0083623F /* messages_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A38B185A2582003506C1 /* messages_mosq.c */; };
+		8D6EBCAD1868B9BB0083623F /* mosquitto.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A38D185A2582003506C1 /* mosquitto.c */; };
+		8D6EBCAE1868B9BB0083623F /* net_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A391185A2582003506C1 /* net_mosq.c */; };
+		8D6EBCAF1868B9BB0083623F /* read_handle.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A393185A2582003506C1 /* read_handle.c */; };
+		8D6EBCB01868B9BB0083623F /* read_handle_client.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A395185A2582003506C1 /* read_handle_client.c */; };
+		8D6EBCB11868B9BB0083623F /* read_handle_shared.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A396185A2582003506C1 /* read_handle_shared.c */; };
+		8D6EBCB21868B9BB0083623F /* send_client_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A397185A2582003506C1 /* send_client_mosq.c */; };
+		8D6EBCB31868B9BB0083623F /* send_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A398185A2582003506C1 /* send_mosq.c */; };
+		8D6EBCB41868B9BB0083623F /* thread_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A39A185A2582003506C1 /* thread_mosq.c */; };
+		8D6EBCB51868B9BB0083623F /* time_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A39B185A2582003506C1 /* time_mosq.c */; };
+		8D6EBCB61868B9BB0083623F /* tls_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A39D185A2582003506C1 /* tls_mosq.c */; };
+		8D6EBCB71868B9BB0083623F /* util_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A39F185A2582003506C1 /* util_mosq.c */; };
+		8D6EBCB81868B9BB0083623F /* will_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A3A1185A2582003506C1 /* will_mosq.c */; };
 		8DF2A33C185A24DB003506C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A33B185A24DB003506C1 /* Foundation.framework */; };
-		8DF2A34D185A24DB003506C1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A34C185A24DB003506C1 /* XCTest.framework */; };
-		8DF2A34E185A24DB003506C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A33B185A24DB003506C1 /* Foundation.framework */; };
-		8DF2A350185A24DB003506C1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A34F185A24DB003506C1 /* UIKit.framework */; };
-		8DF2A35B185A24DB003506C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8DF2A359185A24DB003506C1 /* InfoPlist.strings */; };
 		8DF2A375185A2577003506C1 /* CBAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A366185A2577003506C1 /* CBAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DF2A376185A2577003506C1 /* CBCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A367185A2577003506C1 /* CBCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DF2A377185A2577003506C1 /* CBCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A368185A2577003506C1 /* CBCollection.m */; };
@@ -66,23 +85,6 @@
 		8DF2A3C4185A27E4003506C1 /* CBAPI-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A3C3185A27E4003506C1 /* CBAPI-Prefix.pch */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		8DF2A351185A24DB003506C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8DF2A32E185A24DB003506C1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DF2A337185A24DB003506C1;
-			remoteInfo = CBAPI;
-		};
-		8DF2A353185A24DB003506C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8DF2A32E185A24DB003506C1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DF2A337185A24DB003506C1;
-			remoteInfo = CBAPI;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		8D542780185FC5B500E17A34 /* AsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTestCase.h; sourceTree = "<group>"; };
 		8D542781185FC5B500E17A34 /* AsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTestCase.m; sourceTree = "<group>"; };
@@ -91,11 +93,10 @@
 		8D542785185FC5B500E17A34 /* CBQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBQueryTests.m; sourceTree = "<group>"; };
 		8D54278E185FC5BC00E17A34 /* TestCBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCBItem.h; sourceTree = "<group>"; };
 		8D54278F185FC5BC00E17A34 /* TestCBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCBItem.m; sourceTree = "<group>"; };
-		8DF2A338185A24DB003506C1 /* CBAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = CBAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D6EBC6F1868B6EE0083623F /* CBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DF2A338185A24DB003506C1 /* CBAPI_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = CBAPI_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF2A33B185A24DB003506C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8DF2A34B185A24DB003506C1 /* CBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF2A34C185A24DB003506C1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		8DF2A34F185A24DB003506C1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		8DF2A358185A24DB003506C1 /* CBAPITests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CBAPITests-Info.plist"; sourceTree = "<group>"; };
 		8DF2A35A185A24DB003506C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8DF2A366185A2577003506C1 /* CBAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBAPI.h; path = ClearBladeAPI/CBAPI.h; sourceTree = SOURCE_ROOT; };
@@ -148,22 +149,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8D6EBC6C1868B6EE0083623F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D6EBC701868B6EE0083623F /* XCTest.framework in Frameworks */,
+				8D6EBC711868B6EE0083623F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DF2A333185A24DB003506C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8DF2A33C185A24DB003506C1 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DF2A348185A24DB003506C1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8D542791185FC69800E17A34 /* CBAPI.framework in Frameworks */,
-				8DF2A34D185A24DB003506C1 /* XCTest.framework in Frameworks */,
-				8DF2A350185A24DB003506C1 /* UIKit.framework in Frameworks */,
-				8DF2A34E185A24DB003506C1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,8 +182,8 @@
 		8DF2A339185A24DB003506C1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DF2A338185A24DB003506C1 /* CBAPI.framework */,
-				8DF2A34B185A24DB003506C1 /* CBAPITests.xctest */,
+				8DF2A338185A24DB003506C1 /* CBAPI_Framework.framework */,
+				8D6EBC6F1868B6EE0083623F /* CBAPITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -194,7 +193,6 @@
 			children = (
 				8DF2A33B185A24DB003506C1 /* Foundation.framework */,
 				8DF2A34C185A24DB003506C1 /* XCTest.framework */,
-				8DF2A34F185A24DB003506C1 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -331,9 +329,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DF2A337185A24DB003506C1 /* CBAPI */ = {
+		8D6EBC6E1868B6EE0083623F /* CBAPITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8DF2A360185A24DB003506C1 /* Build configuration list for PBXNativeTarget "CBAPI" */;
+			buildConfigurationList = 8D6EBC801868B6EE0083623F /* Build configuration list for PBXNativeTarget "CBAPITests" */;
+			buildPhases = (
+				8D6EBC6B1868B6EE0083623F /* Sources */,
+				8D6EBC6C1868B6EE0083623F /* Frameworks */,
+				8D6EBC6D1868B6EE0083623F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CBAPITests;
+			productName = CBAPITests;
+			productReference = 8D6EBC6F1868B6EE0083623F /* CBAPITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8DF2A337185A24DB003506C1 /* CBAPI_Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8DF2A360185A24DB003506C1 /* Build configuration list for PBXNativeTarget "CBAPI_Framework" */;
 			buildPhases = (
 				8DF2A332185A24DB003506C1 /* Sources */,
 				8DF2A333185A24DB003506C1 /* Frameworks */,
@@ -345,29 +360,10 @@
 			);
 			dependencies = (
 			);
-			name = CBAPI;
+			name = CBAPI_Framework;
 			productName = CBAPI;
-			productReference = 8DF2A338185A24DB003506C1 /* CBAPI.framework */;
+			productReference = 8DF2A338185A24DB003506C1 /* CBAPI_Framework.framework */;
 			productType = "com.apple.product-type.framework.static";
-		};
-		8DF2A34A185A24DB003506C1 /* CBAPITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8DF2A363185A24DB003506C1 /* Build configuration list for PBXNativeTarget "CBAPITests" */;
-			buildPhases = (
-				8DF2A347185A24DB003506C1 /* Sources */,
-				8DF2A348185A24DB003506C1 /* Frameworks */,
-				8DF2A349185A24DB003506C1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8DF2A352185A24DB003506C1 /* PBXTargetDependency */,
-				8DF2A354185A24DB003506C1 /* PBXTargetDependency */,
-			);
-			name = CBAPITests;
-			productName = CBAPITests;
-			productReference = 8DF2A34B185A24DB003506C1 /* CBAPITests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -378,7 +374,7 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Clearblade;
 				TargetAttributes = {
-					8DF2A34A185A24DB003506C1 = {
+					8D6EBC6E1868B6EE0083623F = {
 						TestTargetID = 8DF2A337185A24DB003506C1;
 					};
 				};
@@ -395,25 +391,24 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8DF2A337185A24DB003506C1 /* CBAPI */,
-				8DF2A34A185A24DB003506C1 /* CBAPITests */,
+				8DF2A337185A24DB003506C1 /* CBAPI_Framework */,
+				8D6EBC6E1868B6EE0083623F /* CBAPITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8DF2A335185A24DB003506C1 /* Resources */ = {
+		8D6EBC6D1868B6EE0083623F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8DF2A349185A24DB003506C1 /* Resources */ = {
+		8DF2A335185A24DB003506C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DF2A35B185A24DB003506C1 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +431,40 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8D6EBC6B1868B6EE0083623F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D6EBCA31868B9BB0083623F /* CBCollection.m in Sources */,
+				8D6EBCA41868B9BB0083623F /* CBHTTPRequest.m in Sources */,
+				8D6EBCA51868B9BB0083623F /* CBItem.m in Sources */,
+				8D6EBCA61868B9BB0083623F /* CBMessage.m in Sources */,
+				8D6EBCA71868B9BB0083623F /* CBMessageClient.m in Sources */,
+				8D6EBCA81868B9BB0083623F /* CBQuery.m in Sources */,
+				8D6EBCA91868B9BB0083623F /* ClearBlade.m in Sources */,
+				8D6EBCAA1868B9BB0083623F /* logging_mosq.c in Sources */,
+				8D6EBCAB1868B9BB0083623F /* memory_mosq.c in Sources */,
+				8D6EBCAC1868B9BB0083623F /* messages_mosq.c in Sources */,
+				8D6EBCAD1868B9BB0083623F /* mosquitto.c in Sources */,
+				8D6EBCAE1868B9BB0083623F /* net_mosq.c in Sources */,
+				8D6EBCAF1868B9BB0083623F /* read_handle.c in Sources */,
+				8D6EBCB01868B9BB0083623F /* read_handle_client.c in Sources */,
+				8D6EBCB11868B9BB0083623F /* read_handle_shared.c in Sources */,
+				8D6EBCB21868B9BB0083623F /* send_client_mosq.c in Sources */,
+				8D6EBCB31868B9BB0083623F /* send_mosq.c in Sources */,
+				8D6EBCB41868B9BB0083623F /* thread_mosq.c in Sources */,
+				8D6EBCB51868B9BB0083623F /* time_mosq.c in Sources */,
+				8D6EBCB61868B9BB0083623F /* tls_mosq.c in Sources */,
+				8D6EBCB71868B9BB0083623F /* util_mosq.c in Sources */,
+				8D6EBCB81868B9BB0083623F /* will_mosq.c in Sources */,
+				8D6EBC991868B7F20083623F /* AsyncTestCase.m in Sources */,
+				8D6EBC9A1868B7F20083623F /* CBItemTests.m in Sources */,
+				8D6EBC9B1868B7F20083623F /* CBMessageClientTests.m in Sources */,
+				8D6EBC9C1868B7F20083623F /* CBQueryTests.m in Sources */,
+				8D6EBC9D1868B7F20083623F /* TestCBItem.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DF2A332185A24DB003506C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -465,32 +494,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8DF2A347185A24DB003506C1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8D54278B185FC5B500E17A34 /* CBMessageClientTests.m in Sources */,
-				8D542790185FC5BC00E17A34 /* TestCBItem.m in Sources */,
-				8D542788185FC5B500E17A34 /* AsyncTestCase.m in Sources */,
-				8D54278A185FC5B500E17A34 /* CBItemTests.m in Sources */,
-				8D54278C185FC5B500E17A34 /* CBQueryTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8DF2A352185A24DB003506C1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DF2A337185A24DB003506C1 /* CBAPI */;
-			targetProxy = 8DF2A351185A24DB003506C1 /* PBXContainerItemProxy */;
-		};
-		8DF2A354185A24DB003506C1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DF2A337185A24DB003506C1 /* CBAPI */;
-			targetProxy = 8DF2A353185A24DB003506C1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8DF2A359185A24DB003506C1 /* InfoPlist.strings */ = {
@@ -504,6 +508,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8D6EBC811868B6EE0083623F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CBAPI-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "CBAPITests/CBAPITests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		8D6EBC821868B6EE0083623F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CBAPI-Prefix.pch";
+				INFOPLIST_FILE = "CBAPITests/CBAPITests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		8DF2A35E185A24DB003506C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -612,51 +656,18 @@
 			};
 			name = Release;
 		};
-		8DF2A364185A24DB003506C1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CBAPI.framework/Versions/A/CBAPI";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CBAPI-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "CBAPITests/CBAPITests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		8DF2A365185A24DB003506C1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CBAPI.framework/Versions/A/CBAPI";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CBAPI-Prefix.pch";
-				INFOPLIST_FILE = "CBAPITests/CBAPITests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8D6EBC801868B6EE0083623F /* Build configuration list for PBXNativeTarget "CBAPITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D6EBC811868B6EE0083623F /* Debug */,
+				8D6EBC821868B6EE0083623F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8DF2A331185A24DB003506C1 /* Build configuration list for PBXProject "CBAPI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -666,20 +677,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8DF2A360185A24DB003506C1 /* Build configuration list for PBXNativeTarget "CBAPI" */ = {
+		8DF2A360185A24DB003506C1 /* Build configuration list for PBXNativeTarget "CBAPI_Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8DF2A361185A24DB003506C1 /* Debug */,
 				8DF2A362185A24DB003506C1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8DF2A363185A24DB003506C1 /* Build configuration list for PBXNativeTarget "CBAPITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8DF2A364185A24DB003506C1 /* Debug */,
-				8DF2A365185A24DB003506C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

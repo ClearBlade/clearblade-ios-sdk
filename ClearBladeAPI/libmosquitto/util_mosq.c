@@ -245,8 +245,8 @@ int mosquitto_topic_matches_sub(const char *sub, const char *topic, bool *result
 		return rc;
 	}
 
-	slen = strlen(local_sub);
-	tlen = strlen(local_topic);
+	slen = (int)strlen(local_sub);
+	tlen = (int)strlen(local_topic);
 
 	spos = 0;
 	tpos = 0;

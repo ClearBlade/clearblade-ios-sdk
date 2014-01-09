@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "CBHTTPRequest.h"
 #define STRING_COLUMN @"stringcolumn"
 #define MAIN_COMPLETION @"main"
 #define PROD
@@ -35,11 +36,7 @@
 
 
 //Used for travis builds
-@interface NSURLRequest (HttpsIgnore)
--(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host;
-@end
-
-@implementation NSURL (HttpsIgnore)
+@implementation CBHTTPRequest (HttpsIgnore)
 -(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host {
     return YES;
 }

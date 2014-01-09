@@ -32,3 +32,15 @@
 //Resets the key after it completes
 -(void)waitForAsyncCompletion:(NSString *)completionKey;
 @end
+
+
+//Used for travis builds
+@interface NSURLRequest (HttpsIgnore)
+-(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host;
+@end
+
+@implementation NSURL (HttpsIgnore)
+-(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host {
+    return YES;
+}
+@end

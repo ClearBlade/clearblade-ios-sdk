@@ -116,10 +116,10 @@
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
-        
+        NSURLRequest * completedRequest = (NSURLRequest *) apiRequest;
         id JSON;
         if (!error && httpResponse.statusCode != 200) {
-            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:nil];
+            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:@{@"request": completedRequest}];
         }
         if (!error) {
             JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];

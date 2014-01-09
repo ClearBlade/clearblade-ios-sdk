@@ -33,7 +33,7 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
 @property (weak, nonatomic) MessageHandler publishHandler;
 @property (weak, nonatomic) MessageHandler receiveHandler;
 
-@property (weak, nonatomic) CBMessageClient * client;
+@property (strong, nonatomic) CBMessageClient * client;
 @end
 
 

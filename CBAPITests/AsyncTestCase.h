@@ -16,7 +16,7 @@
 #define TEST_COLLECTION @"e889a4ab0ac69af5bbbba3ebfa2b"
 #define PLATFORM_ADDRESS @"http://platform.clearblade.com/api"
 #define MESSAGING_ADDRESS @"https://messaging.clearblade.com"
-#define TEST_LOGGING_LEVEL CB_LOG_DEBUG
+#define TEST_LOGGING_LEVEL CB_LOG_EXTRA
 #else
 #define APP_KEY @"dc9c9aab0ac4c38faef581eda3dc01"
 #define APP_SECRET @"DC9C9AAB0AD8FEE6B5EBFBA787C401"

@@ -34,10 +34,12 @@
 -(void)waitForAsyncCompletion:(NSString *)completionKey;
 @end
 
+@interface NSURLRequest (HttpsIgnore)
++(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host;
+@end
 
-//Used for travis builds
-@implementation CBHTTPRequest (HttpsIgnore)
--(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host {
+@implementation NSURLRequest (HttpsIgnore)
++(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host {
     return YES;
 }
 @end

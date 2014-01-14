@@ -73,9 +73,10 @@
         [self insertItem:nextItem];
         [items addObject:nextItem];
         [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-         fetchWithSuccessCallback:^(NSMutableArray * items) {
+         fetchWithSuccessCallback:^(NSMutableArray * foundItems) {
              bool isItemInArray[items.count];
-             for (CBItem * item in items) {
+             
+             for (CBItem * item in foundItems) {
                  TestCBItem * testItem = [TestCBItem itemFromCBItem:item];
                  for (int isItemIndex = 0; isItemIndex < items.count; isItemIndex++) {
                      if ([[items objectAtIndex:isItemIndex] isEqualToCBItem:testItem]) {
@@ -91,7 +92,9 @@
                  XCTAssertTrue([itemId isKindOfClass:[NSString class]],
                                @"Item id should be a string, received a %@", [itemId class]);
                  XCTAssertFalse([itemIdSet containsObject:itemId], @"item id %@ returned multiple times", itemId);
-                 [itemIdSet addObject:itemId];
+                 if (itemId) {
+                     [itemIdSet addObject:itemId];
+                 }
              }
              [self signalAsyncComplete:MAIN_COMPLETION];
          } withErrorCallback:^(NSError *error, id JSON) {

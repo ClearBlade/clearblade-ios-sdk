@@ -116,21 +116,25 @@
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
-        
+        NSURLRequest * completedRequest = (NSURLRequest *) apiRequest;
         id JSON;
         if (!error && httpResponse.statusCode != 200) {
-            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:nil];
+            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:@{@"request": completedRequest}];
         }
         if (!error) {
             JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         }
         if (error) {
+            NSString * text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            
             if (failureCallback) {
-                failureCallback(error, data);
+                failureCallback([NSError errorWithDomain:text
+                                                    code:httpResponse.statusCode
+                                                userInfo:nil], data);
             }
             return;
         }
-        NSMutableArray * responseItems = [NSMutableArray array];
+        NSMutableArray * responseItems;
         if ([JSON isKindOfClass:[NSDictionary class]]) {
             responseItems = @[JSON].mutableCopy;
         } else {
@@ -169,6 +173,7 @@
                                                                error:NULL];
     [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    CBLogDebug(@"Executing Update with %@ and changes %@", self, changes);
     [self executeRequest:updateRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
@@ -180,6 +185,7 @@
                                                                                             error:NULL]
                                                  encoding:NSUTF8StringEncoding];
     NSMutableURLRequest *removeRequest = [self requestWithMethod:@"DELETE" withParameters:@{@"query": jsonString}];
+    CBLogDebug(@"Executing remove with %@", self);
     [self executeRequest:removeRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
@@ -206,13 +212,16 @@
     return finalOrArray;
 }
 -(void)insertItem:(CBItem *)item
+intoCollectionWithID:(NSString *)collectionID
 withSuccessCallback:(CBQuerySuccessCallback)successCallback
-  withErrorCallback:(CBQueryErrorCallback)errorCallback {
+withErrorCallback:(CBQueryErrorCallback)errorCallback {
+    item.collectionID = collectionID;
     NSMutableURLRequest *insertRequest = [self requestWithMethod:@"POST" withParameters:nil];
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[self dictionaryValuesToStrings:item.data] options:0 error:NULL];
     [insertRequest setHTTPBody:jsonData];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    CBLogDebug(@"Inserting %@ into collection %@", item, collectionID);
     [self executeRequest:insertRequest withSuccessCallback:successCallback withFailureCallback:errorCallback];
 }
 

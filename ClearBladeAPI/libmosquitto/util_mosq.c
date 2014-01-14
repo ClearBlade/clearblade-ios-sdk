@@ -189,6 +189,11 @@ uint16_t _mosquitto_mid_generate(struct mosquitto *mosq)
 	
 	return mosq->last_mid;
 }
+uint16_t mosquitto_mid_peek(struct mosquitto *mosq)
+{
+    assert(mosq);
+    return mosq->last_mid + 1;
+}
 
 /* Search for + or # in a topic. Return MOSQ_ERR_INVAL if found.
  * Also returns MOSQ_ERR_INVAL if the topic string is too long.
@@ -240,8 +245,8 @@ int mosquitto_topic_matches_sub(const char *sub, const char *topic, bool *result
 		return rc;
 	}
 
-	slen = strlen(local_sub);
-	tlen = strlen(local_topic);
+	slen = (int)strlen(local_sub);
+	tlen = (int)strlen(local_topic);
 
 	spos = 0;
 	tpos = 0;

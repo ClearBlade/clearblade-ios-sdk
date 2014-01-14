@@ -73,9 +73,10 @@
         [self insertItem:nextItem];
         [items addObject:nextItem];
         [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-         fetchWithSuccessCallback:^(NSMutableArray * items) {
+         fetchWithSuccessCallback:^(NSMutableArray * foundItems) {
              bool isItemInArray[items.count];
-             for (CBItem * item in items) {
+             
+             for (CBItem * item in foundItems) {
                  TestCBItem * testItem = [TestCBItem itemFromCBItem:item];
                  for (int isItemIndex = 0; isItemIndex < items.count; isItemIndex++) {
                      if ([[items objectAtIndex:isItemIndex] isEqualToCBItem:testItem]) {
@@ -91,7 +92,9 @@
                  XCTAssertTrue([itemId isKindOfClass:[NSString class]],
                                @"Item id should be a string, received a %@", [itemId class]);
                  XCTAssertFalse([itemIdSet containsObject:itemId], @"item id %@ returned multiple times", itemId);
-                 [itemIdSet addObject:itemId];
+                 if (itemId) {
+                     [itemIdSet addObject:itemId];
+                 }
              }
              [self signalAsyncComplete:MAIN_COMPLETION];
          } withErrorCallback:^(NSError *error, id JSON) {
@@ -134,8 +137,10 @@
     
     [self.defaultQuery fetchWithSuccessCallback:^(NSMutableArray * array) {
         XCTAssertTrue([array count] == 1, @"Should be single response to equal to Test One");
-        CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
-        XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
+        if (array.count == 1) {
+            CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
+            XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
+        }
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);

@@ -116,10 +116,10 @@
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
-        
+        NSURLRequest * completedRequest = (NSURLRequest *) apiRequest;
         id JSON;
         if (!error && httpResponse.statusCode != 200) {
-            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:nil];
+            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:@{@"request": completedRequest}];
         }
         if (!error) {
             JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -221,7 +221,7 @@ withErrorCallback:(CBQueryErrorCallback)errorCallback {
     [insertRequest setHTTPBody:jsonData];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    CBLogDebug(@"Inserting %@ into collection %@", collectionID);
+    CBLogDebug(@"Inserting %@ into collection %@", item, collectionID);
     [self executeRequest:insertRequest withSuccessCallback:successCallback withFailureCallback:errorCallback];
 }
 

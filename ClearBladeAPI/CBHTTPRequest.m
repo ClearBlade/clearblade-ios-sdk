@@ -7,15 +7,29 @@
 //
 
 #import "CBHTTPRequest.h"
+#import "CBUser.h"
 
 @implementation CBHTTPRequest
 @synthesize settings = _settings;
+@synthesize user = _user;
 
-+(instancetype)requestWithMethod:(NSString *)method withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters {
++(instancetype)requestWithMethod:(NSString *)method withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters withUser:(CBUser *)user {
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
                                                   withMethod:method
                                               withCollection:collectionID
-                                              withParameters:parameters];
+                                              withParameters:parameters
+                                                    withUser:user];
+}
+
++(instancetype)userRequestWithMethod:(NSString *)method
+                          withAction:(NSString *)action
+                            withBody:(NSDictionary *)body
+                         withHeaders:(NSDictionary *)headers {
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
+                                                  withMethod:method
+                                                  withAction:action
+                                                    withBody:body
+                                                 withHeaders:headers];
 }
 
 -(NSString *)encodeQuery:(NSString *)query {
@@ -42,7 +56,8 @@
 -(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
                                withMethod:(NSString *)method
                            withCollection:(NSString *)collectionID
-                           withParameters:(NSDictionary *)params {
+                           withParameters:(NSDictionary *)params
+                                 withUser:(CBUser *)user {
     NSString * paramString = params[@"query"];
     if (paramString) {
         NSString * query = [self encodeQuery:paramString];
@@ -56,10 +71,47 @@
     if (self) {
         self.HTTPMethod = method;
         self.settings = settings;
+        self.user = user;
     }
     return self;
 }
 
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
+                               withMethod:(NSString *)method
+                               withAction:(NSString *)action
+                                 withBody:(NSDictionary *)body
+                              withHeaders:(NSDictionary *)headers {
+    NSURL * url = [[NSURL URLWithString:[settings serverAddress]] URLByAppendingPathComponent:action];
+    NSError * error = nil;
+    NSData * bodyData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&error];
+    
+    
+    self = [super initWithURL:url];
+    if (self) {
+        self.settings = settings;
+        for (id key in headers.keyEnumerator) {
+            [self setValue:key forKey:[headers objectForKey:key]];
+        }
+        self.HTTPMethod = method;
+        self.HTTPBody = bodyData;
+        if (error) {
+            CBLogWarning(@"Request <%@> failed to initialize body <%@> with error <%@>", self, body, error);
+        }
+    }
+    return self;
+}
+
+-(CBUser *)user {
+    @synchronized (_user) {
+        return _user;
+    }
+}
+-(void)setUser:(CBUser *)user {
+    @synchronized (_user) {
+        _user = user;
+        [self setValue:[user authToken] forHTTPHeaderField:@"ClearBlade-UserToken"];
+    }
+}
 
 -(ClearBlade *)settings {
     ClearBlade * settingsRef = _settings;
@@ -72,10 +124,50 @@
 }
 
 -(void)setSettings:(ClearBlade *)settings {
-    [self setAllHTTPHeaderFields:@{ @"ClearBlade-AppKey": [settings appKey],
-                                    @"ClearBlade-AppSecret": [settings appSecret],
-                                    }];
+    [self setValue:[settings appKey] forHTTPHeaderField:@"ClearBlade-AppKey"];
+    [self setValue:[settings appSecret] forHTTPHeaderField:@"ClearBlade-AppSecret"];
     _settings = settings;
+}
+-(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {
+    void (^completionHandler)(NSURLResponse *, NSData *, NSError *) =^(NSURLResponse *response, NSData *data, NSError * connectionError) {
+        NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
+        if (connectionError) {
+            if (errorCallback) {
+                errorCallback(connectionError);
+            }
+        } else if (httpResponse.statusCode != 200) {
+            connectionError = [NSError errorWithDomain:@"Unable to complete request because of status code"
+                                                  code:httpResponse.statusCode
+                                              userInfo:nil];
+            if (errorCallback) {
+                errorCallback(connectionError);
+            }
+        }
+        if (connectionError) {
+            return;
+        }
+        
+        if (successCallback) {
+            successCallback(data);
+        }
+    };
+    [NSURLConnection sendAsynchronousRequest:self
+                                       queue:[NSOperationQueue currentQueue]
+                           completionHandler:completionHandler];
+}
+
+-(NSData *)executeWithError:(NSError *__autoreleasing *)error {
+    NSHTTPURLResponse * requestResponse = nil;
+    NSError * requestError = nil;
+    NSData * requestData = [NSURLConnection sendSynchronousRequest:self returningResponse:&requestResponse error:&requestError];
+    if (requestError) {
+        *error = requestError;
+    } else if (requestResponse.statusCode != 200) {
+        *error = [NSError errorWithDomain:@"Request failed because of statusCode" code:requestResponse.statusCode userInfo:nil];
+    } else {
+        return requestData;
+    }
+    return nil;
 }
 
 @end

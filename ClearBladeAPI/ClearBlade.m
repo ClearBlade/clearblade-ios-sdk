@@ -9,7 +9,10 @@
  *******************************************************************************/
 
 #import "ClearBlade.h"
+#import "CBUser.h"
 #define CB_DEFAULT_LOGGING CB_LOG_WARN
+
+@class ClearBladeSettingsBuilderImpl;
 
 static ClearBlade * _settings = nil;
 
@@ -18,8 +21,20 @@ static ClearBlade * _settings = nil;
                 withAppSecret:(NSString *)secret
             withServerAddress:(NSString *)serverAddress
          withMessagingAddress:(NSString *)messagingAddress
+                     withMainUser:(CBUser *)user
              withLoggingLevel:(CBLoggingLevel)loggingLevel;
 @property (strong, nonatomic) NSNumber * nextID;
+@end
+
+@interface ClearBladeSettingsBuilderImpl : NSObject <ClearBladeSettingsBuilder>
+-(instancetype)initWithSettingsPointer:(ClearBlade *__strong*)settingsPointer;
+@property ClearBlade *__strong * settingsPointer;
+@property (strong, nonatomic) NSString * appKey;
+@property (strong, nonatomic) NSString * appSecret;
+@property (strong, nonatomic) NSString * serverAddress;
+@property (strong, nonatomic) NSString * messagingAddress;
+@property (strong, nonatomic) CBUser * mainUser;
+@property (strong, nonatomic) NSNumber * loggingLevelNumber;
 @end
 
 @implementation ClearBlade
@@ -34,44 +49,19 @@ static ClearBlade * _settings = nil;
     }
 }
 
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret {
-    return [ClearBlade initSettingsWithAppKey:key withAppSecret:secret withLoggingLevel:CB_DEFAULT_LOGGING];
++(instancetype)initSettingsSyncWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withError:(NSError *__autoreleasing *)error {
+    return [[[ClearBlade initSettingsWithBuilder] withAppKey:key withAppSecret:secret] runSyncWithError:error];
 }
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withLoggingLevel:(CBLoggingLevel)loggingLevel {
-    return  [ClearBlade  initSettingsWithAppKey:key
-                                  withAppSecret:secret
-                              withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS
-                           withMessagingAddress:CB_DEFAULT_MESSAGING
-                               withLoggingLevel:loggingLevel];
-}
-
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address {
-    return [ClearBlade initSettingsWithAppKey:key withAppSecret:secret withServerAddress:address withLoggingLevel:CB_DEFAULT_LOGGING];
-}
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withLoggingLevel:(CBLoggingLevel)loggingLevel {
-    return [ClearBlade initSettingsWithAppKey:key
-                                withAppSecret:secret
-                            withServerAddress:address
-                         withMessagingAddress:CB_DEFAULT_MESSAGING
-                             withLoggingLevel:loggingLevel];
++(void)initSettingsWithAppKey:(NSString *)key
+                        withAppSecret:(NSString *)secret
+                  withSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
+                    withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback {
+    [[[ClearBlade initSettingsWithBuilder] withAppKey:key withAppSecret:secret]
+     runWithSuccessCallback:successCallback withErrorCallback:errorCallback];
 }
 
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress {
-    return [ClearBlade initSettingsWithAppKey:key
-                                withAppSecret:secret
-                            withServerAddress:address
-                         withMessagingAddress:messagingAddress
-                             withLoggingLevel:CB_DEFAULT_LOGGING];
-}
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress withLoggingLevel:(CBLoggingLevel)loggingLevel {
-    @synchronized (_settings) {
-        _settings = [[ClearBlade alloc] initWithAppKey:key
-                                         withAppSecret:secret
-                                     withServerAddress:address
-                                  withMessagingAddress:messagingAddress
-                                      withLoggingLevel:loggingLevel];
-        return _settings;
-    }
++(id<ClearBladeSettingsBuilder>)initSettingsWithBuilder {
+    return [[ClearBladeSettingsBuilderImpl alloc] initWithSettingsPointer:&_settings];
 }
 
 @synthesize appSecret = _appSecret;
@@ -80,7 +70,7 @@ static ClearBlade * _settings = nil;
 @synthesize messagingAddress = _messagingAddress;
 @synthesize nextID = _nextID;
 
--(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress withLoggingLevel:(CBLoggingLevel)loggingLevel {
+-(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress withMainUser:(CBUser *)user withLoggingLevel:(CBLoggingLevel)loggingLevel {
     self = [super init];
     if (self) {
         _appKey = key;
@@ -88,6 +78,7 @@ static ClearBlade * _settings = nil;
         self.serverAddress = serverAddress;
         self.messagingAddress = messagingAddress;
         self.loggingLevel = loggingLevel;
+        self.mainUser = user;
     }
     return self;
 }
@@ -166,4 +157,131 @@ static ClearBlade * _settings = nil;
     }
 }
 
+@end
+
+
+
+@implementation ClearBladeSettingsBuilderImpl
+@synthesize settingsPointer = _settingsPointer;
+@synthesize appKey = _appKey;
+@synthesize appSecret = _appSecret;
+@synthesize serverAddress = _serverAddress;
+@synthesize messagingAddress = _messagingAddress;
+@synthesize mainUser = _mainUser;
+@synthesize loggingLevelNumber = _loggingLevelNumber;
+
+-(instancetype)initWithSettingsPointer:(ClearBlade *__strong*)settingsPointer {
+    self = [super init];
+    if (self) {
+        self.settingsPointer = settingsPointer;
+    }
+    return self;
+}
+-(instancetype)withAppKey:(NSString *)appKey withAppSecret:(NSString *)appSecret {
+    self.appKey = appKey;
+    self.appSecret = appSecret;
+    return self;
+}
+-(instancetype)withServerAddress:(NSString *)serverAddress {
+    self.serverAddress = serverAddress;
+    return self;
+}
+-(instancetype)withMessagingAddress:(NSString *)messagingAddress {
+    self.messagingAddress = messagingAddress;
+    return self;
+}
+
+-(instancetype)withMainUser:(CBUser *)mainUser {
+    self.mainUser = mainUser;
+    return self;
+}
+
+-(instancetype)withLoggingLevel:(CBLoggingLevel)loggingLevel {
+    self.loggingLevelNumber = @(loggingLevel);
+    return self;
+}
+-(NSString *)serverAddress {
+    if (!_serverAddress) {
+        _serverAddress = CB_DEFAULT_PLATFORM_ADDRESS;
+    }
+    return _serverAddress;
+}
+-(NSString *)messagingAddress {
+    if (!_messagingAddress) {
+        _messagingAddress = CB_DEFAULT_MESSAGING;
+    }
+    return _messagingAddress;
+}
+-(CBLoggingLevel)loggingLevel {
+    if (!self.loggingLevelNumber) {
+        self.loggingLevelNumber = @(CB_DEFAULT_LOGGING);
+    }
+    return (CBLoggingLevel)[self.loggingLevelNumber intValue];
+}
+
+-(void)runWithSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
+            withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback {
+    NSError * error;
+    if (![self validateAppKeyAndAppSecretWithError:&error]) {
+        CBLogError(@"Failed to init ClearBlade Settings with error <%@>", error);
+        if (errorCallback) {
+            errorCallback(error);
+        }
+    } else if (!self.mainUser) {
+        [CBUser anonymousUserWithSuccessCallback:^(CBUser * user) {
+            self.mainUser = user;
+            ClearBlade * settings = [self createClearBladeSettings];
+            if (successCallback) {
+                successCallback(settings);
+            }
+        } withErrorCallback:^(NSError * error) {
+            CBLogError(@"Failed to authenticate anonymous user with error <%@>", error);
+            if (errorCallback) {
+                errorCallback(error);
+            }
+        }];
+    } else {
+        ClearBlade * settings = [self createClearBladeSettings];
+        if (successCallback) {
+            successCallback(settings);
+        }
+    }
+    
+}
+
+-(bool)validateAppKeyAndAppSecretWithError:(NSError **)error {
+    if (!self.appKey) {
+        *error = [NSError errorWithDomain:@"App Key must be set to authenticate with server" code:1 userInfo:nil];
+        return false;
+    }
+    else if (!self.appSecret) {
+        *error = [NSError errorWithDomain:@"App Secret must be set to authenticate with server" code:2 userInfo:nil];
+        return false;
+    }
+    return true;
+}
+
+
+-(ClearBlade *)createClearBladeSettings {
+    @synchronized(*self.settingsPointer) {
+        return *self.settingsPointer = [[ClearBlade alloc] initWithAppKey:self.appKey
+                                                            withAppSecret:self.appSecret
+                                                        withServerAddress:self.serverAddress
+                                                     withMessagingAddress:self.messagingAddress
+                                                             withMainUser:self.mainUser
+                                                         withLoggingLevel:self.loggingLevel];
+    }
+}
+
+
+-(ClearBlade *)runSyncWithError:(NSError **)error {
+    if ([self validateAppKeyAndAppSecretWithError:error] && !self.mainUser) {
+        self.mainUser = [CBUser anonymousUserWithError:error];
+    }
+    
+    if (*error) {
+        return nil;
+    }
+    return [self createClearBladeSettings];
+}
 @end

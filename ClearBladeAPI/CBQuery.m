@@ -31,6 +31,7 @@
 @synthesize OR = _OR;
 @synthesize query = _query;
 @synthesize collectionID = _collectionID;
+@synthesize user = _user;
 
 +(CBQuery *)queryWithCollectionID:(NSString *)collectionID {
     return [[CBQuery alloc] initWithCollectionID:collectionID];
@@ -108,7 +109,14 @@
 }
 
 -(NSMutableURLRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
-    return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters];
+    return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters withUser:self.user];
+}
+
+-(CBUser *)user {
+    if (!_user) {
+        _user = [[ClearBlade settings] mainUser];
+    }
+    return _user;
 }
 
 -(void)executeRequest:(NSURLRequest *)apiRequest

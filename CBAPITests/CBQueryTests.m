@@ -88,7 +88,7 @@
              for (int isItemIndex = 0; isItemIndex < items.count; isItemIndex++) {
                  XCTAssertTrue(isItemInArray[isItemIndex], @"%@ should be in fetch return: %@",
                                [items objectAtIndex:isItemIndex], items);
-                 NSString * itemId = [[items objectAtIndex:isItemIndex] itemID];
+                 NSString * itemId = [[foundItems objectAtIndex:isItemIndex] itemID];
                  XCTAssertTrue([itemId isKindOfClass:[NSString class]],
                                @"Item id should be a string, received a %@", [itemId class]);
                  XCTAssertFalse([itemIdSet containsObject:itemId], @"item id %@ returned multiple times", itemId);

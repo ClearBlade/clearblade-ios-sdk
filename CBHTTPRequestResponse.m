@@ -37,14 +37,23 @@
 -(NSString *)description {
     NSString * reqHeaders = [self dataToString:[NSJSONSerialization dataWithJSONObject:self.request.allHTTPHeaderFields options:0 error:NULL]];
     NSString * resHeaders = [self dataToString:[NSJSONSerialization dataWithJSONObject:self.response.allHeaderFields options:0 error:NULL]];
+    NSString * reqData = [self dataToString:self.request.HTTPBody];
+    NSString * resData = self.responseString;
+    
+    if ([reqData hasSuffix:@"\n"]) {
+        reqData = [reqData substringToIndex:reqData.length - 1];
+    }
+    if ([resData hasSuffix:@"\n"]) {
+        resData = [resData substringToIndex:resData.length - 1];
+    }
     return [NSString stringWithFormat:
             CB_LOG_DIVIDER @"\n"
             @"Request URL <%@>\nRequest Body <%@>\nRequest Method <%@>\nRequest Headers <%@>\n"
             @"Response Status Code <%@>\nResponse Body <%@>\nResponse Headers <%@>\n"
             CB_LOG_DIVIDER,
-            self.request.URL, [self dataToString:self.request.HTTPBody],
+            self.request.URL,reqData,
             self.request.HTTPMethod, reqHeaders,
-            @(self.response.statusCode), [self dataToString:self.responseData], resHeaders];
+            @(self.response.statusCode), resData, resHeaders];
 }
 
 @end

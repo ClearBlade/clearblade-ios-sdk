@@ -61,16 +61,20 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
-- (void)testMultipleReturnedFetch {
-    NSMutableArray * items = [NSMutableArray array];
-    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(NSArray * items) {
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    } withErrorCallback:^(NSError *error, id JSON) {
+- (void)removeItemWithStringColumn:(NSString *)stringColumn {
+    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:stringColumn for:[TestCBItem stringColumnName]]
+     removeWithSuccessCallback:^(NSMutableArray *data) {
+         [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Unexpected error %@", error);
         [self signalAsyncComplete:MAIN_COMPLETION];
     }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
+}
+
+- (void)testMultipleReturnedFetch {
+    NSMutableArray * items = [NSMutableArray array];
+    [self removeItemWithStringColumn:@"TEST"];
     for (int i = 0; i < 5; i++) {
         TestCBItem * nextItem = [TestCBItem itemWithStringColumn:@"TEST" withIntColumn:i withCollectionID:TEST_COLLECTION];
         [self insertItem:nextItem];
@@ -107,26 +111,13 @@
         [self waitForAsyncCompletion:MAIN_COMPLETION];
     }
     
-    
-    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]] removeWithSuccessCallback:^(NSArray * items) {
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    } withErrorCallback:^(NSError *error, id JSON) {
-        XCTFail(@"Unexpected error %@", error);
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    }];
-    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self removeItemWithStringColumn:@"TEST"];
 }
 
 - (void)testSingleArgumentFetch {
+    [self removeItemWithStringColumn:@"TEST"];
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST"
                                            withIntColumn:5 withCollectionID:TEST_COLLECTION];
-    [[[CBQuery queryWithCollectionID:item.collectionID] equalTo:@"TEST" for:item.stringColumnName] removeWithSuccessCallback:^(NSArray * items) {
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    } withErrorCallback:^(NSError * error, id JSON) {
-        XCTFail(@"Threw unexpected error %@", error);
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    }];
-    [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [item saveWithSuccessCallback:^(CBItem *item) {
         [self signalAsyncComplete:MAIN_COMPLETION];
@@ -150,13 +141,7 @@
         [self signalAsyncComplete:MAIN_COMPLETION];
     }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
-    [self.defaultQuery removeWithSuccessCallback:^(NSMutableArray * array) {
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    } withErrorCallback:^(NSError * error, id JSON) {
-        XCTFail(@"Threw unexpected error %@", error);
-        [self signalAsyncComplete:MAIN_COMPLETION];
-    }];
-    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self removeItemWithStringColumn:@"TEST"];
 }
 
 - (void)testRemoval {
@@ -167,14 +152,7 @@
                         [TestCBItem itemWithStringColumn:@"TEST_REMOVE"
                                            withIntColumn:7 withCollectionID:TEST_COLLECTION]];
     
-    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(NSMutableArray *removed) {
-         [self signalAsyncComplete:MAIN_COMPLETION];
-     } withErrorCallback:^(NSError * error, id JSON) {
-         XCTFail(@"Threw unexpected error %@", error);
-         [self signalAsyncComplete:MAIN_COMPLETION];
-     }];
-    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self removeItemWithStringColumn:@"TEST_REMOVE"];
     
     for (TestCBItem * item in items) {
         [self insertItem:item];

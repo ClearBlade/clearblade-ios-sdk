@@ -228,7 +228,8 @@ static ClearBlade * _settings = nil;
             errorCallback(error);
         }
     } else if (!self.mainUser) {
-        [CBUser anonymousUserWithSuccessCallback:^(CBUser * user) {
+        ClearBlade * settings = [self createClearBladeSettings];
+        [CBUser anonymousUserWithSettings:settings withSuccessCallback:^(CBUser * user) {
             self.mainUser = user;
             ClearBlade * settings = [self createClearBladeSettings];
             if (successCallback) {
@@ -263,25 +264,24 @@ static ClearBlade * _settings = nil;
 
 
 -(ClearBlade *)createClearBladeSettings {
-    @synchronized(*self.settingsPointer) {
-        return *self.settingsPointer = [[ClearBlade alloc] initWithAppKey:self.appKey
-                                                            withAppSecret:self.appSecret
-                                                        withServerAddress:self.serverAddress
-                                                     withMessagingAddress:self.messagingAddress
-                                                             withMainUser:self.mainUser
-                                                         withLoggingLevel:self.loggingLevel];
-    }
+    return [[ClearBlade alloc] initWithAppKey:self.appKey
+                                withAppSecret:self.appSecret
+                            withServerAddress:self.serverAddress
+                         withMessagingAddress:self.messagingAddress
+                                 withMainUser:self.mainUser
+                             withLoggingLevel:self.loggingLevel];
 }
 
 
 -(ClearBlade *)runSyncWithError:(NSError **)error {
-    if ([self validateAppKeyAndAppSecretWithError:error] && !self.mainUser) {
-        self.mainUser = [CBUser anonymousUserWithError:error];
+    ClearBlade * settings = [self createClearBladeSettings];
+    if ([self validateAppKeyAndAppSecretWithError:error]) {
+        self.mainUser = [CBUser anonymousUserWithSettings:settings WithError:error];
     }
     
     if (*error) {
         return nil;
     }
-    return [self createClearBladeSettings];
+    return settings;
 }
 @end

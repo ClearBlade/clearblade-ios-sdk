@@ -15,6 +15,8 @@
 #define CB_DEFAULT_MESSAGING @"https://messaging.clearblade.com"
 #endif
 
+#define CB_LOG_DIVIDER @"=============================================="
+
 #define CBLogError(...) [[ClearBlade settings] logError:__VA_ARGS__,nil]
 #define CBLogWarning(...) [[ClearBlade settings] logWarning:__VA_ARGS__,nil]
 #define CBLogDebug(...) [[ClearBlade settings] logDebug:__VA_ARGS__,nil]

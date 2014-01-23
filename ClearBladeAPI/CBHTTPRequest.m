@@ -7,6 +7,7 @@
 //
 
 #import "CBHTTPRequest.h"
+#import "CBHTTPRequestResponse.h"
 #import "CBUser.h"
 
 @implementation CBHTTPRequest
@@ -21,11 +22,15 @@
                                                     withUser:user];
 }
 
-+(instancetype)userRequestWithMethod:(NSString *)method
-                          withAction:(NSString *)action
-                            withBody:(NSDictionary *)body
-                         withHeaders:(NSDictionary *)headers {
-    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
++(instancetype)userRequestWithSettings:(ClearBlade *)settings
+                            withMethod:(NSString *)method
+                            withAction:(NSString *)action
+                              withBody:(NSDictionary *)body
+                           withHeaders:(NSDictionary *)headers {
+    if (!settings) {
+        settings = [ClearBlade settings];
+    }
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:settings
                                                   withMethod:method
                                                   withAction:action
                                                     withBody:body
@@ -83,7 +88,11 @@
                               withHeaders:(NSDictionary *)headers {
     NSURL * url = [[NSURL URLWithString:[settings serverAddress]] URLByAppendingPathComponent:action];
     NSError * error = nil;
-    NSData * bodyData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&error];
+    
+    NSData * bodyData;
+    if (body) {
+        bodyData = [NSJSONSerialization dataWithJSONObject:body options:0 error:&error];
+    }
     
     
     self = [super initWithURL:url];
@@ -131,16 +140,20 @@
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) =^(NSURLResponse *response, NSData *data, NSError * connectionError) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
+        CBHTTPRequestResponse * requestResponse = [CBHTTPRequestResponse responseWithRequest:self
+                                                                                withResponse:(NSHTTPURLResponse *)response
+                                                                                    withData:data];
+        [self.settings logExtra:@"Executed Request with Response\n%@\n\n", requestResponse];
         if (connectionError) {
             if (errorCallback) {
-                errorCallback(connectionError);
+                errorCallback(requestResponse, connectionError);
             }
         } else if (httpResponse.statusCode != 200) {
             connectionError = [NSError errorWithDomain:@"Unable to complete request because of status code"
                                                   code:httpResponse.statusCode
                                               userInfo:nil];
             if (errorCallback) {
-                errorCallback(connectionError);
+                errorCallback(requestResponse, connectionError);
             }
         }
         if (connectionError) {
@@ -148,7 +161,7 @@
         }
         
         if (successCallback) {
-            successCallback(data);
+            successCallback(requestResponse);
         }
     };
     [NSURLConnection sendAsynchronousRequest:self
@@ -160,6 +173,8 @@
     NSHTTPURLResponse * requestResponse = nil;
     NSError * requestError = nil;
     NSData * requestData = [NSURLConnection sendSynchronousRequest:self returningResponse:&requestResponse error:&requestError];
+    CBHTTPRequestResponse * response = [CBHTTPRequestResponse responseWithRequest:self withResponse:requestResponse withData:requestData];
+    [self.settings logExtra:@"Executed Request with Response\n%@\n\n", response];
     if (requestError) {
         *error = requestError;
     } else if (requestResponse.statusCode != 200) {

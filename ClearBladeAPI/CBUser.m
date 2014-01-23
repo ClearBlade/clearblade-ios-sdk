@@ -8,6 +8,7 @@
 
 #import "CBUser.h"
 #import "CBHTTPRequest.h"
+#import "CBHTTPRequestResponse.h"
 
 @interface CBUser ()
 @property (strong, nonatomic) NSString * email;
@@ -24,34 +25,39 @@
              @"password": password};
 }
 +(CBHTTPRequest *)authRequestWithEmail:(NSString *)email withPassword:(NSString *)password {
-    return [CBHTTPRequest userRequestWithMethod:@"POST"
+    return [CBHTTPRequest userRequestWithSettings:nil
+                                       withMethod:@"POST"
                                      withAction:@"auth"
                                        withBody:[CBUser dictWithEmail:email withPassword:password]
                                     withHeaders:nil];
 }
 
-+(CBHTTPRequest *)authRequestWithAnon {
-    return [CBHTTPRequest userRequestWithMethod:@"POST"
++(CBHTTPRequest *)authRequestWithAnonWithSettings:(ClearBlade *)settings {
+    return [CBHTTPRequest userRequestWithSettings:settings
+                                       withMethod:@"POST"
                                      withAction:@"anon"
                                        withBody:nil
                                     withHeaders:nil];
 }
 
 +(CBHTTPRequest *)regRequestWithEmail:(NSString *)email withPassword:(NSString *)password {
-    return [CBHTTPRequest userRequestWithMethod:@"POST"
+    return [CBHTTPRequest userRequestWithSettings:nil
+                                       withMethod:@"POST"
                                      withAction:@"reg"
                                        withBody:[CBUser dictWithEmail:email withPassword:password]
                                     withHeaders:nil];
 }
 
 +(CBHTTPRequest *)checkRequestWithToken:(NSString *)authToken {
-    return [CBHTTPRequest userRequestWithMethod:@"POST"
+    return [CBHTTPRequest userRequestWithSettings:nil
+                                       withMethod:@"POST"
                                      withAction:@"check"
                                        withBody:@{}
                                     withHeaders:@{@"ClearBlade-UserToken": authToken}];
 }
 +(CBHTTPRequest *)logoutRequestWithToken:(NSString *)authToken {
-    return [CBHTTPRequest userRequestWithMethod:@"POST"
+    return [CBHTTPRequest userRequestWithSettings:nil
+                                       withMethod:@"POST"
                                      withAction:@"logout"
                                        withBody:@{}
                                     withHeaders:@{@"ClearBlade-UserToken": authToken}];
@@ -84,10 +90,10 @@
                 withPassword:(NSString *)password
          withSuccessCallback:(CBUserSuccessCallback)successCallback
            withErrorCallback:(CBUserErrorCallback)errorCallback {
-    [[CBUser regRequestWithEmail:email withPassword:password] executeWithSuccessCallback:^(NSData * data) {
+    [[CBUser regRequestWithEmail:email withPassword:password] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         CBLogDebug(@"Registered user with <%@>", email);
         [self authenticateUserWithEmail:email withPassword:password withSuccessCallback:successCallback withErrorCallback:errorCallback];
-    } withErrorCallback:^(NSError * error) {
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         CBLogError(@"Failed to register user with email <%@> with error <%@>", email, error);
         if (errorCallback) {
             errorCallback(error);
@@ -99,14 +105,14 @@
                     withPassword:(NSString *)password
              withSuccessCallback:(CBUserSuccessCallback)successCallback
                withErrorCallback:(CBUserErrorCallback)errorCallback {
-    [[self authRequestWithAnon] executeWithSuccessCallback:^(NSData * response) {
-        NSString * authToken = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-        CBUser * user = [CBUser anonymousUserWithAuthToken:authToken];
+    [[self authRequestWithEmail:email withPassword:password] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
+        NSString * authToken = response.responseString;
+        CBUser * user = [CBUser authenticatedUserWithEmail:email withAuthToken:authToken];
         CBLogDebug(@"Authenticated user <%@>", user);
         if (successCallback) {
             successCallback(user);
         }
-    } withErrorCallback:^(NSError * error) {
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         CBLogError(@"Failed to authenticate user with email <%@> with error <%@>", email, error);
         if (errorCallback) {
             errorCallback(error);
@@ -114,10 +120,11 @@
     }];
 }
 
-+(CBUser *)anonymousUserWithError:(NSError *__autoreleasing *)error {
-    NSData * response = [[CBUser authRequestWithAnon] executeWithError:error];
++(CBUser *)anonymousUserWithSettings:(ClearBlade *)settings WithError:(NSError *__autoreleasing *)error {
+    CBHTTPRequest * request = [CBUser authRequestWithAnonWithSettings:settings];
+    NSData * response = [request executeWithError:error];
     if (*error) {
-        CBLogError(@"Failed to authenticate anonymous user because of error <%@>", *error);
+        [settings logError:@"Failed to authenticate anonymous user because of error <%@>", *error];
         return nil;
     }
     CBUser * user = [CBUser anonymousUserWithAuthToken:[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]];
@@ -125,14 +132,15 @@
     return user;
 }
 
-+(void)anonymousUserWithSuccessCallback:(CBUserSuccessCallback)successCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
-    [[self authRequestWithAnon] executeWithSuccessCallback:^(NSData * response) {
-        NSString * authToken = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
++(void)anonymousUserWithSettings:(ClearBlade *)settings withSuccessCallback:(CBUserSuccessCallback)successCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
+    CBHTTPRequest * request = [self authRequestWithAnonWithSettings:settings];
+    [request executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
+        NSString * authToken = response.responseString;
         CBLogDebug(@"User <%@> logged out", self);
         if (successCallback) {
             successCallback([CBUser anonymousUserWithAuthToken:authToken]);
         }
-    } withErrorCallback:^(NSError * error) {
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         CBLogError(@"Failed to authenticate anonymous user with error <%@>", error);
         if (errorCallback) {
             errorCallback(error);
@@ -165,12 +173,11 @@
     return [response boolValue];
 }
 -(void)checkIsValidWithServerWithCallback:(CBUserIsValidCallback)isValidCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
-    [[CBUser checkRequestWithToken:self.authToken] executeWithSuccessCallback:^(NSData * data) {
-        NSString * response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [[CBUser checkRequestWithToken:self.authToken] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         if (isValidCallback) {
-            isValidCallback([response boolValue]);
+            isValidCallback([response.responseString boolValue]);
         }
-    } withErrorCallback:^(NSError * error) {
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         CBLogError(@"Failed to check auth token of user <%@> because of error <%@>", self, error);
         if (errorCallback) {
             errorCallback(error);
@@ -189,12 +196,12 @@
 }
 
 -(void)logOutWithSuccessCallback:(void (^)())successCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
-    [[CBUser logoutRequestWithToken:self.authToken] executeWithSuccessCallback:^(NSData * data) {
+    [[CBUser logoutRequestWithToken:self.authToken] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         CBLogDebug(@"User <%@> logged out", self);
         if (successCallback) {
             successCallback();
         }
-    } withErrorCallback:^(NSError * error) {
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         CBLogError(@"Failed to logout user <%@> because of error <%@>", self, error);
         if (errorCallback) {
             errorCallback(error);

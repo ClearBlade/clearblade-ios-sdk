@@ -10,6 +10,7 @@
 
 #import "CBQuery.h"
 #import "CBHTTPRequest.h"
+#import "CBHTTPRequestResponse.h"
 #import "CBItem.h"
 #import "ClearBlade.h"
 #define CBQUERY_EQ @"EQ"
@@ -108,7 +109,7 @@
     return self;
 }
 
--(NSMutableURLRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
+-(CBHTTPRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
     return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters withUser:self.user];
 }
 
@@ -119,26 +120,23 @@
     return _user;
 }
 
--(void)executeRequest:(NSURLRequest *)apiRequest
+-(void)executeRequest:(CBHTTPRequest *)apiRequest
   withSuccessCallback:(CBQuerySuccessCallback)successCallback
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
-    void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * response, NSData * data, NSError * error) {
-        NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *) response; //response will always be NSHTTPURLResponse
-        NSURLRequest * completedRequest = (NSURLRequest *) apiRequest;
+    [apiRequest executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
+        NSError * error;
         id JSON;
-        if (!error && httpResponse.statusCode != 200) {
-            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:httpResponse.statusCode userInfo:@{@"request": completedRequest}];
+        if (response.response.statusCode != 200) {
+            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:response.response.statusCode userInfo:nil];
         }
         if (!error) {
-            JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            JSON = [NSJSONSerialization JSONObjectWithData:response.responseData options:0 error:&error];
         }
         if (error) {
-            NSString * text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            
             if (failureCallback) {
-                failureCallback([NSError errorWithDomain:text
-                                                    code:httpResponse.statusCode
-                                                userInfo:nil], data);
+                failureCallback([NSError errorWithDomain:response.responseString
+                                                    code:response.response.statusCode
+                                                userInfo:nil], response.responseData);
             }
             return;
         }
@@ -152,11 +150,11 @@
         if (successCallback) {
             successCallback(itemArray);
         }
-    };
-    
-    [NSURLConnection sendAsynchronousRequest:apiRequest
-                                       queue:[NSOperationQueue currentQueue]
-                           completionHandler:completionHandler];
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
+        if (failureCallback) {
+            failureCallback(error, response.responseData);
+        }
+    }];
 }
 
 -(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback
@@ -168,14 +166,14 @@
                                                                                                  error:NULL]
                                                       encoding:NSUTF8StringEncoding]};
     }
-    NSMutableURLRequest *fetchRequest = [self requestWithMethod:@"GET" withParameters:parameters];
+    CBHTTPRequest *fetchRequest = [self requestWithMethod:@"GET" withParameters:parameters];
     [self executeRequest:fetchRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
 -(void) updateWithChanges:(NSMutableDictionary *)changes
       withSuccessCallback:(CBQuerySuccessCallback)successCallback
         withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    NSMutableURLRequest *updateRequest = [self requestWithMethod:@"PUT" withParameters:nil];
+    CBHTTPRequest *updateRequest = [self requestWithMethod:@"PUT" withParameters:nil];
     updateRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": [self fullQuery], @"$set": changes}
                                                              options:0
                                                                error:NULL];
@@ -192,7 +190,7 @@
                                                                                           options:0
                                                                                             error:NULL]
                                                  encoding:NSUTF8StringEncoding];
-    NSMutableURLRequest *removeRequest = [self requestWithMethod:@"DELETE" withParameters:@{@"query": jsonString}];
+    CBHTTPRequest *removeRequest = [self requestWithMethod:@"DELETE" withParameters:@{@"query": jsonString}];
     CBLogDebug(@"Executing remove with %@", self);
     [self executeRequest:removeRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
@@ -224,7 +222,7 @@ intoCollectionWithID:(NSString *)collectionID
 withSuccessCallback:(CBQuerySuccessCallback)successCallback
 withErrorCallback:(CBQueryErrorCallback)errorCallback {
     item.collectionID = collectionID;
-    NSMutableURLRequest *insertRequest = [self requestWithMethod:@"POST" withParameters:nil];
+    CBHTTPRequest *insertRequest = [self requestWithMethod:@"POST" withParameters:nil];
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:[self dictionaryValuesToStrings:item.data] options:0 error:NULL];
     [insertRequest setHTTPBody:jsonData];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];

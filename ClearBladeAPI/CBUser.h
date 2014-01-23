@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class CBUser;
+@class ClearBlade;
 
 /**
  Used whenever user creation is successful.
@@ -106,17 +107,19 @@ typedef void (^CBUserIsValidCallback)(bool);
 
 /**
  Requests an anonynomous user token from the server synchronously.
+ @param settings The ClearBlade settings object to use. If nil, will just use the default address
  @param error Set if there's any issue with requesting the user token.
  @return The newly created anonymous user.
  */
-+(CBUser *)anonymousUserWithError:(NSError **)error;
++(CBUser *)anonymousUserWithSettings:(ClearBlade *)settings WithError:(NSError **)error;
 
 /**
  Request an anonymous user token from the server asynchronously.
+ @param settings The ClearBlade settings object to use. If nil, will just use the default address
  @param SuccessCallback Called with the user when the anonymous user is successfully created from the server
  @param ErrorCallback Called if any issue while creating the anonymous user arrises.
  */
-+(void)anonymousUserWithSuccessCallback:(CBUserSuccessCallback)successCallback withErrorCallback:(CBUserErrorCallback)errorCallback;
++(void)anonymousUserWithSettings:(ClearBlade *)settings withSuccessCallback:(CBUserSuccessCallback)successCallback withErrorCallback:(CBUserErrorCallback)errorCallback;
 
 /**
  Checks if the user token is still valid with server synchronously. Error is only set if there is an issue communicating with

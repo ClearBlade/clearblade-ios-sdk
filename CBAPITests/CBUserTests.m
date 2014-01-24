@@ -15,9 +15,22 @@
 
 @implementation CBUserTests
 
--(void)testAuthentication {
+-(void)testAnonAuthentication {
     NSError * error;
-    [[[[ClearBlade initSettingsWithBuilder] withAppKey:APP_KEY withAppSecret:APP_SECRET]
+    [[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
+      withServerAddress:PLATFORM_ADDRESS]
+      withLoggingLevel:TEST_LOGGING_LEVEL]
+     runSyncWithError:&error];
+    XCTAssertNil(error, @"Should initialize with no errors %@", error);
+}
+
+-(void)testRegisterAuthentication {
+    NSError * error;
+    NSString * uid = [[NSUUID UUID] UUIDString];
+    [[[[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
+      withServerAddress:PLATFORM_ADDRESS]
+      authenticateUserWithEmail:uid withPassword:@"password"]
+     registerUser]
       withLoggingLevel:TEST_LOGGING_LEVEL]
      runSyncWithError:&error];
     XCTAssertNil(error, @"Should initialize with no errors %@", error);

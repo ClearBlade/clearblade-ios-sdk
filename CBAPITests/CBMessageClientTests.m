@@ -88,7 +88,7 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
 {
     [super setUp];
     NSError * error;
-    [[[[[[ClearBlade initSettingsWithBuilder] withAppKey:APP_KEY withAppSecret:APP_SECRET]
+    [[[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
         withServerAddress:PLATFORM_ADDRESS]
        withMessagingAddress:MESSAGING_ADDRESS]
       withLoggingLevel:TEST_LOGGING_LEVEL] runSyncWithError:&error];

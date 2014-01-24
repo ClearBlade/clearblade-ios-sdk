@@ -12,13 +12,11 @@
 #import "CBUser.h"
 #define CB_DEFAULT_LOGGING CB_LOG_WARN
 
-@class ClearBladeSettingsBuilderImpl;
-
 static ClearBlade * _settings = nil;
 
 @interface ClearBlade ()
--(instancetype)initWithAppKey:(NSString *)key
-                withAppSecret:(NSString *)secret
+-(instancetype)initWithSystemKey:(NSString *)key
+                withSystemSecret:(NSString *)secret
             withServerAddress:(NSString *)serverAddress
          withMessagingAddress:(NSString *)messagingAddress
                      withMainUser:(CBUser *)user
@@ -29,12 +27,15 @@ static ClearBlade * _settings = nil;
 @interface ClearBladeSettingsBuilderImpl : NSObject <ClearBladeSettingsBuilder>
 -(instancetype)initWithSettingsPointer:(ClearBlade *__strong*)settingsPointer;
 @property ClearBlade *__strong * settingsPointer;
-@property (strong, nonatomic) NSString * appKey;
-@property (strong, nonatomic) NSString * appSecret;
+@property (strong, nonatomic) NSString * systemKey;
+@property (strong, nonatomic) NSString * systemSecret;
 @property (strong, nonatomic) NSString * serverAddress;
 @property (strong, nonatomic) NSString * messagingAddress;
 @property (strong, nonatomic) CBUser * mainUser;
 @property (strong, nonatomic) NSNumber * loggingLevelNumber;
+@property (strong, nonatomic) NSString * email;
+@property (strong, nonatomic) NSString * password;
+@property (nonatomic) bool shouldRegister;
 @end
 
 @implementation ClearBlade
@@ -43,20 +44,20 @@ static ClearBlade * _settings = nil;
 +(instancetype)settings {
     @synchronized (_settings) {
         if (!_settings) {
-            NSLog(@"App Key and App Secret should be set before calling any ClearBlade APIs");
+            NSLog(@"System Key and System Secret should be set before calling any ClearBlade APIs");
         }
         return _settings;
     }
 }
 
-+(instancetype)initSettingsSyncWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withError:(NSError *__autoreleasing *)error {
-    return [[[ClearBlade initSettingsWithBuilder] withAppKey:key withAppSecret:secret] runSyncWithError:error];
++(instancetype)initSettingsSyncWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withError:(NSError *__autoreleasing *)error {
+    return [[[ClearBlade initSettingsWithBuilder] withSystemKey:key withSystemSecret:secret] runSyncWithError:error];
 }
-+(void)initSettingsWithAppKey:(NSString *)key
-                        withAppSecret:(NSString *)secret
++(void)initSettingsWithSystemKey:(NSString *)key
+                        withSystemSecret:(NSString *)secret
                   withSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
                     withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback {
-    [[[ClearBlade initSettingsWithBuilder] withAppKey:key withAppSecret:secret]
+    [[[ClearBlade initSettingsWithBuilder] withSystemKey:key withSystemSecret:secret]
      runWithSuccessCallback:successCallback withErrorCallback:errorCallback];
 }
 
@@ -64,17 +65,17 @@ static ClearBlade * _settings = nil;
     return [[ClearBladeSettingsBuilderImpl alloc] initWithSettingsPointer:&_settings];
 }
 
-@synthesize appSecret = _appSecret;
-@synthesize appKey = _appKey;
+@synthesize systemSecret = _systemSecret;
+@synthesize systemKey = _systemKey;
 @synthesize serverAddress = _serverAddress;
 @synthesize messagingAddress = _messagingAddress;
 @synthesize nextID = _nextID;
 
--(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress withMainUser:(CBUser *)user withLoggingLevel:(CBLoggingLevel)loggingLevel {
+-(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress withMainUser:(CBUser *)user withLoggingLevel:(CBLoggingLevel)loggingLevel {
     self = [super init];
     if (self) {
-        _appKey = key;
-        _appSecret = secret;
+        _systemKey = key;
+        _systemSecret = secret;
         self.serverAddress = serverAddress;
         self.messagingAddress = messagingAddress;
         self.loggingLevel = loggingLevel;
@@ -112,8 +113,8 @@ static ClearBlade * _settings = nil;
 
 -(NSString *)description {
     return [NSString
-            stringWithFormat:@"ClearBlade Settings: App Key <%@>, App Secret <%@>, Server Address <%@>, Messaging Address <%@>",
-            self.appKey, self.appSecret, self.serverAddress, self.messagingAddress];
+            stringWithFormat:@"ClearBlade Settings: System Key <%@>, System Secret <%@>, Server Address <%@>, Messaging Address <%@>",
+            self.systemKey, self.systemSecret, self.serverAddress, self.messagingAddress];
 }
 
 -(void)logError:(NSString *)format, ... {
@@ -163,12 +164,15 @@ static ClearBlade * _settings = nil;
 
 @implementation ClearBladeSettingsBuilderImpl
 @synthesize settingsPointer = _settingsPointer;
-@synthesize appKey = _appKey;
-@synthesize appSecret = _appSecret;
+@synthesize systemKey = _systemKey;
+@synthesize systemSecret = _systemSecret;
 @synthesize serverAddress = _serverAddress;
 @synthesize messagingAddress = _messagingAddress;
 @synthesize mainUser = _mainUser;
 @synthesize loggingLevelNumber = _loggingLevelNumber;
+@synthesize email = _email;
+@synthesize password = _password;
+@synthesize shouldRegister = _shouldRegister;
 
 -(instancetype)initWithSettingsPointer:(ClearBlade *__strong*)settingsPointer {
     self = [super init];
@@ -177,9 +181,9 @@ static ClearBlade * _settings = nil;
     }
     return self;
 }
--(instancetype)withAppKey:(NSString *)appKey withAppSecret:(NSString *)appSecret {
-    self.appKey = appKey;
-    self.appSecret = appSecret;
+-(instancetype)withSystemKey:(NSString *)systemKey withSystemSecret:(NSString *)systemSecret {
+    self.systemKey = systemKey;
+    self.systemSecret = systemSecret;
     return self;
 }
 -(instancetype)withServerAddress:(NSString *)serverAddress {
@@ -200,6 +204,18 @@ static ClearBlade * _settings = nil;
     self.loggingLevelNumber = @(loggingLevel);
     return self;
 }
+
+-(instancetype)authenticateUserWithEmail:(NSString *)email withPassword:(NSString *)password {
+    self.email = email;
+    self.password = password;
+    return self;
+}
+
+-(instancetype)registerUser {
+    self.shouldRegister = YES;
+    return self;
+}
+
 -(NSString *)serverAddress {
     if (!_serverAddress) {
         _serverAddress = CB_DEFAULT_PLATFORM_ADDRESS;
@@ -222,25 +238,54 @@ static ClearBlade * _settings = nil;
 -(void)runWithSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
             withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback {
     NSError * error;
-    if (![self validateAppKeyAndAppSecretWithError:&error]) {
+    if (![self validateSystemKeyAndSystemSecretWithError:&error]) {
         CBLogError(@"Failed to init ClearBlade Settings with error <%@>", error);
         if (errorCallback) {
             errorCallback(error);
         }
     } else if (!self.mainUser) {
         ClearBlade * settings = [self createClearBladeSettings];
-        [CBUser anonymousUserWithSettings:settings withSuccessCallback:^(CBUser * user) {
-            self.mainUser = user;
-            ClearBlade * settings = [self createClearBladeSettings];
-            if (successCallback) {
-                successCallback(settings);
+        if (self.email) {
+            void (^successHandler)(CBUser *) = ^(CBUser * user) {
+                settings.mainUser = user;
+                *self.settingsPointer = settings;
+                if (successCallback) {
+                    successCallback(*self.settingsPointer);
+                }
+            };
+            void (^errorHandler)(NSError *) = ^(NSError * error) {
+                CBLogError(@"Failed to authenticate anonymous user with error <%@>", error);
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            };
+            if (self.shouldRegister) {
+                [CBUser registerUserWithSettings:settings
+                                       withEmail:self.email
+                                    withPassword:self.password
+                             withSuccessCallback:successHandler
+                               withErrorCallback:errorHandler];
+            } else {
+                [CBUser authenticateUserWithSettings:settings
+                                       withEmail:self.email
+                                    withPassword:self.password
+                             withSuccessCallback:successHandler
+                               withErrorCallback:errorHandler];
             }
-        } withErrorCallback:^(NSError * error) {
-            CBLogError(@"Failed to authenticate anonymous user with error <%@>", error);
-            if (errorCallback) {
-                errorCallback(error);
-            }
-        }];
+        } else {
+            [CBUser anonymousUserWithSettings:settings withSuccessCallback:^(CBUser * user) {
+                settings.mainUser = user;
+                *self.settingsPointer = settings;
+                if (successCallback) {
+                    successCallback(settings);
+                }
+            } withErrorCallback:^(NSError * error) {
+                CBLogError(@"Failed to authenticate anonymous user with error <%@>", error);
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            }];
+        }
     } else {
         ClearBlade * settings = [self createClearBladeSettings];
         if (successCallback) {
@@ -250,13 +295,17 @@ static ClearBlade * _settings = nil;
     
 }
 
--(bool)validateAppKeyAndAppSecretWithError:(NSError **)error {
-    if (!self.appKey) {
-        *error = [NSError errorWithDomain:@"App Key must be set to authenticate with server" code:1 userInfo:nil];
+-(bool)validateSystemKeyAndSystemSecretWithError:(NSError **)error {
+    if (!self.systemKey) {
+        if (error) {
+            *error = [NSError errorWithDomain:@"System Key must be set to authenticate with server" code:1 userInfo:nil];
+        }
         return false;
     }
-    else if (!self.appSecret) {
-        *error = [NSError errorWithDomain:@"App Secret must be set to authenticate with server" code:2 userInfo:nil];
+    else if (!self.systemSecret) {
+        if (error) {
+            *error = [NSError errorWithDomain:@"System Secret must be set to authenticate with server" code:2 userInfo:nil];
+        }
         return false;
     }
     return true;
@@ -264,8 +313,8 @@ static ClearBlade * _settings = nil;
 
 
 -(ClearBlade *)createClearBladeSettings {
-    return [[ClearBlade alloc] initWithAppKey:self.appKey
-                                withAppSecret:self.appSecret
+    return [[ClearBlade alloc] initWithSystemKey:self.systemKey
+                                withSystemSecret:self.systemSecret
                             withServerAddress:self.serverAddress
                          withMessagingAddress:self.messagingAddress
                                  withMainUser:self.mainUser
@@ -275,13 +324,29 @@ static ClearBlade * _settings = nil;
 
 -(ClearBlade *)runSyncWithError:(NSError **)error {
     ClearBlade * settings = [self createClearBladeSettings];
-    if ([self validateAppKeyAndAppSecretWithError:error]) {
-        self.mainUser = [CBUser anonymousUserWithSettings:settings WithError:error];
+    if ([self validateSystemKeyAndSystemSecretWithError:error]) {
+        if (self.email) {
+            if (self.shouldRegister) {
+                settings.mainUser = [CBUser registerUserWithSettings:settings
+                                                           withEmail:self.email
+                                                        withPassword:self.password
+                                                           withError:error];
+            } else {
+                settings.mainUser = [CBUser authenticateUserWithSettings:settings
+                                                               withEmail:self.email
+                                                            withPassword:self.password
+                                                               withError:error];
+            }
+        } else {
+            settings.mainUser = [CBUser anonymousUserWithSettings:settings WithError:error];
+        }
     }
     
     if (*error) {
         return nil;
     }
+    *self.settingsPointer = settings;
     return settings;
 }
+
 @end

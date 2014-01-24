@@ -17,7 +17,7 @@
 +(instancetype)requestWithMethod:(NSString *)method withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters withUser:(CBUser *)user {
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
                                                   withMethod:method
-                                              withCollection:collectionID
+                                              withCollection:[@"api/data/" stringByAppendingString:collectionID]
                                               withParameters:parameters
                                                     withUser:user];
 }
@@ -32,7 +32,7 @@
     }
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:settings
                                                   withMethod:method
-                                                  withAction:action
+                                                  withAction:[@"api/user/" stringByAppendingString:action]
                                                     withBody:body
                                                  withHeaders:headers];
 }
@@ -133,8 +133,8 @@
 }
 
 -(void)setSettings:(ClearBlade *)settings {
-    [self setValue:[settings appKey] forHTTPHeaderField:@"ClearBlade-AppKey"];
-    [self setValue:[settings appSecret] forHTTPHeaderField:@"ClearBlade-AppSecret"];
+    [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-AppKey"];
+    [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-AppSecret"];
     _settings = settings;
 }
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {
@@ -149,7 +149,7 @@
                 errorCallback(requestResponse, connectionError);
             }
         } else if (httpResponse.statusCode != 200) {
-            connectionError = [NSError errorWithDomain:@"Unable to complete request because of status code"
+            connectionError = [NSError errorWithDomain:[@"Unable to complete request because " stringByAppendingString:requestResponse.responseString]
                                                   code:httpResponse.statusCode
                                               userInfo:nil];
             if (errorCallback) {

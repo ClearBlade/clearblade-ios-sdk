@@ -9,6 +9,7 @@
  *******************************************************************************/
 
 #import <Foundation/Foundation.h>
+#import "ClearBladeSettingsBuilder.h"
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
 #define CB_DEFAULT_PLATFORM_ADDRESS @"https://platform.clearblade.com/api/"
@@ -22,101 +23,8 @@
 #define CBLogDebug(...) [[ClearBlade settings] logDebug:__VA_ARGS__,nil]
 #define CBLogExtra(...) [[ClearBlade settings] logExtra:__VA_ARGS__,nil]
 
-typedef enum {
-    /** CBAPI does not log anything under this level */
-    CB_LOG_NONE = 0,
-    
-    /** CBAPI only logs errors under this level */
-    CB_LOG_ERROR = 1,
-    
-    /** CBAPI logs warnings and errors under this level */
-    CB_LOG_WARN = 2,
-    
-    /** CBAPI logs debug lines, warnings, and errors under this level */
-    CB_LOG_DEBUG = 3,
-    
-    /** CBAPI logs everything under this level */
-    CB_LOG_EXTRA = 4
-} CBLoggingLevel;
-
 @class CBUser;
 @class ClearBlade;
-
-/**
- Callback for handling successful initialization of the Clearblade API
- @param ClearBlade The newly initialized settings
- */
-typedef void (^ClearBladeSettingsSuccessCallback)(ClearBlade *);
-
-/**
- Callback for handling failed initialization of the ClearBlade API
- @param error The error that caused the initialization to fail
- */
-typedef void (^ClearBladeSettingsErrorCallback)(NSError *);
-
-/**
- Protocol for building ClearBladeSettings piecemeal. Does not actually initialize
- the settings until either runWithSuccessCallback:withErrorCallback: or runSyncWithError
- is called. Once either is called and completed, it sets the global [ClearBlade settings] to the newly initialized
- ClearBlade object. AppKey and AppSecret must be set before running.
- */
-@protocol ClearBladeSettingsBuilder
-
-/**
- Sets the appKey and appSecret for ClearBlade settings
- @param appKey The System Key to authenticate with
- @param appSecret The secret key to authenticate with
- @return The ClearBladeSettingsBuilder to be used for additional settings
- */
--(instancetype)withAppKey:(NSString *)appKey withAppSecret:(NSString *)appSecret;
-
-/**
- Sets the target server address for ClearBlade Platform Data
- @param serverAddress The target server address
- @return The ClearBladeSettingsBuilder to be used for additional settings
- */
--(instancetype)withServerAddress:(NSString *)serverAddress;
-
-/**
- Sets the target messaging address for ClearBlade Platform Messaging
- @param messagingAddress The target messaging server address
- @return The ClearBladeSettingsBuilder to be used for additional settings
- */
--(instancetype)withMessagingAddress:(NSString *)messagingAddress;
-
-/**
- Sets the logging level for ClearBlade settings
- @param loggingLevel The new level for logging
- @return The ClearBladeSettingsBuilder to be used for additional settings
- */
--(instancetype)withLoggingLevel:(CBLoggingLevel)loggingLevel;
-
-/**
- Sets the main user for ClearBlade settings. This should only be a user with
- token and loaded from save data, because authenticating a user is not available
- until after ClearBlade settings are set.
- @param mainUser The new mainUser
- @return The ClearBladeSettingsBuilder to be used for additional settings
- */
--(instancetype)withMainUser:(CBUser *)mainUser;
-
-/**
- Executes the Settings builder with the settings given asynchronously. If mainUser
- is not set, it will request an anonymous token for future requests.
- @param successCallback The callback if all goes well
- @param errorCallback The callback if the initialization fails
- */
--(void)runWithSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
-            withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback;
-
-/**
- Executes the Settings builder with the settings given synchronously. If mainUser
- is not set, it will request an anonymous token for future requests.
- @param error This error will be set if it fails to initialize the new ClearBlade settings
- @return The newly created ClearBlade settings.
- */
--(ClearBlade *)runSyncWithError:(NSError **)error;
-@end
 
 /**
  Encapsulates all the global configuration for the ClearBlade API
@@ -136,37 +44,37 @@ typedef void (^ClearBladeSettingsErrorCallback)(NSError *);
 /**
  Initializes settings synchronously with default settings.
  Also initializes with an anonymous user.
- @param key The App Key.
- @param secret The App Secret.
+ @param key The System Key.
+ @param secret The System Secret.
  @param error Is set if the ClearBlade settings fails to initialize
  @return The newly created Settings object
  */
-+(instancetype)initSettingsSyncWithAppKey:(NSString *)key
-                            withAppSecret:(NSString *)secret
++(instancetype)initSettingsSyncWithSystemKey:(NSString *)key
+                            withSystemSecret:(NSString *)secret
                                 withError:(NSError **)error;
 
 /**
  Initializes settings asynchronously with default settings.
  Also initializes with an anonymous user.
- @param key The App Key.
- @param secret The App Secret.
+ @param key The System Key.
+ @param secret The System Secret.
  @param successCallback The callback for when settings successfully initializes.
  @param errorCallback The callback for when settings fails to initialize for whatever reason
 */
-+(void)initSettingsWithAppKey:(NSString *)key
-                withAppSecret:(NSString *)secret
++(void)initSettingsWithSystemKey:(NSString *)key
+                withSystemSecret:(NSString *)secret
           withSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
             withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback;
 
 /**
- The App Key used throughout the API
+ The System Key used throughout the API
  */
-@property (readonly, atomic) NSString * appKey;
+@property (readonly, atomic) NSString * systemKey;
 
 /**
- The App Secret used throughout the API
+ The System Secret used throughout the API
  */
-@property (readonly, atomic) NSString * appSecret;
+@property (readonly, atomic) NSString * systemSecret;
 
 /**
  The Address for the Platform Data service

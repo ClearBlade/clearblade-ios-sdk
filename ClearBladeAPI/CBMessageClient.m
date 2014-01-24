@@ -211,8 +211,8 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     self.host = hostName;
     @synchronized (self.clientLock) {
         mosquitto_username_pw_set(self.client,
-                                  [[[ClearBlade settings] appKey] cStringUsingEncoding:NSUTF8StringEncoding],
-                                  [[[ClearBlade settings] appSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
+                                  [[[ClearBlade settings] systemKey] cStringUsingEncoding:NSUTF8StringEncoding],
+                                  [[[ClearBlade settings] systemSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
         int port;
         if (hostName.port == nil) {
             port = 1883;

@@ -35,8 +35,14 @@
 }
 
 -(NSString *)description {
-    NSString * reqHeaders = [self dataToString:[NSJSONSerialization dataWithJSONObject:self.request.allHTTPHeaderFields options:0 error:NULL]];
-    NSString * resHeaders = [self dataToString:[NSJSONSerialization dataWithJSONObject:self.response.allHeaderFields options:0 error:NULL]];
+    NSString * reqHeaders;
+    if (self.request.allHTTPHeaderFields) {
+        reqHeaders = [self dataToString:[NSJSONSerialization dataWithJSONObject:self.request.allHTTPHeaderFields options:0 error:NULL]];
+    }
+    NSString * resHeaders;
+    if (self.response.allHeaderFields) {
+        resHeaders = [self dataToString:[NSJSONSerialization dataWithJSONObject:self.response.allHeaderFields options:0 error:NULL]];
+    }
     NSString * reqData = [self dataToString:self.request.HTTPBody];
     NSString * resData = self.responseString;
     

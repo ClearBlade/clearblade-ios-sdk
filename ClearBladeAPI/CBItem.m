@@ -68,7 +68,7 @@
     CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.collectionID];
     CBLogDebug(@"Saving %@", self);
     if (self.itemID) {
-        [query updateWithChanges:self.data
+        [[query equalTo:self.itemID for:CBITEM_ID_KEY] updateWithChanges:self.data
              withSuccessCallback:[self handleSuccessCallback:successCallback]
                withErrorCallback:[self handleErrorCallback:errorCallback]];
     } else {

@@ -21,7 +21,7 @@
 - (void)setUp {
     [super setUp];
     NSError * error;
-    [[[[[ClearBlade initSettingsWithBuilder] withAppKey:APP_KEY withAppSecret:APP_SECRET]
+    [[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
         withServerAddress:PLATFORM_ADDRESS]
       withLoggingLevel:TEST_LOGGING_LEVEL] runSyncWithError:&error];
     self.defaultQuery = [CBQuery queryWithCollectionID:TEST_COLLECTION];
@@ -92,10 +92,10 @@
                  }
              }
              NSMutableSet * itemIdSet = [NSMutableSet set];
-             for (int isItemIndex = 0; isItemIndex < items.count; isItemIndex++) {
+             for (int isItemIndex = 0; isItemIndex < foundItems.count; isItemIndex++) {
                  XCTAssertTrue(isItemInArray[isItemIndex], @"%@ should be in fetch return: %@",
                                [items objectAtIndex:isItemIndex], items);
-                 NSString * itemId = [[items objectAtIndex:isItemIndex] itemID];
+                 NSString * itemId = [[foundItems objectAtIndex:isItemIndex] itemID];
                  XCTAssertTrue([itemId isKindOfClass:[NSString class]],
                                @"Item id should be a string, received a %@", [itemId class]);
                  XCTAssertFalse([itemIdSet containsObject:itemId], @"item id %@ returned multiple times", itemId);

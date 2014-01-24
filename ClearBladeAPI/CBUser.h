@@ -66,6 +66,19 @@ typedef void (^CBUserIsValidCallback)(bool);
                                withError:(NSError **)error;
 
 /**
+ Authenticates a user with the specified email and password. It retrieves the user's token from the server synchronusly,
+ and does not store the password locally. Uses the specified settings object for the server Address
+ @param settings The settings to use to lookup the platform
+ @param email The email to create the user with
+ @param password The password to use
+ @param error A pointer to the error if there was an issue authenticating the user.
+ @return The newly created user
+ */
++(instancetype)authenticateUserWithSettings:(ClearBlade *)settings
+                                  withEmail:(NSString *)email
+                               withPassword:(NSString *)password
+                                  withError:(NSError **)error;
+/**
  Registers a user with the specified email and password. It retrieves the user's token from the server synchronously,
  and does not store the password locally.
  @param email The email to create the user with
@@ -78,18 +91,45 @@ typedef void (^CBUserIsValidCallback)(bool);
                            withError:(NSError **)error;
 
 /**
+ Registers a user with the specified email and password. It retrieves the user's token from the server synchronously,
+ and does not store the password locally.
+ @param settings The settings to use to lookup the platform
+ @param email The email to create the user with
+ @param password The password to use
+ @param error A pointer to the error if there was an issue registering the user.
+ @return The newly created user
+ */
++(instancetype)registerUserWithSettings:(ClearBlade *)settings
+                              withEmail:(NSString *)email
+                           withPassword:(NSString *)password
+                              withError:(NSError **)error;
+/**
  Authenticates a user with the specified email and password. It retrieves the user's token from the server asynchronously and 
  calls the callback once the user is authenticated, and does not store the password locally.
  @param email The email to create the user with
  @param password The password to use
  @param successCallback The callback that handles a successful authentication
  @param errorCallback The callback that handles a failed authentication
- @return The newly created user
  */
 +(void)authenticateUserWithEmail:(NSString *)email
                     withPassword:(NSString *)password
              withSuccessCallback:(CBUserSuccessCallback)successCallback
                withErrorCallback:(CBUserErrorCallback)errorCallback;
+
+/**
+ Authenticates a user with the specified email and password. It retrieves the user's token from the server synchronusly,
+ and does not store the password locally. Uses the specified settings object for the server Address
+ @param settings The settings to use to lookup the platform
+ @param email The email to create the user with
+ @param password The password to use
+ @param successCallback The callback that handles a successful authentication
+ @param errorCallback The callback that handles a failed authentication
+ */
++(void)authenticateUserWithSettings:(ClearBlade *)settings
+                          withEmail:(NSString *)email
+                       withPassword:(NSString *)password
+                withSuccessCallback:(CBUserSuccessCallback)successCallback
+                  withErrorCallback:(CBUserErrorCallback)errorCallback;
 
 /**
  Registers a user with the specified email and password. It retrieves the user's token from the server asynchronously and
@@ -102,7 +142,24 @@ typedef void (^CBUserIsValidCallback)(bool);
  */
 +(void)registerUserWithEmail:(NSString *)email
                 withPassword:(NSString *)password
-                withSuccessCallback:(CBUserSuccessCallback)successCallback
+         withSuccessCallback:(CBUserSuccessCallback)successCallback
+           withErrorCallback:(CBUserErrorCallback)errorCallback;
+
+/**
+ Registers a user with the specified email and password. It retrieves the user's token from the server asynchronously and
+ calls the callback once the user is authenticated, and does not store the password locally. Uses the specified settings object 
+ for the server Address
+ @param settings The settings to use to lookup the platform
+ @param email The email to create the user with
+ @param password The password to use
+ @param successCallback The callback that handles a successful register
+ @param errorCallback The callback that handles a failed register
+ @return The newly created user
+ */
++(void)registerUserWithSettings:(ClearBlade *)settings
+                      withEmail:(NSString *)email
+                withPassword:(NSString *)password
+         withSuccessCallback:(CBUserSuccessCallback)successCallback
            withErrorCallback:(CBUserErrorCallback)errorCallback;
 
 /**

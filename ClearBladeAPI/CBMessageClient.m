@@ -34,6 +34,7 @@
 
 @property (strong, nonatomic) NSThread * clientThread;
 @property (strong, atomic) NSNumber * isConnectedContainer;
+@property (atomic) CBMessageClientQuality qos;
 @end
  /* * 0 - success
   * * 1 - connection refused (unacceptable protocol version)
@@ -97,6 +98,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 @synthesize topics = _topics;
 @synthesize isConnectedContainer = _isConnectedContainer;
 @synthesize host = _host;
+@synthesize qos = _qos;
 
 @dynamic isConnected;
 
@@ -157,6 +159,10 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     [self connectToHost:[[ClearBlade settings] messagingAddress]];
 }
 
+-(void)connectWithQoS:(CBMessageClientQuality)qos {
+    [self connectToHost:[[ClearBlade settings] messagingAddress] withQoS:qos];
+}
+
 -(void)disconnect {
     @synchronized (self.clientLock) {
         if (self.isConnected) {
@@ -185,7 +191,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     CBLogDebug(@"Message Client subscribing to topic %@", topic);
     @synchronized (self.clientLock) {
         int messageId = [self addItemToMessageQueue:topic];
-        mosquitto_subscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding] , 0);
+        mosquitto_subscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding] , self.qos);
     }
 }
 -(void)unsubscribeFromTopic:(NSString *)topic {
@@ -203,12 +209,16 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
         [self addItemToMessageQueue:[CBMessage messageWithTopic:topic withPayloadText:message]];
         mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
                           (int)message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
-                          0, true);
+                          self.qos, true);
     }
 }
 -(void)connectToHost:(NSURL *)hostName {
+    [self connectToHost:hostName withQoS:[[ClearBlade settings] messagingDefaultQoS]];
+}
+-(void)connectToHost:(NSURL *)hostName withQoS:(CBMessageClientQuality)qos {
     int response;
     self.host = hostName;
+    self.qos = qos;
     @synchronized (self.clientLock) {
         mosquitto_username_pw_set(self.client,
                                   [[[ClearBlade settings] systemKey] cStringUsingEncoding:NSUTF8StringEncoding],

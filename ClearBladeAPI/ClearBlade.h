@@ -42,6 +42,17 @@ typedef enum {
     CB_LOG_EXTRA = 4
 } CBLoggingLevel;
 
+typedef enum {
+    /** The client will send and forget it's messages */
+   CBMessageClientQualityAtMostOnce = 0,
+    
+    /** The client will send the message until it has been delivered at least once*/
+   CBMessageClientQualityAtLeastOnce = 1,
+    
+    /** The client will make sure the message is received only once*/
+   CBMessageClientQualityExactlyOnce = 2
+} CBMessageClientQuality;
+
 /**
  Callback for handling successful initialization of the Clearblade API
  @param ClearBlade The newly initialized settings
@@ -57,42 +68,47 @@ typedef void (^ClearBladeSettingsErrorCallback)(NSError *);
 /**
  Option key for setting the server address in ClearBlade settings
  */
-#define CBSettingsOptionServerAddress @"CBSettingsOptionServerAddress"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionServerAddress;
 
 /**
  Option key for setting the messaging address in ClearBlade settings
  */
-#define CBSettingsOptionMessagingAddress @"CBSettingsOptionMessagingAddress"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionMessagingAddress;
+
+/**
+ Option key for setting the default quality of service for messaging in ClearBlade settings
+ */
+FOUNDATION_EXPORT NSString * const CBSettingsOptionMessagingDefaultQOS;
 
 /**
  Option key for setting the logging level
  */
-#define CBSettingsOptionLoggingLevel @"CBSettingsOptionLoggingLevel"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionLoggingLevel;
 
 /**
  Option key for setting an email to authenticate with.
  Will use this instead of attempting to authenticate as an anonymous user,
  CBSettingsOptionPassword must be set or initialization will fail.
  */
-#define CBSettingsOptionEmail @"CBSettingsOptionEmail"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionEmail;
 
 /**
  Option key for setting a password to authenticate with.
  If CBSettingsOptionEmail isn't set, initialization will fail.
  */
-#define CBSettingsOptionPassword @"CBPassword"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionPassword;
 
 /**
  Option key for making it so before authenticating the user, it attempts
  to register them first. Requires CBSettingsOptionEmail and CBSettingsOptionPassword to be set,
  otherwise initialize will fail.
  */
-#define CBSettingsOptionRegisterUser @"CBRegisterUser"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionRegisterUser;
 
 /**
  Option key for presenting an already authenticated user to the about to be initialized ClearBlade settings
  */
-#define CBSettingsOptionUseUser @"CBUseUser"
+FOUNDATION_EXPORT NSString * const CBSettingsOptionUseUser;
 
 /**
  Encapsulates all the global configuration for the ClearBlade API
@@ -150,6 +166,11 @@ typedef void (^ClearBladeSettingsErrorCallback)(NSError *);
  The Address for the Platform messaging service
  */
 @property (readonly, atomic) NSURL * messagingAddress;
+
+/**
+ The Default quality of service to use for messaging clients
+ */
+@property (readonly, atomic) CBMessageClientQuality messagingDefaultQoS;
 
 /**
  The Main User of the app. Can be modified at runtime to change main users

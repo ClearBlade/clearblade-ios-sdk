@@ -10,13 +10,24 @@
 
 #import "ClearBlade.h"
 #import "CBUser.h"
+#import "CBMessageClient.h"
 #define CB_DEFAULT_LOGGING CB_LOG_WARN
+#define CB_DEFAULT_QOS CBMessageClientQualityAtMostOnce
+NSString * const CBSettingsOptionServerAddress = @"CBSettingsOptionServerAddress";
+NSString * const CBSettingsOptionMessagingAddress = @"CBSettingsOptionMessagingAddress";
+NSString * const CBSettingsOptionMessagingDefaultQOS = @"CBSettingsOptionMessagingDefaultQOS";
+NSString * const CBSettingsOptionLoggingLevel = @"CBSettingsOptionLoggingLevel";
+NSString * const CBSettingsOptionEmail = @"CBSettingsOptionEmail";
+NSString * const CBSettingsOptionPassword = @"CBSettingsOptionPassword";
+NSString * const CBSettingsOptionRegisterUser = @"CBSettingsOptionRegisterUser";
+NSString * const CBSettingsOptionUseUser = @"CBSettingsOptionUseUser";
 
 static ClearBlade * _settings = nil;
 
 @interface ClearBlade ()
 -(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options;
 @property (strong, nonatomic) NSNumber * nextID;
+@property (atomic) CBMessageClientQuality messagingDefaultQoS;
 @end
 
 @implementation ClearBlade
@@ -136,6 +147,7 @@ static ClearBlade * _settings = nil;
 @synthesize systemKey = _systemKey;
 @synthesize serverAddress = _serverAddress;
 @synthesize messagingAddress = _messagingAddress;
+@synthesize messagingDefaultQoS = _messagingDefaultQoS;
 @synthesize nextID = _nextID;
 
 -(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options {
@@ -146,6 +158,7 @@ static ClearBlade * _settings = nil;
         NSString * serverAddress = options[CBSettingsOptionServerAddress];
         NSString * messagingAddress = options[CBSettingsOptionMessagingAddress];
         NSNumber * loggingLevel = options[CBSettingsOptionLoggingLevel];
+        NSNumber * defaultQoS = options[CBSettingsOptionMessagingDefaultQOS];
         CBUser * mainUser = options[CBSettingsOptionUseUser];
         if (serverAddress) {
             self.serverAddress = serverAddress;
@@ -159,6 +172,12 @@ static ClearBlade * _settings = nil;
             self.loggingLevel = [loggingLevel intValue];
         } else {
             self.loggingLevel = CB_DEFAULT_LOGGING;
+        }
+        
+        if (defaultQoS) {
+            self.messagingDefaultQoS = [defaultQoS intValue];
+        } else {
+            self.messagingDefaultQoS = CB_DEFAULT_QOS;
         }
         
         if (mainUser) {

@@ -39,8 +39,6 @@
 		8D81556D1885E8EA004BF9CF /* CBUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D81556B1885E8EA004BF9CF /* CBUser.h */; };
 		8D81556E1885E8EA004BF9CF /* CBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D81556C1885E8EA004BF9CF /* CBUser.m */; };
 		8D81556F1885E8EA004BF9CF /* CBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D81556C1885E8EA004BF9CF /* CBUser.m */; };
-		8DAB5A541891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DAB5A521891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m */; };
-		8DAB5A551891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DAB5A521891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m */; };
 		8DBFB77D18909242001651C8 /* CBHTTPRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DBFB77B18909242001651C8 /* CBHTTPRequestResponse.h */; };
 		8DBFB77E18909242001651C8 /* CBHTTPRequestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBFB77C18909242001651C8 /* CBHTTPRequestResponse.m */; };
 		8DBFB77F18909916001651C8 /* CBHTTPRequestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBFB77C18909242001651C8 /* CBHTTPRequestResponse.m */; };
@@ -105,8 +103,6 @@
 		8D6EBC6F1868B6EE0083623F /* CBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D81556B1885E8EA004BF9CF /* CBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBUser.h; path = ClearBladeAPI/CBUser.h; sourceTree = SOURCE_ROOT; };
 		8D81556C1885E8EA004BF9CF /* CBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBUser.m; path = ClearBladeAPI/CBUser.m; sourceTree = SOURCE_ROOT; };
-		8DAB5A4F1891A7F1008F81D2 /* ClearBladeSettingsBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClearBladeSettingsBuilder.h; sourceTree = SOURCE_ROOT; };
-		8DAB5A521891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClearBladeSettingsBuilderImpl.m; sourceTree = SOURCE_ROOT; };
 		8DBFB77B18909242001651C8 /* CBHTTPRequestResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBHTTPRequestResponse.h; sourceTree = SOURCE_ROOT; };
 		8DBFB77C18909242001651C8 /* CBHTTPRequestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBHTTPRequestResponse.m; sourceTree = SOURCE_ROOT; };
 		8DD898891890756900CCAE52 /* CBUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBUserTests.m; sourceTree = "<group>"; };
@@ -233,8 +229,6 @@
 				8DF2A372185A2577003506C1 /* CBQuery.m */,
 				8D81556B1885E8EA004BF9CF /* CBUser.h */,
 				8D81556C1885E8EA004BF9CF /* CBUser.m */,
-				8DAB5A4F1891A7F1008F81D2 /* ClearBladeSettingsBuilder.h */,
-				8DAB5A521891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m */,
 				8DF2A373185A2577003506C1 /* ClearBlade.h */,
 				8DF2A374185A2577003506C1 /* ClearBlade.m */,
 				8DF2A384185A2582003506C1 /* libmosquitto */,
@@ -465,7 +459,6 @@
 				8D6EBCA41868B9BB0083623F /* CBHTTPRequest.m in Sources */,
 				8D6EBCA51868B9BB0083623F /* CBItem.m in Sources */,
 				8D81556F1885E8EA004BF9CF /* CBUser.m in Sources */,
-				8DAB5A551891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m in Sources */,
 				8D6EBCA61868B9BB0083623F /* CBMessage.m in Sources */,
 				8D6EBCA71868B9BB0083623F /* CBMessageClient.m in Sources */,
 				8D6EBCA81868B9BB0083623F /* CBQuery.m in Sources */,
@@ -502,7 +495,6 @@
 				8DF2A37D185A2577003506C1 /* CBMessage.m in Sources */,
 				8D81556E1885E8EA004BF9CF /* CBUser.m in Sources */,
 				8DF2A3AF185A2582003506C1 /* net_mosq.c in Sources */,
-				8DAB5A541891A93C008F81D2 /* ClearBladeSettingsBuilderImpl.m in Sources */,
 				8DF2A3A9185A2582003506C1 /* messages_mosq.c in Sources */,
 				8DF2A3AB185A2582003506C1 /* mosquitto.c in Sources */,
 				8DF2A37B185A2577003506C1 /* CBItem.m in Sources */,

@@ -10,7 +10,7 @@
 #import "CBHTTPRequest.h"
 #define STRING_COLUMN @"stringcolumn"
 #define MAIN_COMPLETION @"main"
-//#define PROD
+#define PROD
 #ifdef PROD
 #define APP_KEY @"e488a4ab0aea9fb4cc88dfa6ed36"
 #define APP_SECRET @"E488A4AB0A98E1A4D0CBE2CDF626"

@@ -9,7 +9,6 @@
  *******************************************************************************/
 
 #import <Foundation/Foundation.h>
-#import "ClearBladeSettingsBuilder.h"
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
 #define CB_DEFAULT_PLATFORM_ADDRESS @"https://platform.clearblade.com/api/"
@@ -26,6 +25,75 @@
 @class CBUser;
 @class ClearBlade;
 
+typedef enum {
+    /** CBAPI does not log anything under this level */
+    CB_LOG_NONE = 0,
+    
+    /** CBAPI only logs errors under this level */
+    CB_LOG_ERROR = 1,
+    
+    /** CBAPI logs warnings and errors under this level */
+    CB_LOG_WARN = 2,
+    
+    /** CBAPI logs debug lines, warnings, and errors under this level */
+    CB_LOG_DEBUG = 3,
+    
+    /** CBAPI logs everything under this level */
+    CB_LOG_EXTRA = 4
+} CBLoggingLevel;
+
+/**
+ Callback for handling successful initialization of the Clearblade API
+ @param ClearBlade The newly initialized settings
+ */
+typedef void (^ClearBladeSettingsSuccessCallback)(ClearBlade *);
+
+/**
+ Callback for handling failed initialization of the ClearBlade API
+ @param error The error that caused the initialization to fail
+ */
+typedef void (^ClearBladeSettingsErrorCallback)(NSError *);
+
+/**
+ Option key for setting the server address in ClearBlade settings
+ */
+#define CBSettingsOptionServerAddress @"CBSettingsOptionServerAddress"
+
+/**
+ Option key for setting the messaging address in ClearBlade settings
+ */
+#define CBSettingsOptionMessagingAddress @"CBSettingsOptionMessagingAddress"
+
+/**
+ Option key for setting the logging level
+ */
+#define CBSettingsOptionLoggingLevel @"CBSettingsOptionLoggingLevel"
+
+/**
+ Option key for setting an email to authenticate with.
+ Will use this instead of attempting to authenticate as an anonymous user,
+ CBSettingsOptionPassword must be set or initialization will fail.
+ */
+#define CBSettingsOptionEmail @"CBSettingsOptionEmail"
+
+/**
+ Option key for setting a password to authenticate with.
+ If CBSettingsOptionEmail isn't set, initialization will fail.
+ */
+#define CBSettingsOptionPassword @"CBPassword"
+
+/**
+ Option key for making it so before authenticating the user, it attempts
+ to register them first. Requires CBSettingsOptionEmail and CBSettingsOptionPassword to be set,
+ otherwise initialize will fail.
+ */
+#define CBSettingsOptionRegisterUser @"CBRegisterUser"
+
+/**
+ Option key for presenting an already authenticated user to the about to be initialized ClearBlade settings
+ */
+#define CBSettingsOptionUseUser @"CBUseUser"
+
 /**
  Encapsulates all the global configuration for the ClearBlade API
  */
@@ -37,11 +105,6 @@
 +(instancetype)settings;
 
 /**
- Creates a settings builder for configuring the settings object
- */
-+(id<ClearBladeSettingsBuilder>)initSettingsWithBuilder;
-
-/**
  Initializes settings synchronously with default settings.
  Also initializes with an anonymous user.
  @param key The System Key.
@@ -51,6 +114,7 @@
  */
 +(instancetype)initSettingsSyncWithSystemKey:(NSString *)key
                             withSystemSecret:(NSString *)secret
+                                 withOptions:(NSDictionary *)options
                                 withError:(NSError **)error;
 
 /**
@@ -63,6 +127,7 @@
 */
 +(void)initSettingsWithSystemKey:(NSString *)key
                 withSystemSecret:(NSString *)secret
+                     withOptions:(NSDictionary *)options
           withSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback
             withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback;
 

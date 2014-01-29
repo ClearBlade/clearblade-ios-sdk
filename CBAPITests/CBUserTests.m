@@ -17,22 +17,23 @@
 
 -(void)testAnonAuthentication {
     NSError * error;
-    [[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
-      withServerAddress:PLATFORM_ADDRESS]
-      withLoggingLevel:TEST_LOGGING_LEVEL]
-     runSyncWithError:&error];
+    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY withSystemSecret:APP_SECRET
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
+                                    withError:&error];
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
 }
 
 -(void)testRegisterAuthentication {
     NSError * error;
     NSString * uid = [[NSUUID UUID] UUIDString];
-    [[[[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
-      withServerAddress:PLATFORM_ADDRESS]
-      authenticateUserWithEmail:uid withPassword:@"password"]
-     registerUser]
-      withLoggingLevel:TEST_LOGGING_LEVEL]
-     runSyncWithError:&error];
+    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY withSystemSecret:APP_SECRET
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                                                CBSettingsOptionEmail: uid,
+                                                CBSettingsOptionPassword: @"password",
+                                                CBSettingsOptionRegisterUser: @(true)}
+                                    withError:&error];
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
 }
 

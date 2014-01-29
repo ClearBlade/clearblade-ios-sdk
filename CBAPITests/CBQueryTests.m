@@ -21,9 +21,10 @@
 - (void)setUp {
     [super setUp];
     NSError * error;
-    [[[[[ClearBlade initSettingsWithBuilder] withSystemKey:APP_KEY withSystemSecret:APP_SECRET]
-        withServerAddress:PLATFORM_ADDRESS]
-      withLoggingLevel:TEST_LOGGING_LEVEL] runSyncWithError:&error];
+    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
+                             withSystemSecret:APP_SECRET
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS}
+                                    withError:&error];
     self.defaultQuery = [CBQuery queryWithCollectionID:TEST_COLLECTION];
 }
 

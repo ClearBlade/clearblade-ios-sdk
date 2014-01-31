@@ -11,6 +11,7 @@
 #import "CBMessageClient.h"
 #include "mosquitto.h"
 #import "ClearBlade.h"
+#import "CBUser.h"
 
 @interface CBMessageClient ()
 -(void)handleConnect:(CBMessageClientConnectStatus)status;
@@ -55,6 +56,9 @@ static void CBMessageClient_onConnect(struct mosquitto * mosq, void * voidClient
             break;
         case 3:
             [client handleConnect:CBMessageClientConnectUnavailable];
+            break;
+        case MOSQ_ERR_CONN_REFUSED:
+            [client handleConnect:CBMessageClientConnectRefused];
             break;
         default:
             CBLogError(@"Unexpected Connection Response %d", connectionResponse);
@@ -221,7 +225,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     self.qos = qos;
     @synchronized (self.clientLock) {
         mosquitto_username_pw_set(self.client,
-                                  [[[ClearBlade settings] systemKey] cStringUsingEncoding:NSUTF8StringEncoding],
+                                  [[[ClearBlade settings] mainUser].authToken cStringUsingEncoding:NSUTF8StringEncoding],
                                   [[[ClearBlade settings] systemSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
         int port;
         if (hostName.port == nil) {

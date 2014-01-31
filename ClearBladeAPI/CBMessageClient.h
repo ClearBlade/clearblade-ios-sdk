@@ -33,7 +33,10 @@ typedef enum {
     CBMessageClientConnectServerNotFound,
     
     /** The message client connected successfully */
-    CBMessageClientConnectSuccess
+    CBMessageClientConnectSuccess,
+    
+    /** The messaging server refused the connection */
+    CBMessageClientConnectRefused
 } CBMessageClientConnectStatus;
 
 

@@ -10,6 +10,9 @@
 #import "CBHTTPRequest.h"
 #import "CBHTTPRequestResponse.h"
 
+#define CB_AUTH_TOKEN_KEY @"user_token"
+#define CB_CHECK_AUTH_TOKEN_KEY @"is_authenticated"
+
 @interface CBUser ()
 @property (strong, nonatomic) NSString * email;
 @property (strong, nonatomic) NSString * authToken;
@@ -51,7 +54,7 @@
 +(CBHTTPRequest *)checkRequestWithSettings:(ClearBlade *)settings withToken:(NSString *)authToken {
     return [CBHTTPRequest userRequestWithSettings:settings
                                        withMethod:@"POST"
-                                     withAction:@"check"
+                                     withAction:@"checkauth"
                                        withBody:@{}
                                     withHeaders:@{@"ClearBlade-UserToken": authToken}];
 }
@@ -78,7 +81,7 @@
         [settings logError:@"Failed to authenticate user with email <%@> because of error <%@>", email, *error];
         return nil;
     }
-    NSString * authToken = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    NSString * authToken = [CBUser parseTokenResponse:response];
     CBUser * user = [CBUser authenticatedUserWithEmail:email withAuthToken:authToken];
     [settings logDebug:@"Authenticated user <%@>", user];
     return user;
@@ -112,6 +115,24 @@
                withSuccessCallback:successCallback
                  withErrorCallback:errorCallback];
 }
++(NSString *)parseTokenResponse:(NSData *)tokenResponse {
+    NSError * error;
+    NSDictionary * json = [NSJSONSerialization JSONObjectWithData:tokenResponse options:NSJSONReadingAllowFragments error:&error];
+    if (error) {
+        CBLogError(@"Unexpected error while parsing auth token <%@>", error);
+        return nil;
+    }
+    return [json objectForKey:CB_AUTH_TOKEN_KEY];
+}
++(bool)parseCheckAuthResponse:(NSData *)response {
+    NSError * error;
+    NSDictionary * json = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:&error];
+    if (error) {
+        CBLogError(@"Unexpected error while parsing check auth response <%@>", error);
+        return nil;
+    }
+    return [[json objectForKey:CB_CHECK_AUTH_TOKEN_KEY] boolValue];
+}
 +(void)registerUserWithSettings:(ClearBlade *)settings
                       withEmail:(NSString *)email
                    withPassword:(NSString *)password
@@ -119,7 +140,7 @@
               withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[CBUser regRequestWithSettings:settings withEmail:email withPassword:password] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         [settings logDebug:@"Registered user with <%@>", email];
-        [self authenticateUserWithEmail:email withPassword:password withSuccessCallback:successCallback withErrorCallback:errorCallback];
+        [self authenticateUserWithSettings:settings withEmail:email withPassword:password withSuccessCallback:successCallback withErrorCallback:errorCallback];
     } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         [settings logError:@"Failed to register user with email <%@> with error <%@>", email, error];
         if (errorCallback) {
@@ -142,7 +163,7 @@
                 withSuccessCallback:(CBUserSuccessCallback)successCallback
                   withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[self authRequestWithSettings:settings withEmail:email withPassword:password] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
-        NSString * authToken = response.responseString;
+        NSString * authToken = [CBUser parseTokenResponse:response.responseData];
         CBUser * user = [CBUser authenticatedUserWithEmail:email withAuthToken:authToken];
         [settings logDebug:@"Authenticated user <%@>", user];
         if (successCallback) {
@@ -164,7 +185,8 @@
         [settings logError:@"Failed to authenticate anonymous user because of error <%@>", *error];
         return nil;
     }
-    CBUser * user = [CBUser anonymousUserWithAuthToken:[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]];
+    NSString * authToken = [CBUser parseTokenResponse:response];
+    CBUser * user = [CBUser anonymousUserWithAuthToken:authToken];
     [settings logDebug:@"Authenticated user <%@>", user];
     return user;
 }
@@ -172,7 +194,7 @@
 +(void)anonymousUserWithSettings:(ClearBlade *)settings withSuccessCallback:(CBUserSuccessCallback)successCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
     CBHTTPRequest * request = [self authRequestWithAnonWithSettings:settings];
     [request executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
-        NSString * authToken = response.responseString;
+        NSString * authToken = [CBUser parseTokenResponse:response.responseData];
         [settings logDebug:@"User <%@> logged out", self];
         if (successCallback) {
             successCallback([CBUser anonymousUserWithAuthToken:authToken]);
@@ -206,14 +228,13 @@
         CBLogError(@"Failed to check auth token of user <%@> because of error <%@>", self, *error);
         return nil;
     }
-    NSString * response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    return [response boolValue];
+    return [CBUser parseCheckAuthResponse:data];
 }
 -(void)checkIsValidWithServerWithCallback:(CBUserIsValidCallback)isValidCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[CBUser checkRequestWithSettings:[ClearBlade settings] withToken:self.authToken]
      executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         if (isValidCallback) {
-            isValidCallback([response.responseString boolValue]);
+            isValidCallback([CBUser parseCheckAuthResponse:response.responseData]);
         }
     } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         CBLogError(@"Failed to check auth token of user <%@> because of error <%@>", self, error);

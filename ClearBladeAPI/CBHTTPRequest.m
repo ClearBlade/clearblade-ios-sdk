@@ -99,7 +99,7 @@
     if (self) {
         self.settings = settings;
         for (id key in headers.keyEnumerator) {
-            [self setValue:key forKey:[headers objectForKey:key]];
+            [self setValue:[headers objectForKey:key] forHTTPHeaderField:key];
         }
         self.HTTPMethod = method;
         self.HTTPBody = bodyData;

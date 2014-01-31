@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CBMessage.h"
+#import "ClearBlade.h"
 @class CBMessageClient;
 
 typedef enum {
@@ -32,8 +33,12 @@ typedef enum {
     CBMessageClientConnectServerNotFound,
     
     /** The message client connected successfully */
-    CBMessageClientConnectSuccess
+    CBMessageClientConnectSuccess,
+    
+    /** The messaging server refused the connection */
+    CBMessageClientConnectRefused
 } CBMessageClientConnectStatus;
+
 
 @protocol CBMessageClientDelegate <NSObject>
 /**
@@ -103,9 +108,17 @@ Delegate selector to handle when a message client fails to connect to the server
 
 /** The list of topics this client is currently subscribed to */
 @property (atomic, readonly) NSArray * topics;
+@property (atomic, readonly) CBMessageClientQuality qos;
 
 /** Connects the client to the default host, specified in [ClearBlade settings] */
 -(void)connect;
+
+/**
+ Connects the client to the default host, specified in [ClearBlade settings]. However,
+ uses the given Quality of Service
+ @param qos The Quality of Service of the connection
+ */
+-(void)connectWithQoS:(CBMessageClientQuality)qos;
 
 /** Disconnects the client from it's current server */
 -(void)disconnect;
@@ -115,6 +128,8 @@ Connects the client to the host at the specified url.
 @param hostName The URL to connect to. The URL should be of the format tcp://address.
 */
 -(void)connectToHost:(NSURL *)hostName;
+
+-(void)connectToHost:(NSURL *)hostName withQoS:(CBMessageClientQuality)qos;
 
 /**
 Publishs the message client a message to the specified topic.

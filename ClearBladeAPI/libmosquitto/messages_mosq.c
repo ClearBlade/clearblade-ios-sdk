@@ -240,7 +240,6 @@ int _mosquitto_message_remove(struct mosquitto *mosq, uint16_t mid, enum mosquit
 				pthread_mutex_unlock(&mosq->message_mutex);
 				return MOSQ_ERR_SUCCESS;
 			}
-			prev = cur;
 			cur = cur->next;
 		}
 		pthread_mutex_unlock(&mosq->message_mutex);

@@ -103,8 +103,8 @@
 		8D6EBC6F1868B6EE0083623F /* CBAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CBAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D81556B1885E8EA004BF9CF /* CBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBUser.h; path = ClearBladeAPI/CBUser.h; sourceTree = SOURCE_ROOT; };
 		8D81556C1885E8EA004BF9CF /* CBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBUser.m; path = ClearBladeAPI/CBUser.m; sourceTree = SOURCE_ROOT; };
-		8DBFB77B18909242001651C8 /* CBHTTPRequestResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBHTTPRequestResponse.h; sourceTree = SOURCE_ROOT; };
-		8DBFB77C18909242001651C8 /* CBHTTPRequestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBHTTPRequestResponse.m; sourceTree = SOURCE_ROOT; };
+		8DBFB77B18909242001651C8 /* CBHTTPRequestResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBHTTPRequestResponse.h; path = ClearBladeAPI/CBHTTPRequestResponse.h; sourceTree = SOURCE_ROOT; };
+		8DBFB77C18909242001651C8 /* CBHTTPRequestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBHTTPRequestResponse.m; path = ClearBladeAPI/CBHTTPRequestResponse.m; sourceTree = SOURCE_ROOT; };
 		8DD898891890756900CCAE52 /* CBUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBUserTests.m; sourceTree = "<group>"; };
 		8DF2A338185A24DB003506C1 /* CBAPI_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = CBAPI_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF2A33B185A24DB003506C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };

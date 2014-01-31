@@ -87,8 +87,13 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
 - (void)setUp
 {
     [super setUp];
-    [ClearBlade initSettingsWithAppKey:APP_KEY withAppSecret:APP_SECRET withServerAddress:PLATFORM_ADDRESS withMessagingAddress:MESSAGING_ADDRESS
-     withLoggingLevel:TEST_LOGGING_LEVEL];
+    NSError * error;
+    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
+                             withSystemSecret:APP_SECRET
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                                                CBSettingsOptionMessagingAddress: MESSAGING_ADDRESS,
+                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
+                                    withError:&error];
 }
 
 - (void)tearDown
@@ -269,6 +274,76 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
     [self.client publishMessage:TEST_MESSAGE_ONE toTopic:TEST_PUBLISH_TOPIC_ONE];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     [self waitForAsyncCompletion:RECEIVE_COMPLETION];
+    [self.client disconnect];
+}
+
+-(void)testExactlyOnceQoS {
+    BlockHandler connectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    BlockHandler disconnectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    SubscribeHandler subscribeHandler;
+    MessageHandler receiveHandler = ^(CBMessageClient * client, NSString * topic, CBMessage *message){
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"Topic should be expected topic");
+        XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"Message should be expected message");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    ConnectFailHandler connectFailHandler = ^(CBMessageClientConnectStatus status) {
+        XCTFail(@"Unexpected failure for message client with status %d", status);
+    };
+    self.connectFailHandler = connectFailHandler;
+    self.connectHandler = connectHandler;
+    self.disconnectHandler = disconnectHandler;
+    self.subscribeHandler = subscribeHandler;
+    self.receiveHandler = receiveHandler;
+    [self.client connectWithQoS:CBMessageClientQualityExactlyOnce];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"Topic should be the expected topic");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    [self.client subscribeToTopic:TEST_PUBLISH_TOPIC_ONE];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self.client publishMessage:TEST_MESSAGE_ONE toTopic:TEST_PUBLISH_TOPIC_ONE];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self.client disconnect];
+}
+
+-(void)testAtLeastOnceQoS {
+    BlockHandler connectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    BlockHandler disconnectHandler = ^{
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    SubscribeHandler subscribeHandler;
+    MessageHandler receiveHandler = ^(CBMessageClient * client, NSString * topic, CBMessage *message){
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"Topic should be expected topic");
+        XCTAssertTrue([message.payloadText isEqualToString:TEST_MESSAGE_ONE], @"Message should be expected message");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    ConnectFailHandler connectFailHandler = ^(CBMessageClientConnectStatus status) {
+        XCTFail(@"Unexpected failure for message client with status %d", status);
+    };
+    self.connectFailHandler = connectFailHandler;
+    self.connectHandler = connectHandler;
+    self.disconnectHandler = disconnectHandler;
+    self.subscribeHandler = subscribeHandler;
+    self.receiveHandler = receiveHandler;
+    [self.client connectWithQoS:CBMessageClientQualityAtLeastOnce];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    self.subscribeHandler = subscribeHandler = ^(NSString * topic) {
+        XCTAssertTrue([topic isEqualToString:TEST_PUBLISH_TOPIC_ONE], @"Topic should be the expected topic");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    };
+    [self.client subscribeToTopic:TEST_PUBLISH_TOPIC_ONE];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self.client publishMessage:TEST_MESSAGE_ONE toTopic:TEST_PUBLISH_TOPIC_ONE];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
     [self.client disconnect];
 }
 

@@ -9,17 +9,25 @@
  *******************************************************************************/
 
 #import "ClearBlade.h"
+#import "CBUser.h"
+#import "CBMessageClient.h"
 #define CB_DEFAULT_LOGGING CB_LOG_WARN
+#define CB_DEFAULT_QOS CBMessageClientQualityAtMostOnce
+NSString * const CBSettingsOptionServerAddress = @"CBSettingsOptionServerAddress";
+NSString * const CBSettingsOptionMessagingAddress = @"CBSettingsOptionMessagingAddress";
+NSString * const CBSettingsOptionMessagingDefaultQOS = @"CBSettingsOptionMessagingDefaultQOS";
+NSString * const CBSettingsOptionLoggingLevel = @"CBSettingsOptionLoggingLevel";
+NSString * const CBSettingsOptionEmail = @"CBSettingsOptionEmail";
+NSString * const CBSettingsOptionPassword = @"CBSettingsOptionPassword";
+NSString * const CBSettingsOptionRegisterUser = @"CBSettingsOptionRegisterUser";
+NSString * const CBSettingsOptionUseUser = @"CBSettingsOptionUseUser";
 
 static ClearBlade * _settings = nil;
 
 @interface ClearBlade ()
--(instancetype)initWithAppKey:(NSString *)key
-                withAppSecret:(NSString *)secret
-            withServerAddress:(NSString *)serverAddress
-         withMessagingAddress:(NSString *)messagingAddress
-             withLoggingLevel:(CBLoggingLevel)loggingLevel;
+-(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options;
 @property (strong, nonatomic) NSNumber * nextID;
+@property (atomic) CBMessageClientQuality messagingDefaultQoS;
 @end
 
 @implementation ClearBlade
@@ -28,77 +36,176 @@ static ClearBlade * _settings = nil;
 +(instancetype)settings {
     @synchronized (_settings) {
         if (!_settings) {
-            NSLog(@"App Key and App Secret should be set before calling any ClearBlade APIs");
+            NSLog(@"System Key and System Secret should be set before calling any ClearBlade APIs");
         }
         return _settings;
     }
 }
 
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret {
-    return [ClearBlade initSettingsWithAppKey:key withAppSecret:secret withLoggingLevel:CB_DEFAULT_LOGGING];
-}
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withLoggingLevel:(CBLoggingLevel)loggingLevel {
-    return  [ClearBlade  initSettingsWithAppKey:key
-                                  withAppSecret:secret
-                              withServerAddress:CB_DEFAULT_PLATFORM_ADDRESS
-                           withMessagingAddress:CB_DEFAULT_MESSAGING
-                               withLoggingLevel:loggingLevel];
-}
-
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address {
-    return [ClearBlade initSettingsWithAppKey:key withAppSecret:secret withServerAddress:address withLoggingLevel:CB_DEFAULT_LOGGING];
-}
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withLoggingLevel:(CBLoggingLevel)loggingLevel {
-    return [ClearBlade initSettingsWithAppKey:key
-                                withAppSecret:secret
-                            withServerAddress:address
-                         withMessagingAddress:CB_DEFAULT_MESSAGING
-                             withLoggingLevel:loggingLevel];
++(NSError *)validateOptions:(NSDictionary *)options {
+    bool shouldRegister = options[CBSettingsOptionRegisterUser] != nil;
+    NSString * email = options[CBSettingsOptionEmail];
+    NSString * password = options[CBSettingsOptionPassword];
+    if (!email && password) {
+        return [NSError errorWithDomain:@"Must provide both an email to authenticate. Only provided password" code:500 userInfo:nil];
+    } else if (email && !password) {
+        return [NSError errorWithDomain:@"Must provide both an password to authenticate. Only provided email" code:500 userInfo:nil];
+    } else if (shouldRegister && !email) {
+        return [NSError errorWithDomain:@"Cannot register anonymous user" code:500 userInfo:nil];
+    }
+    return nil;
 }
 
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress {
-    return [ClearBlade initSettingsWithAppKey:key
-                                withAppSecret:secret
-                            withServerAddress:address
-                         withMessagingAddress:messagingAddress
-                             withLoggingLevel:CB_DEFAULT_LOGGING];
-}
-+(instancetype)initSettingsWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)address withMessagingAddress:(NSString *)messagingAddress withLoggingLevel:(CBLoggingLevel)loggingLevel {
-    @synchronized (_settings) {
-        _settings = [[ClearBlade alloc] initWithAppKey:key
-                                         withAppSecret:secret
-                                     withServerAddress:address
-                                  withMessagingAddress:messagingAddress
-                                      withLoggingLevel:loggingLevel];
-        return _settings;
++(instancetype)initSettingsSyncWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options withError:(NSError *__autoreleasing *)returnedError {
+    ClearBlade * settings = [[ClearBlade alloc] initWithSystemKey:key withSystemSecret:secret withOptions:options];
+    NSError * error;
+    if (!settings.mainUser) {
+        bool shouldRegister = options[CBSettingsOptionRegisterUser] != nil;
+        NSString * email = options[CBSettingsOptionEmail];
+        NSString * password = options[CBSettingsOptionPassword];
+        error = [ClearBlade validateOptions:options];
+        if (!error) {
+            CBUser * user = nil;
+            
+            if (shouldRegister) {
+                user = [CBUser registerUserWithSettings:settings withEmail:email withPassword:password withError:&error];
+            } else if (email) {
+                user = [CBUser authenticateUserWithSettings:settings withEmail:email withPassword:password withError:&error];
+            } else {
+                user = [CBUser anonymousUserWithSettings:settings WithError:&error];
+            }
+            if (!error) {
+                settings.mainUser = user;
+            }
+        }
+    }
+    if (!error) {
+        _settings = settings;
+        return settings;
+    } else {
+        [settings logError:@"Failed initialization with error <%@>", returnedError];
+        if (returnedError) {
+            *returnedError = error;
+        }
+        return nil;
     }
 }
 
-@synthesize appSecret = _appSecret;
-@synthesize appKey = _appKey;
++(void)initSettingsWithSystemKey:(NSString *)key
+                withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options withSuccessCallback:(ClearBladeSettingsSuccessCallback)successCallback withErrorCallback:(ClearBladeSettingsErrorCallback)errorCallback {
+    ClearBlade * settings = [[ClearBlade alloc] initWithSystemKey:key withSystemSecret:secret withOptions:options];
+    
+    void (^successHandler)(CBUser *) = ^(CBUser * user) {
+        settings.mainUser = user;
+        _settings = settings;
+        if (successCallback) {
+            successCallback(settings);
+        }
+    };
+    void (^errorHandler)(NSError *) = ^(NSError * error) {
+        CBLogError(@"Failed to authenticate anonymous user with error <%@>", error);
+        if (errorCallback) {
+            errorCallback(error);
+        }
+    };
+    
+    if (!settings.mainUser) {
+        bool shouldRegister = options[CBSettingsOptionRegisterUser] != nil;
+        NSString * email = options[CBSettingsOptionEmail];
+        NSString * password = options[CBSettingsOptionPassword];
+        NSError * error = [ClearBlade validateOptions:options];
+        if (error) {
+            if (errorHandler) {
+                errorHandler(error);
+            }
+            return;
+        }
+        if (shouldRegister) {
+            [CBUser registerUserWithSettings:settings
+                                   withEmail:email
+                                withPassword:password
+                         withSuccessCallback:successHandler
+                           withErrorCallback:errorHandler];
+        } else if (email) {
+            [CBUser authenticateUserWithSettings:settings
+                                       withEmail:email
+                                    withPassword:password
+                             withSuccessCallback:successHandler
+                               withErrorCallback:errorHandler];
+        } else {
+            [CBUser anonymousUserWithSettings:settings
+                          withSuccessCallback:successHandler
+                            withErrorCallback:errorHandler];
+        }
+        
+    } else {
+        successHandler(settings.mainUser);
+    }
+}
+
+@synthesize systemSecret = _systemSecret;
+@synthesize systemKey = _systemKey;
 @synthesize serverAddress = _serverAddress;
 @synthesize messagingAddress = _messagingAddress;
+@synthesize messagingDefaultQoS = _messagingDefaultQoS;
 @synthesize nextID = _nextID;
 
--(instancetype)initWithAppKey:(NSString *)key withAppSecret:(NSString *)secret withServerAddress:(NSString *)serverAddress withMessagingAddress:(NSString *)messagingAddress withLoggingLevel:(CBLoggingLevel)loggingLevel {
+-(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options {
     self = [super init];
     if (self) {
-        _appKey = key;
-        _appSecret = secret;
-        self.serverAddress = serverAddress;
-        self.messagingAddress = messagingAddress;
-        self.loggingLevel = loggingLevel;
+        _systemKey = key;
+        _systemSecret = secret;
+        NSString * serverAddress = options[CBSettingsOptionServerAddress];
+        NSString * messagingAddress = options[CBSettingsOptionMessagingAddress];
+        NSNumber * loggingLevel = options[CBSettingsOptionLoggingLevel];
+        NSNumber * defaultQoS = options[CBSettingsOptionMessagingDefaultQOS];
+        CBUser * mainUser = options[CBSettingsOptionUseUser];
+        if (serverAddress) {
+            self.serverAddress = serverAddress;
+        }
+        
+        if (messagingAddress) {
+            self.messagingAddress = messagingAddress;
+        }
+        
+        if (loggingLevel) {
+            self.loggingLevel = [loggingLevel intValue];
+        } else {
+            self.loggingLevel = CB_DEFAULT_LOGGING;
+        }
+        
+        if (defaultQoS) {
+            self.messagingDefaultQoS = [defaultQoS intValue];
+        } else {
+            self.messagingDefaultQoS = CB_DEFAULT_QOS;
+        }
+        
+        if (mainUser) {
+            self.mainUser = mainUser;
+        }
+        
+        
     }
     return self;
 }
+-(NSString *)serverAddress {
+    @synchronized (_serverAddress) {
+        if (!_serverAddress) {
+            _serverAddress = CB_DEFAULT_PLATFORM_ADDRESS;
+        }
+        return _serverAddress;
+    }
+}
 -(void)setServerAddress:(NSString *)serverAddress {
-    if (![serverAddress hasPrefix:@"http"]) {
-        serverAddress = [@"https://" stringByAppendingString:serverAddress];
+    @synchronized(_serverAddress) {
+        if (![serverAddress hasPrefix:@"http"]) {
+            serverAddress = [@"https://" stringByAppendingString:serverAddress];
+        }
+        if (![serverAddress hasSuffix:@"/"]) {
+            serverAddress = [serverAddress stringByAppendingString:@"/"];
+        }
+        _serverAddress = serverAddress;
     }
-    if (![serverAddress hasSuffix:@"/"]) {
-        serverAddress = [serverAddress stringByAppendingString:@"/"];
-    }
-    _serverAddress = serverAddress;
 }
 
 -(void)setMessagingAddress:(NSString *)messagingAddress {
@@ -115,14 +222,18 @@ static ClearBlade * _settings = nil;
 }
 -(NSURL *)messagingAddress {
     @synchronized (_messagingAddress) {
+        if (!_messagingAddress) {
+            self.messagingAddress = CB_DEFAULT_MESSAGING;
+        }
         return _messagingAddress;
+            
     }
 }
 
 -(NSString *)description {
     return [NSString
-            stringWithFormat:@"ClearBlade Settings: App Key <%@>, App Secret <%@>, Server Address <%@>, Messaging Address <%@>",
-            self.appKey, self.appSecret, self.serverAddress, self.messagingAddress];
+            stringWithFormat:@"ClearBlade Settings: System Key <%@>, System Secret <%@>, Server Address <%@>, Messaging Address <%@>",
+            self.systemKey, self.systemSecret, self.serverAddress, self.messagingAddress];
 }
 
 -(void)logError:(NSString *)format, ... {

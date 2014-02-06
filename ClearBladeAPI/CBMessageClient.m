@@ -234,7 +234,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
             port = [hostName.port intValue];
         }
         CBLogDebug(@"Connecting mosquitto client to %@", hostName);
-        response = mosquitto_connect(self.client, [hostName.host cStringUsingEncoding:NSUTF8StringEncoding], port, 10);
+        response = mosquitto_connect(self.client, [hostName.host cStringUsingEncoding:NSUTF8StringEncoding], port, 60);
     }
     id<CBMessageClientDelegate> delegate = self.delegate;
     switch (response) {

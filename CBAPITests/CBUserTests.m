@@ -10,6 +10,7 @@
 #import "AsyncTestCase.h"
 #import "CBUser.h"
 
+
 @interface CBUserTests : AsyncTestCase
 
 @end
@@ -59,8 +60,8 @@
 }
 -(void)testRegisterAuthenticationAsync {
     NSString * uid = [[NSUUID UUID] UUIDString];
-    [ClearBlade initSettingsWithSystemKey:APP_KEY
-                         withSystemSecret:APP_SECRET
+    [ClearBlade initSettingsWithSystemKey:AUTH_APP_KEY
+                         withSystemSecret:AUTH_APP_SECRET
                               withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
                                             CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
                                             CBSettingsOptionEmail: uid,
@@ -90,7 +91,7 @@
 -(void)testRegisterAuthentication {
     NSError * error;
     NSString * uid = [[NSUUID UUID] UUIDString];
-    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY withSystemSecret:APP_SECRET
+    [ClearBlade initSettingsSyncWithSystemKey:AUTH_APP_KEY withSystemSecret:AUTH_APP_SECRET
                                   withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
                                                 CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
                                                 CBSettingsOptionEmail: uid,

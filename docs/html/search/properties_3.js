@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['or',['OR',['../interface_c_b_query.html#a6751257a696c57bd191fca92204fdfa7',1,'CBQuery']]]
+  ['email',['email',['../interface_c_b_user.html#a7907af25f66ea43d5b53ca0e70df34a2',1,'CBUser']]]
 ];

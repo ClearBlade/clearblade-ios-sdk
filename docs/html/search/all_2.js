@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['data',['data',['../interface_c_b_item.html#ab9ea1d2d19a9c76e23029bab43b4ba30',1,'CBItem']]],
-  ['destroy',['destroy',['../interface_c_b_item.html#ae0e3edabb3f5ecf9edf318b66c96792e',1,'CBItem']]]
+  ['data',['data',['../interface_c_b_item.html#a056a3d35cb718cb306dc69915bec29e2',1,'CBItem']]],
+  ['delegate',['delegate',['../interface_c_b_message_client.html#a6a94ee89f64cbc4bef855ecdda6fbf85',1,'CBMessageClient']]],
+  ['disconnect',['disconnect',['../interface_c_b_message_client.html#aacd81270fa332e1a1f534f5ccd51eac8',1,'CBMessageClient']]]
 ];

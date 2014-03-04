@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['or',['OR',['../interface_c_b_query.html#a6751257a696c57bd191fca92204fdfa7',1,'CBQuery']]]
+  ['logginglevel',['loggingLevel',['../interface_clear_blade.html#a63988be37c99a5e90c91b89be9106a5d',1,'ClearBlade']]]
 ];

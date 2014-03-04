@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['query',['query',['../interface_c_b_query.html#a896792b3b7ffa4a297fb91daedae2672',1,'CBQuery']]]
+  ['notequalto_3afor_3a',['notEqualTo:for:',['../interface_c_b_query.html#af7920062116379d99531b3443a8c3aa3',1,'CBQuery']]]
 ];

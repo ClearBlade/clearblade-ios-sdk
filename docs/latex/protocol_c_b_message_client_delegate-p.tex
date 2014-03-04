@@ -1,7 +1,7 @@
-\hypertarget{protocol_c_b_message_client_delegate-p}{\section{$<$C\-B\-Message\-Client\-Delegate$>$ Protocol Reference}
-\label{protocol_c_b_message_client_delegate-p}\index{$<$\-C\-B\-Message\-Client\-Delegate$>$@{$<$\-C\-B\-Message\-Client\-Delegate$>$}}
+\hypertarget{protocol_c_b_message_client_delegate-p}{\section{$<$C\+B\+Message\+Client\+Delegate$>$ Protocol Reference}
+\label{protocol_c_b_message_client_delegate-p}\index{$<$\+C\+B\+Message\+Client\+Delegate$>$@{$<$\+C\+B\+Message\+Client\+Delegate$>$}}
 }
-Inheritance diagram for $<$C\-B\-Message\-Client\-Delegate$>$\-:\begin{figure}[H]
+Inheritance diagram for $<$C\+B\+Message\+Client\+Delegate$>$\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=2.000000cm]{protocol_c_b_message_client_delegate-p}
@@ -10,29 +10,127 @@ Inheritance diagram for $<$C\-B\-Message\-Client\-Delegate$>$\-:\begin{figure}[H
 \subsection*{Instance Methods}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_a867359ed1027be7ddfd607a548e3ba96}{(void) -\/ {\bfseries message\-Client\-:did\-Connect\-:}}\label{protocol_c_b_message_client_delegate-p_a867359ed1027be7ddfd607a548e3ba96}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_a6693cb7cbf8a409b25b15aa2a3ca8c39}{message\+Client\+Did\+Connect\+:}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_a561503ecf3dfabb58045d5ce2a872866}{(void) -\/ {\bfseries message\-Client\-Did\-Disconnect\-:}}\label{protocol_c_b_message_client_delegate-p_a561503ecf3dfabb58045d5ce2a872866}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_a561503ecf3dfabb58045d5ce2a872866}{message\+Client\+Did\+Disconnect\+:}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_a176ec5e85afee0e0277b70ffb4b4979e}{(void) -\/ {\bfseries message\-Client\-:did\-Publish\-:}}\label{protocol_c_b_message_client_delegate-p_a176ec5e85afee0e0277b70ffb4b4979e}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_af0194167f413a3cb0a376c828f1ada34}{message\+Client\+:did\+Publish\+To\+Topic\+:with\+Message\+:}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_a7b462fdbc23f08496107696bbe84f580}{(void) -\/ {\bfseries message\-Client\-:did\-Receive\-Message\-:}}\label{protocol_c_b_message_client_delegate-p_a7b462fdbc23f08496107696bbe84f580}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_a7b462fdbc23f08496107696bbe84f580}{message\+Client\+:did\+Receive\+Message\+:}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_acdd39cc46ad4e0fcf0b9d5369d358b87}{(void) -\/ {\bfseries message\-Client\-:did\-Subscribe\-:}}\label{protocol_c_b_message_client_delegate-p_acdd39cc46ad4e0fcf0b9d5369d358b87}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_acdd39cc46ad4e0fcf0b9d5369d358b87}{message\+Client\+:did\+Subscribe\+:}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_abf3a4f817617e81ecc7e4c8ae714bc46}{(void) -\/ {\bfseries message\-Client\-:did\-Unsubscribe\-:}}\label{protocol_c_b_message_client_delegate-p_abf3a4f817617e81ecc7e4c8ae714bc46}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_abf3a4f817617e81ecc7e4c8ae714bc46}{message\+Client\+:did\+Unsubscribe\+:}
 \item 
-\hypertarget{protocol_c_b_message_client_delegate-p_ae655148c101c94f59c118b765efa9513}{(void) -\/ {\bfseries message\-Client\-:did\-Fail\-To\-Connect\-:}}\label{protocol_c_b_message_client_delegate-p_ae655148c101c94f59c118b765efa9513}
-
+(void) -\/ \hyperlink{protocol_c_b_message_client_delegate-p_ae655148c101c94f59c118b765efa9513}{message\+Client\+:did\+Fail\+To\+Connect\+:}
 \end{DoxyCompactItemize}
 
 
-The documentation for this protocol was generated from the following file\-:\begin{DoxyCompactItemize}
+\subsection{Method Documentation}
+\hypertarget{protocol_c_b_message_client_delegate-p_ae655148c101c94f59c118b765efa9513}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+:did\+Fail\+To\+Connect\+:@{message\+Client\+:did\+Fail\+To\+Connect\+:}}
+\index{message\+Client\+:did\+Fail\+To\+Connect\+:@{message\+Client\+:did\+Fail\+To\+Connect\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+:did\+Fail\+To\+Connect\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\item[{didFailToConnect:(C\+B\+Message\+Client\+Connect\+Status)}]{reason}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_ae655148c101c94f59c118b765efa9513}
+Delegate selector to handle when a message client fails to connect to the server 
+\begin{DoxyParams}{Parameters}
+{\em client} & The message client that failed to connect \\
+\hline
+{\em reason} & The reason why the client could not connect \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_c_b_message_client_delegate-p_af0194167f413a3cb0a376c828f1ada34}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+:did\+Publish\+To\+Topic\+:with\+Message\+:@{message\+Client\+:did\+Publish\+To\+Topic\+:with\+Message\+:}}
+\index{message\+Client\+:did\+Publish\+To\+Topic\+:with\+Message\+:@{message\+Client\+:did\+Publish\+To\+Topic\+:with\+Message\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+:did\+Publish\+To\+Topic\+:with\+Message\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\item[{didPublishToTopic:(N\+S\+String $\ast$)}]{topic}
+\item[{withMessage:({\bf C\+B\+Message} $\ast$)}]{message}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_af0194167f413a3cb0a376c828f1ada34}
+Delegate selector to handle when a message client publishes a message. 
+\begin{DoxyParams}{Parameters}
+{\em client} & The client that published a message \\
+\hline
+{\em topic} & The topic the client published to \\
+\hline
+{\em message} & The message that the client sent to the topic \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_c_b_message_client_delegate-p_a7b462fdbc23f08496107696bbe84f580}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+:did\+Receive\+Message\+:@{message\+Client\+:did\+Receive\+Message\+:}}
+\index{message\+Client\+:did\+Receive\+Message\+:@{message\+Client\+:did\+Receive\+Message\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+:did\+Receive\+Message\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\item[{didReceiveMessage:({\bf C\+B\+Message} $\ast$)}]{message}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_a7b462fdbc23f08496107696bbe84f580}
+Delegate selector to handle when a message client receives a message. 
+\begin{DoxyParams}{Parameters}
+{\em client} & The client that received a message \\
+\hline
+{\em message} & The message that the client received \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_c_b_message_client_delegate-p_acdd39cc46ad4e0fcf0b9d5369d358b87}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+:did\+Subscribe\+:@{message\+Client\+:did\+Subscribe\+:}}
+\index{message\+Client\+:did\+Subscribe\+:@{message\+Client\+:did\+Subscribe\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+:did\+Subscribe\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\item[{didSubscribe:(N\+S\+String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_acdd39cc46ad4e0fcf0b9d5369d358b87}
+Delegate selector to handle when a message client subscribes to a topic. 
+\begin{DoxyParams}{Parameters}
+{\em client} & The client that subscribed to a topic \\
+\hline
+{\em topic} & The topic the client subscribed to \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_c_b_message_client_delegate-p_abf3a4f817617e81ecc7e4c8ae714bc46}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+:did\+Unsubscribe\+:@{message\+Client\+:did\+Unsubscribe\+:}}
+\index{message\+Client\+:did\+Unsubscribe\+:@{message\+Client\+:did\+Unsubscribe\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+:did\+Unsubscribe\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\item[{didUnsubscribe:(N\+S\+String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_abf3a4f817617e81ecc7e4c8ae714bc46}
+Delegate selector to handle when a message client unsubscribes to a topic 
+\begin{DoxyParams}{Parameters}
+{\em client} & The client that unsubscribed to a topic \\
+\hline
+{\em topic} & The topic that the client unsubscribed from \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_c_b_message_client_delegate-p_a6693cb7cbf8a409b25b15aa2a3ca8c39}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+Did\+Connect\+:@{message\+Client\+Did\+Connect\+:}}
+\index{message\+Client\+Did\+Connect\+:@{message\+Client\+Did\+Connect\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+Did\+Connect\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+Did\+Connect\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_a6693cb7cbf8a409b25b15aa2a3ca8c39}
+Delegate selector to handle when a message client successfully connects. 
+\begin{DoxyParams}{Parameters}
+{\em client} & The client that connected \\
+\hline
+\end{DoxyParams}
+\hypertarget{protocol_c_b_message_client_delegate-p_a561503ecf3dfabb58045d5ce2a872866}{\index{C\+B\+Message\+Client\+Delegate-\/p@{C\+B\+Message\+Client\+Delegate-\/p}!message\+Client\+Did\+Disconnect\+:@{message\+Client\+Did\+Disconnect\+:}}
+\index{message\+Client\+Did\+Disconnect\+:@{message\+Client\+Did\+Disconnect\+:}!CBMessageClientDelegate-p@{C\+B\+Message\+Client\+Delegate-\/p}}
+\subsubsection[{message\+Client\+Did\+Disconnect\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) message\+Client\+Did\+Disconnect\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Message\+Client} $\ast$)}]{client}
+\end{DoxyParamCaption}
+\hspace{0.3cm}{\ttfamily [optional]}}}\label{protocol_c_b_message_client_delegate-p_a561503ecf3dfabb58045d5ce2a872866}
+Delegate selector to handle when a message client disconnects. 
+\begin{DoxyParams}{Parameters}
+{\em client} & The client that disconnected \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this protocol was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\-B\-Message\-Client.\-h\end{DoxyCompactItemize}
+C\+B\+Message\+Client.\+h\end{DoxyCompactItemize}

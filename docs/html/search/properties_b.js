@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['username',['username',['../interface_m_q_t_t_client.html#aba20ca92199c2b75f3993468db429aed',1,'MQTTClient']]]
+  ['user',['user',['../interface_c_b_query.html#af5679b48acc1313cab6dd83e2777b440',1,'CBQuery']]]
 ];

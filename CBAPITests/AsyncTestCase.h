@@ -19,6 +19,7 @@
 #define AUTH_APP_SECRET @"D0EF9DAF0ABAC098A0F6DF8D85AE01"
 
 #define TEST_COLLECTION @"e889a4ab0ac69af5bbbba3ebfa2b"
+#define AUTH_TEST_COLLECTION @"b6b1b0b10ac8beb08a9ed9f1cfd301"
 #define PLATFORM_ADDRESS @"https://platform.clearblade.com/"
 #define MESSAGING_ADDRESS @"tcp://messaging.clearblade.com"
 #define TEST_LOGGING_LEVEL CB_LOG_EXTRA

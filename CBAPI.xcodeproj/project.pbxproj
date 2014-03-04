@@ -90,6 +90,7 @@
 		8DF2A3BF185A2582003506C1 /* will_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A3A1185A2582003506C1 /* will_mosq.c */; };
 		8DF2A3C0185A2582003506C1 /* will_mosq.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A3A2185A2582003506C1 /* will_mosq.h */; };
 		8DF2A3C4185A27E4003506C1 /* CBAPI-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A3C3185A27E4003506C1 /* CBAPI-Prefix.pch */; };
+		FAFF2E5C18C63DFD0030D8B3 /* CBUserDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFF2E5B18C63DFD0030D8B3 /* CBUserDataTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,6 +159,7 @@
 		8DF2A3A2185A2582003506C1 /* will_mosq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = will_mosq.h; sourceTree = "<group>"; };
 		8DF2A3C1185A2796003506C1 /* CBAPI-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CBAPI-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8DF2A3C3185A27E4003506C1 /* CBAPI-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBAPI-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		FAFF2E5B18C63DFD0030D8B3 /* CBUserDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBUserDataTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 		8DF2A356185A24DB003506C1 /* CBAPITests */ = {
 			isa = PBXGroup;
 			children = (
+				FAFF2E5B18C63DFD0030D8B3 /* CBUserDataTests.m */,
 				8D542780185FC5B500E17A34 /* AsyncTestCase.h */,
 				8D542781185FC5B500E17A34 /* AsyncTestCase.m */,
 				8D542783185FC5B500E17A34 /* CBItemTests.m */,
@@ -482,6 +485,7 @@
 				8D6EBC991868B7F20083623F /* AsyncTestCase.m in Sources */,
 				8D6EBC9A1868B7F20083623F /* CBItemTests.m in Sources */,
 				8D6EBC9B1868B7F20083623F /* CBMessageClientTests.m in Sources */,
+				FAFF2E5C18C63DFD0030D8B3 /* CBUserDataTests.m in Sources */,
 				8D6EBC9C1868B7F20083623F /* CBQueryTests.m in Sources */,
 				8D6EBC9D1868B7F20083623F /* TestCBItem.m in Sources */,
 			);

@@ -19,6 +19,8 @@
 #define CBQUERY_GTE @"GTE"
 #define CBQUERY_LT @"LT"
 #define CBQUERY_LTE @"LTE"
+#define CBQUERY_ASC @"ASC"
+#define CBQUERY_DESC @"DESC"
 
 @interface CBQuery ()
 @property (strong, nonatomic) NSMutableDictionary *query;
@@ -63,32 +65,39 @@
 }
 
 -(CBQuery *) equalTo:(id)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_EQ];
-    return self;
+    return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_EQ];
 }
 
 -(CBQuery *) notEqualTo:(id)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_NEQ];
+    return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_NEQ];
 }
 
 -(CBQuery *) greaterThan:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_GT];
+    return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_GT];
 }
 
 -(CBQuery *) lessThan:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_LT];
+    return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_LT];
 }
 
 -(CBQuery *) greaterThanEqualTo:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_GTE];
+    return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_GTE];
 }
 
 -(CBQuery *) lessThanEqualTo:(NSNumber *)value for:(NSString *)key {
-    return [self addParameterWithValue:value forKey:key inQueryParameter:CBQUERY_LTE];
+    return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_LTE];
+}
+
+-(CBQuery *)ascendingOnColumn:(NSString *)column {
+    return [self addSortWithDirection:CBQUERY_ASC forColumn:column];
+}
+
+-(CBQuery *)descendingOnColumn:(NSString *)column {
+    return [self addSortWithDirection:CBQUERY_DESC forColumn:column];
 }
 
 -(CBQuery *)startNextOrClause {
-    if ([self.query count] > 0) {
+    if ([[self.query objectForKey:@"FILTERS"] count] > 0) {
         NSMutableDictionary * newQuery = [NSMutableDictionary dictionary];
         [self.OR addObject:newQuery];
         self.query = newQuery;
@@ -96,15 +105,39 @@
     return self;
 }
 
--(CBQuery *) addParameterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
-    NSMutableDictionary * query = self.query;
-    NSDictionary * keyValuePair = [self dictionaryValuesToStrings:@{key: value}];
-    NSMutableArray * parameterArray = [query objectForKey:parameter];
-    if (parameterArray) {
-        [parameterArray addObject:keyValuePair];
+-(CBQuery *)addQueryAsOrClauseUsingQuery:(CBQuery *)orQuery {
+    NSMutableArray *filterArray =  [self.query objectForKey:@"FILTERS"];
+    [filterArray addObject:orQuery];
+    return self;
+}
+
+-(CBQuery *)addSortWithDirection:(NSString *)direction forColumn:(NSString *)column {
+    NSMutableArray *sortArray = [self.query objectForKey:@"SORT"];
+    if (sortArray) {
+        [sortArray addObject:@{direction: column}];
     } else {
-        parameterArray = [NSMutableArray arrayWithObject:keyValuePair];
-        [query setObject:parameterArray forKey:parameter];
+        sortArray = [NSMutableArray arrayWithObject:@{direction: column}];
+        [self.query setObject:sortArray forKey:@"SORT"];
+    }
+    return self;
+}
+
+-(CBQuery *)addFilterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
+    NSMutableDictionary *query = self.query;
+    NSMutableArray *filterArray = [query objectForKey:@"FILTERS"];
+    NSDictionary *keyValuePair = @{key: value};
+    NSMutableArray *conditionArray = [NSMutableArray arrayWithObject:keyValuePair];
+    if (!filterArray) {
+        filterArray = [NSMutableArray arrayWithObject:@{parameter: conditionArray}];
+        [query setObject:filterArray forKey:@"FILTERS"];
+    } else {
+        NSMutableDictionary *parameterDict = [filterArray objectAtIndex:0];
+        NSMutableArray *existingConditionArray = [parameterDict objectForKey:parameter];
+        if (!existingConditionArray) {
+            [parameterDict setObject:conditionArray forKey:parameter];
+        } else {
+            [existingConditionArray addObject:keyValuePair];
+        }
     }
     return self;
 }
@@ -206,6 +239,7 @@
     }
     return stringDictionary;
 }
+
 -(NSArray *)fullQuery {
     NSMutableArray * finalOrArray = [NSMutableArray array];
     for (NSDictionary * orClause in self.OR) {
@@ -217,6 +251,7 @@
     }
     return finalOrArray;
 }
+
 -(void)insertItem:(CBItem *)item
 intoCollectionWithID:(NSString *)collectionID
 withSuccessCallback:(CBQuerySuccessCallback)successCallback
@@ -234,14 +269,14 @@ withErrorCallback:(CBQueryErrorCallback)errorCallback {
 -(NSString *)description {
     NSString * whereClause = @"";
     bool isFirst = true;
-    for (NSDictionary * orClause in self.OR) {
+    for (NSDictionary *orClause in [self.query objectForKey:@"FILTERS"]) {
         if (isFirst) {
             isFirst = false;
         } else if (orClause.count > 0) { //Want to ignore the situation where the last dictionary is empty
             whereClause = [whereClause stringByAppendingString:@" OR "];
         }
-        for (NSString * key in orClause.keyEnumerator) {
-            NSString * operator = nil;
+        for (NSString *key in orClause.keyEnumerator) {
+            NSString *operator = nil;
             if ([key isEqualToString:CBQUERY_EQ]) {
                 operator = @"=";
             } else if ([key isEqualToString:CBQUERY_NEQ]) {

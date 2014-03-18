@@ -157,5 +157,22 @@ WHERE "key1" = "value1" OR "key2" = "value2" AND "key3" = "value3" OR "key4" = "
 @return This query with the new Or clause
 */
 -(CBQuery *) startNextOrClause;
+/**
+Adds another CBQuery as an OR clause. This allows you to create two
+separate CBQuery objects to then OR together.
+@param orQuery A CBQuery to be OR'd to the calling CBQuery.
+ 
+Example:
+CBQuery *firstQuery = [CBQuery queryWithCollectionID:@"f28faaa10a8ca5a5f2f5acd297cc01"]
+[firstQuery equalTo:@"value1" for:@"key1"]
+[firstQuery equalTo:@"value2" for:@"key2"]
+CBQuery *secondQuery = [CBQuery queryWithCollectionID:@"f28faaa10a8ca5a5f2f5acd297cc01"]
+[secondQuery equalTo@"value3" for:@"key3"]
+CBQuery *thirdQuery = [firstQuery addQueryAsOrClauseUsingQuery:secondQuery]
+
+In the example, thirdQuery would be equivalent to this SQL:
+ WHERE "key1" = "value1" AND "key2" = "value2" OR "key3" = "value3"
+*/
+-(CBQuery *)addQueryAsOrClauseUsingQuery:(CBQuery *)orQuery;
 
 @end

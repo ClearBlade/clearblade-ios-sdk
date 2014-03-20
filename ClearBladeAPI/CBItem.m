@@ -80,9 +80,9 @@
 }
 
 -(CBQuerySuccessCallback)handleSuccessCallback:(CBItemSuccessCallback)successCallback {
-    return ^(NSMutableArray *foundItems) {
-        if (foundItems.count == 1) {
-            NSString * newID = [foundItems[0] objectForKey:CBITEM_ID_KEY];
+    return ^(CBQueryResponse *successResponse) {
+        if (successResponse.dataItems.count == 1) {
+            NSString * newID = [successResponse.dataItems[0] objectForKey:CBITEM_ID_KEY];
             self.itemID = newID;
         }
         if (successCallback) {

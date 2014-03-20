@@ -48,7 +48,7 @@
 - (void)insertItem:(CBItem *)item {
     [[CBQuery queryWithCollectionID:item.collectionID] insertItem:item
                                              intoCollectionWithID:AUTH_TEST_COLLECTION
-                                              withSuccessCallback:^(NSMutableArray *successItems) {
+                                              withSuccessCallback:^(CBQueryResponse *successResponse) {
                                                   [self signalAsyncComplete:MAIN_COMPLETION];
                                               } withErrorCallback:^(NSError * error, id JSON) {
                                                   XCTFail(@"Unexpected error %@", error);
@@ -59,7 +59,7 @@
 
 - (void)removeItemWithStringColumn:(NSString *)stringColumn {
     [[[CBQuery queryWithCollectionID:AUTH_TEST_COLLECTION] equalTo:stringColumn for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(NSMutableArray *data) {
+     removeWithSuccessCallback:^(CBQueryResponse *data) {
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Unexpected error %@", error);
@@ -76,10 +76,10 @@
         [self insertItem:nextItem];
         [items addObject:nextItem];
         [[[CBQuery queryWithCollectionID:AUTH_TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-         fetchWithSuccessCallback:^(NSMutableArray * foundItems) {
-             bool isItemInArray[items.count];
+         fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
+             bool isItemInArray[successResponse.dataItems.count];
 
-             for (CBItem * item in foundItems) {
+             for (CBItem * item in successResponse.dataItems) {
                  TestCBItem * testItem = [TestCBItem itemFromCBItem:item];
                  for (int isItemIndex = 0; isItemIndex < items.count; isItemIndex++) {
                      if ([[items objectAtIndex:isItemIndex] isEqualToCBItem:testItem]) {
@@ -88,10 +88,10 @@
                  }
              }
              NSMutableSet * itemIdSet = [NSMutableSet set];
-             for (int isItemIndex = 0; isItemIndex < foundItems.count; isItemIndex++) {
+             for (int isItemIndex = 0; isItemIndex < successResponse.dataItems.count; isItemIndex++) {
                  XCTAssertTrue(isItemInArray[isItemIndex], @"%@ should be in fetch return: %@",
                                [items objectAtIndex:isItemIndex], items);
-                 NSString * itemId = [[foundItems objectAtIndex:isItemIndex] itemID];
+                 NSString * itemId = [[successResponse.dataItems objectAtIndex:isItemIndex] itemID];
                  XCTAssertTrue([itemId isKindOfClass:[NSString class]],
                                @"Item id should be a string, received a %@", [itemId class]);
                  XCTAssertFalse([itemIdSet containsObject:itemId], @"item id %@ returned multiple times", itemId);
@@ -125,10 +125,10 @@
 
     [self.defaultQuery equalTo:@"TEST" for:STRING_COLUMN];
 
-    [self.defaultQuery fetchWithSuccessCallback:^(NSMutableArray * array) {
-        XCTAssertTrue([array count] == 1, @"Should be single response to equal to Test One");
-        if (array.count == 1) {
-            CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
+    [self.defaultQuery fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
+        XCTAssertTrue([successResponse.dataItems count] == 1, @"Should be single response to equal to Test One");
+        if (successResponse.dataItems.count == 1) {
+            CBItem * otherItem = [TestCBItem itemFromCBItem:[successResponse.dataItems objectAtIndex:0]];
             XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
         }
         [self signalAsyncComplete:MAIN_COMPLETION];
@@ -148,7 +148,7 @@
     XCTAssertTrue([user logOutWithError:&error], @"Should successfully log out");
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
     [[[CBQuery queryWithCollectionID:AUTH_TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(NSMutableArray *data) {
+     removeWithSuccessCallback:^(CBQueryResponse *data) {
          XCTFail(@"Should not be allowed to insert item");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {

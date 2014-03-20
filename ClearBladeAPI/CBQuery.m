@@ -96,18 +96,12 @@
     return [self addSortWithDirection:CBQUERY_DESC forColumn:column];
 }
 
--(CBQuery *)startNextOrClause {
-    if ([[self.query objectForKey:@"FILTERS"] count] > 0) {
-        NSMutableDictionary * newQuery = [NSMutableDictionary dictionary];
-        [self.OR addObject:newQuery];
-        self.query = newQuery;
-    }
-    return self;
-}
-
 -(CBQuery *)addQueryAsOrClauseUsingQuery:(CBQuery *)orQuery {
+    if (!orQuery) {
+        return self;
+    }
     NSMutableArray *filterArray =  [self.query objectForKey:@"FILTERS"];
-    [filterArray addObject:orQuery];
+    [filterArray addObject:[[[orQuery query] objectForKey:@"FILTERS"] objectAtIndex:0]];
     return self;
 }
 
@@ -159,11 +153,14 @@
     [apiRequest executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         NSError * error;
         id JSON;
+        NSDictionary *responseDict;
+        CBQueryResponse *successResponse;
         if (response.response.statusCode != 200) {
             error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:response.response.statusCode userInfo:nil];
         }
         if (!error) {
-            JSON = [NSJSONSerialization JSONObjectWithData:response.responseData options:0 error:&error];
+            responseDict = [NSJSONSerialization JSONObjectWithData:response.responseData options:0 error:&error];
+            successResponse = [[CBQueryResponse alloc] initWithDictionary:responseDict];
         }
         if (error) {
             if (failureCallback) {
@@ -180,8 +177,9 @@
             responseItems = JSON;
         }
         NSMutableArray * itemArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:responseItems withCollectionID:self.collectionID];
+        successResponse.dataItems = itemArray;
         if (successCallback) {
-            successCallback(itemArray);
+            successCallback(successResponse);
         }
     } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         if (failureCallback) {

@@ -43,9 +43,11 @@
     expectedFormat = [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <key1 = 'value1' AND key2 = 'value2'>", TEST_COLLECTION];
     [query equalTo:@"value2" for:@"key2"];
     XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Two argument query should have this format");
-    [query startNextOrClause];
+    [query addQueryAsOrClauseUsingQuery:nil];
     XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Empty or clause should be ignored");
-    [query equalTo:@"value3" for:@"key3"];
+    CBQuery *query2 = [CBQuery queryWithCollectionID:TEST_COLLECTION];
+    [query2 equalTo:@"value3" for:@"key3"];
+    [query addQueryAsOrClauseUsingQuery:query2];
     expectedFormat = [NSString stringWithFormat:@"Query: Collection ID <%@>, Where Clause <key1 = 'value1' AND key2 = 'value2' OR key3 = 'value3'>", TEST_COLLECTION];
     XCTAssertTrue([[query description] isEqualToString:expectedFormat], @"Query with or clause should have this format");
 }
@@ -53,7 +55,7 @@
 - (void)insertItem:(CBItem *)item {
     [[CBQuery queryWithCollectionID:item.collectionID] insertItem:item
                                              intoCollectionWithID:TEST_COLLECTION
-                                              withSuccessCallback:^(NSMutableArray *successItems) {
+                                              withSuccessCallback:^(CBQueryResponse *successResponse) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Unexpected error %@", error);
@@ -64,7 +66,7 @@
 
 - (void)removeItemWithStringColumn:(NSString *)stringColumn {
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:stringColumn for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(NSMutableArray *data) {
+     removeWithSuccessCallback:^(CBQueryResponse *successResponse) {
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Unexpected error %@", error);
@@ -81,9 +83,10 @@
         [self insertItem:nextItem];
         [items addObject:nextItem];
         [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-         fetchWithSuccessCallback:^(NSMutableArray * foundItems) {
+         fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
              bool isItemInArray[items.count];
              
+             NSMutableArray *foundItems = successResponse.dataItems;
              for (CBItem * item in foundItems) {
                  TestCBItem * testItem = [TestCBItem itemFromCBItem:item];
                  for (int isItemIndex = 0; isItemIndex < items.count; isItemIndex++) {
@@ -130,10 +133,10 @@
     
     [self.defaultQuery equalTo:@"TEST" for:STRING_COLUMN];
     
-    [self.defaultQuery fetchWithSuccessCallback:^(NSMutableArray * array) {
-        XCTAssertTrue([array count] == 1, @"Should be single response to equal to Test One");
-        if (array.count == 1) {
-            CBItem * otherItem = [TestCBItem itemFromCBItem:[array objectAtIndex:0]];
+    [self.defaultQuery fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
+        XCTAssertTrue([successResponse.dataItems count] == 1, @"Should be single response to equal to Test One");
+        if (successResponse.dataItems.count == 1) {
+            CBItem * otherItem = [TestCBItem itemFromCBItem:[successResponse.dataItems objectAtIndex:0]];
             XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
         }
         [self signalAsyncComplete:MAIN_COMPLETION];
@@ -159,8 +162,8 @@
         [self insertItem:item];
     }
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
-     fetchWithSuccessCallback:^(NSArray * foundItems) {
-         XCTAssertTrue(foundItems.count == items.count, @"All items should be in the collection");
+     fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
+         XCTAssertTrue(successResponse.dataItems.count == items.count, @"All items should be in the collection");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Threw unexpected error %@", error);
@@ -169,8 +172,8 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(NSMutableArray *removed) {
-         XCTAssertTrue(removed.count == 3, @"Should remove 3 items");
+     removeWithSuccessCallback:^(CBQueryResponse *successResponse) {
+         XCTAssertTrue(successResponse.dataItems.count == 3, @"Should remove 3 items");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Threw unexpected error %@", error);
@@ -179,8 +182,8 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
-     fetchWithSuccessCallback:^(NSArray * foundItems) {
-         XCTAssertTrue(foundItems.count == 0, @"All items should be removed");
+     fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
+         XCTAssertTrue(successResponse.dataItems.count == 0, @"All items should be removed");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Threw unexpected error %@", error);
@@ -192,7 +195,7 @@
 
 -(void)testUpdate {
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST_UPDATE" withIntColumn:0 withCollectionID:TEST_COLLECTION];
-    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName] removeWithSuccessCallback:^(NSMutableArray *data) {
+    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName] removeWithSuccessCallback:^(CBQueryResponse *successResponse) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);
@@ -201,7 +204,7 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName]
-     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(NSMutableArray * data) {
+     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(CBQueryResponse *successResponse) {
          XCTFail(@"Should fail if the item does not exist");
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
@@ -211,12 +214,12 @@
     
     [self insertItem:item];
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName]
-     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(NSMutableArray * data) {
-         XCTAssertTrue(data.count == 1, @"Should only be one item");
-         if (data.count == 1) {
-             XCTAssertTrue([[[data firstObject] objectForKey:item.stringColumnName] isEqualToString:@"TEST_UPDATE"],
+     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(CBQueryResponse *successResponse) {
+         XCTAssertTrue(successResponse.dataItems.count == 1, @"Should only be one item");
+         if (successResponse.dataItems.count == 1) {
+             XCTAssertTrue([[[successResponse.dataItems firstObject] objectForKey:item.stringColumnName] isEqualToString:@"TEST_UPDATE"],
                            @"String Column should be TEST_UPDATE");
-             XCTAssertTrue([[[data firstObject] objectForKey:item.intColumnName] isEqualToNumber:@(25)] , @"Int Column should be 25");
+             XCTAssertTrue([[[successResponse.dataItems firstObject] objectForKey:item.intColumnName] isEqualToNumber:@(25)] , @"Int Column should be 25");
          }
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {

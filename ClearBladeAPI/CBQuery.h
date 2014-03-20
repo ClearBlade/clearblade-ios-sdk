@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import "CBItem.h"
 #import "CBUser.h"
+#import "CBQueryResponse.h"
 
 #define CBQUERY_NON_OK_ERROR @"Received Non 200 status from server"
 
@@ -18,7 +19,7 @@
 Callback for handling successful queries
 @param foundItems array of CBItems that match the query
 */
-typedef void (^CBQuerySuccessCallback)(NSMutableArray * foundItems);
+typedef void (^CBQuerySuccessCallback)(CBQueryResponse *successfulResponse);
 
 /**
 Callback for handling failed queries
@@ -136,30 +137,10 @@ Creates a less than or equal to clause and adds it to the query
 */
 -(CBQuery *) lessThanEqualTo: (NSNumber *) value for: (NSString *)key;
 /**
-Adds an Or Clause to the query. This makes it so all previous clauses
-are placed to the leftside of the OR, and now all future clauses will 
-be added to the rightside of the OR. 
-This edits the query in place, so it's returning the same object
- 
-Or clauses are the topmost section of a query, so any Or clause that's added
-will be to the top. Below is how this maps to SQL
-
-CBQuery Example:
-[[[[[[CBQuery queryWithCollectionID] equalTo:@"value1" for:@"key1"] 
-                                     startNextOrClause]
-                                     equalTo:@"value2" for:@"key2"]
-                                     equalTo:@"value3" for:@"key3"]
-                                     startNextOrClause]
-                                     equalTo:@"value4" for @"key4"]
-SQL Example
-WHERE "key1" = "value1" OR "key2" = "value2" AND "key3" = "value3" OR "key4" = "value4"
- 
-@return This query with the new Or clause
-*/
--(CBQuery *) startNextOrClause;
-/**
 Adds another CBQuery as an OR clause. This allows you to create two
 separate CBQuery objects to then OR together.
+This operation happens in place so the caller's underlying query is
+changed but the Query used as the argument is not.
 @param orQuery A CBQuery to be OR'd to the calling CBQuery.
  
 Example:

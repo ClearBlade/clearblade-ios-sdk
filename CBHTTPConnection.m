@@ -33,12 +33,14 @@
 
 +(NSData *)sendSynchronousRequest:(NSURLRequest *)request
                  withSettings:(ClearBlade *)settings
-                 withResponse:(NSURLResponse **)response
-                    withError:(NSError **)error {
+                 withResponse:(NSURLResponse * __autoreleasing *)response
+                    withError:(NSError  * __autoreleasing *)error {
     dispatch_semaphore_t waitSemaphore = dispatch_semaphore_create(0);
+    __block NSError * lambdaError = nil;
+    __block NSURLResponse * lambdaResponse;
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse * completeResponse, NSData *completeData, NSError *completeError) {
-        *response = completeResponse;
-        *error = completeError;
+        lambdaResponse = completeResponse;
+        lambdaError = completeError;
         dispatch_semaphore_signal(waitSemaphore);
     };
     CBHTTPConnection * connectionDelegate = [[CBHTTPConnection alloc] initWithRequest:request withCompletionHandler:completionHandler withSettings:settings];
@@ -47,6 +49,12 @@
     [connection start];
     NSRunLoop * runLoop = [NSRunLoop currentRunLoop];
     while (dispatch_semaphore_wait(waitSemaphore, DISPATCH_TIME_NOW) && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
+    }
+    if (error != NULL) {
+        *error = lambdaError;
+    }
+    if (response != NULL) {
+        *response = lambdaResponse;
     }
     return connectionDelegate.data;
 }

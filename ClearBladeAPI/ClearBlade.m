@@ -21,6 +21,7 @@ NSString * const CBSettingsOptionEmail = @"CBSettingsOptionEmail";
 NSString * const CBSettingsOptionPassword = @"CBSettingsOptionPassword";
 NSString * const CBSettingsOptionRegisterUser = @"CBSettingsOptionRegisterUser";
 NSString * const CBSettingsOptionUseUser = @"CBSettingsOptionUseUser";
+NSString * const CBSettingsOptionAllowUnsignedCerts = @"CBSettingsOptionAllowUnsignedCerts";
 
 static ClearBlade * _settings = nil;
 
@@ -28,6 +29,7 @@ static ClearBlade * _settings = nil;
 -(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options;
 @property (strong, nonatomic) NSNumber * nextID;
 @property (atomic) CBMessageClientQuality messagingDefaultQoS;
+@property (atomic) BOOL allowUnsignedCerts;
 @end
 
 @implementation ClearBlade
@@ -83,7 +85,7 @@ static ClearBlade * _settings = nil;
         _settings = settings;
         return settings;
     } else {
-        [settings logError:@"Failed initialization with error <%@>", returnedError];
+        [settings logError:@"Failed initialization with error <%@>", error];
         if (returnedError) {
             *returnedError = error;
         }
@@ -149,6 +151,7 @@ static ClearBlade * _settings = nil;
 @synthesize messagingAddress = _messagingAddress;
 @synthesize messagingDefaultQoS = _messagingDefaultQoS;
 @synthesize nextID = _nextID;
+@synthesize allowUnsignedCerts = _allowUnsignedCerts;
 
 -(instancetype)initWithSystemKey:(NSString *)key withSystemSecret:(NSString *)secret withOptions:(NSDictionary *)options {
     self = [super init];
@@ -159,6 +162,7 @@ static ClearBlade * _settings = nil;
         NSString * messagingAddress = options[CBSettingsOptionMessagingAddress];
         NSNumber * loggingLevel = options[CBSettingsOptionLoggingLevel];
         NSNumber * defaultQoS = options[CBSettingsOptionMessagingDefaultQOS];
+        NSNumber * allowUnsignedCerts = options[CBSettingsOptionAllowUnsignedCerts];
         CBUser * mainUser = options[CBSettingsOptionUseUser];
         if (serverAddress) {
             self.serverAddress = serverAddress;
@@ -182,6 +186,9 @@ static ClearBlade * _settings = nil;
         
         if (mainUser) {
             self.mainUser = mainUser;
+        }
+        if ([allowUnsignedCerts boolValue]) {
+            self.allowUnsignedCerts = YES;
         }
         
         
@@ -240,6 +247,7 @@ static ClearBlade * _settings = nil;
     if (self.loggingLevel >= CB_LOG_ERROR) {
         va_list arguments;
         va_start(arguments, format);
+        
         NSLog(@"[ERROR] %@", [[NSString alloc] initWithFormat:format arguments:arguments]);
         va_end(arguments);
     }

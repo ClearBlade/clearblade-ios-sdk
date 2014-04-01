@@ -7,8 +7,13 @@
 //
 
 #import "CBHTTPRequest.h"
+#import "CBHTTPConnection.h"
 #import "CBHTTPRequestResponse.h"
 #import "CBUser.h"
+
+@interface CBHTTPRequest () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+
+@end
 
 @implementation CBHTTPRequest
 @synthesize settings = _settings;
@@ -138,12 +143,13 @@
     _settings = settings;
 }
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {
-    void (^completionHandler)(NSURLResponse *, NSData *, NSError *) =^(NSURLResponse *response, NSData *data, NSError * connectionError) {
+    __weak CBHTTPRequest * selfPtr = self;
+    void (^completionHandler)(NSURLResponse *, NSData *, NSError *) = ^(NSURLResponse *response, NSData *data, NSError * connectionError) {
         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
-        CBHTTPRequestResponse * requestResponse = [CBHTTPRequestResponse responseWithRequest:self
+        CBHTTPRequestResponse * requestResponse = [CBHTTPRequestResponse responseWithRequest:selfPtr
                                                                                 withResponse:(NSHTTPURLResponse *)response
                                                                                     withData:data];
-        [self.settings logExtra:@"Executed Request with Response\n%@\n\n", requestResponse];
+        [selfPtr.settings logExtra:@"Executed Request with Response\n%@\n\n", requestResponse];
         if (connectionError) {
             if (errorCallback) {
                 errorCallback(requestResponse, connectionError);
@@ -164,14 +170,13 @@
             successCallback(requestResponse);
         }
     };
-    [NSURLConnection sendAsynchronousRequest:self
-                                       queue:[NSOperationQueue currentQueue]
-                           completionHandler:completionHandler];
+    [CBHTTPConnection sendAsynchronousRequest:self withSettings:self.settings withCompletionHandler:completionHandler];
 }
 
 -(NSData *)executeWithError:(NSError *__autoreleasing *)error {
     NSHTTPURLResponse * requestResponse = nil;
     NSError * requestError = nil;
+    [CBHTTPConnection sendSynchronousRequest:self withSettings:self.settings withResponse:&requestResponse withError:&requestError];
     NSData * requestData = [NSURLConnection sendSynchronousRequest:self returningResponse:&requestResponse error:&requestError];
     CBHTTPRequestResponse * response = [CBHTTPRequestResponse responseWithRequest:self withResponse:requestResponse withData:requestData];
     [self.settings logExtra:@"Executed Request with Response\n%@\n\n", response];
@@ -183,6 +188,17 @@
         return requestData;
     }
     return nil;
+}
+
+-(BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    NSLog(@"%@", protectionSpace);
+    return YES;
+}
+
+-(void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    if (self.settings.allowUnsignedCerts) {
+        [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+    }
 }
 
 @end

@@ -111,6 +111,11 @@ FOUNDATION_EXPORT NSString * const CBSettingsOptionRegisterUser;
 FOUNDATION_EXPORT NSString * const CBSettingsOptionUseUser;
 
 /**
+ Option key for allowing self signed certificates for the target server
+ */
+FOUNDATION_EXPORT NSString * const CBSettingsOptionAllowUnsignedCerts;
+
+/**
  Encapsulates all the global configuration for the ClearBlade API
  */
 @interface ClearBlade : NSObject
@@ -171,6 +176,11 @@ FOUNDATION_EXPORT NSString * const CBSettingsOptionUseUser;
  The Default quality of service to use for messaging clients
  */
 @property (readonly, atomic) CBMessageClientQuality messagingDefaultQoS;
+
+/**
+ Whether or not to allow unsigned certificates from the server
+ */
+@property (readonly, atomic) BOOL allowUnsignedCerts;
 
 /**
  The Main User of the app. Can be modified at runtime to change main users

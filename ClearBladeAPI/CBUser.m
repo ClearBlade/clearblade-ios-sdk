@@ -78,12 +78,12 @@
                                   withError:(NSError *__autoreleasing *)error {
     NSData * response = [[CBUser authRequestWithSettings:settings withEmail:email withPassword:password] executeWithError:error];
     if (*error) {
-        [settings logError:@"Failed to authenticate user with email <%@> because of error <%@>", email, *error];
+        [settings logError:@"Failed to authenticate user with email <%@> because of error <%@>", email, *error, nil];
         return nil;
     }
     NSString * authToken = [CBUser parseTokenResponse:response];
     CBUser * user = [CBUser authenticatedUserWithEmail:email withAuthToken:authToken];
-    [settings logDebug:@"Authenticated user <%@>", user];
+    [settings logDebug:@"Authenticated user <%@>", user, nil];
     return user;
 }
 
@@ -97,11 +97,11 @@
                               withError:(NSError *__autoreleasing *)error {
     [[CBUser regRequestWithSettings:settings withEmail:email withPassword:password] executeWithError:error];
     if (*error) {
-        [settings logError:@"Failed to register user with email <%@> because of error <%@>", email, *error];
+        [settings logError:@"Failed to register user with email <%@> because of error <%@>", email, *error, nil];
         return nil;
     }
     CBUser * user = [self authenticateUserWithSettings:settings withEmail:email withPassword:password withError:error];
-    [settings logDebug:@"Registered user <%@>", user];
+    [settings logDebug:@"Registered user <%@>", user, nil];
     return user;
 }
 
@@ -139,7 +139,7 @@
             withSuccessCallback:(CBUserSuccessCallback)successCallback
               withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[CBUser regRequestWithSettings:settings withEmail:email withPassword:password] executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
-        [settings logDebug:@"Registered user with <%@>", email];
+        [settings logDebug:@"Registered user with <%@>", email, nil];
         [self authenticateUserWithSettings:settings withEmail:email withPassword:password withSuccessCallback:successCallback withErrorCallback:errorCallback];
     } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
         [settings logError:@"Failed to register user with email <%@> with error <%@>", email, error];
@@ -247,7 +247,7 @@
 -(bool)logOutWithError:(NSError *__autoreleasing *)error {
     [[CBUser logoutRequestWithSettings:[ClearBlade settings] withToken:self.authToken] executeWithError:error];
     if (*error) {
-        CBLogError(@"Failed to logout user <%@> because of error <%@>", self, error);
+        CBLogError(@"Failed to logout user <%@> because of error <%@>", self, *error);
         return nil;
     }
     CBLogDebug(@"User <%@> logged out", self);

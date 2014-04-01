@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D161B9B18E0C0300059057E /* CBHTTPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D161B9918E0C0300059057E /* CBHTTPConnection.h */; };
+		8D161B9C18E0C0300059057E /* CBHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D161B9A18E0C0300059057E /* CBHTTPConnection.m */; };
+		8D161B9D18E0C8300059057E /* CBHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D161B9A18E0C0300059057E /* CBHTTPConnection.m */; };
 		8D6EBC701868B6EE0083623F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A34C185A24DB003506C1 /* XCTest.framework */; };
 		8D6EBC711868B6EE0083623F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF2A33B185A24DB003506C1 /* Foundation.framework */; };
 		8D6EBC991868B7F20083623F /* AsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D542781185FC5B500E17A34 /* AsyncTestCase.m */; };
@@ -93,6 +96,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D161B9918E0C0300059057E /* CBHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBHTTPConnection.h; sourceTree = SOURCE_ROOT; };
+		8D161B9A18E0C0300059057E /* CBHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBHTTPConnection.m; sourceTree = SOURCE_ROOT; };
 		8D542780185FC5B500E17A34 /* AsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTestCase.h; sourceTree = "<group>"; };
 		8D542781185FC5B500E17A34 /* AsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTestCase.m; sourceTree = "<group>"; };
 		8D542783185FC5B500E17A34 /* CBItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBItemTests.m; sourceTree = "<group>"; };
@@ -219,6 +224,8 @@
 				8DF2A36A185A2577003506C1 /* CBHTTPRequest.m */,
 				8DBFB77B18909242001651C8 /* CBHTTPRequestResponse.h */,
 				8DBFB77C18909242001651C8 /* CBHTTPRequestResponse.m */,
+				8D161B9918E0C0300059057E /* CBHTTPConnection.h */,
+				8D161B9A18E0C0300059057E /* CBHTTPConnection.m */,
 				8DF2A36B185A2577003506C1 /* CBItem.h */,
 				8DF2A36C185A2577003506C1 /* CBItem.m */,
 				8DF2A36D185A2577003506C1 /* CBMessage.h */,
@@ -318,6 +325,7 @@
 			files = (
 				8DF2A375185A2577003506C1 /* CBAPI.h in Headers */,
 				8DF2A37E185A2577003506C1 /* CBMessageClient.h in Headers */,
+				8D161B9B18E0C0300059057E /* CBHTTPConnection.h in Headers */,
 				8DF2A382185A2577003506C1 /* ClearBlade.h in Headers */,
 				8DF2A380185A2577003506C1 /* CBQuery.h in Headers */,
 				8DF2A376185A2577003506C1 /* CBCollection.h in Headers */,
@@ -454,6 +462,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D161B9D18E0C8300059057E /* CBHTTPConnection.m in Sources */,
 				8DBFB77F18909916001651C8 /* CBHTTPRequestResponse.m in Sources */,
 				8D6EBCA31868B9BB0083623F /* CBCollection.m in Sources */,
 				8D6EBCA41868B9BB0083623F /* CBHTTPRequest.m in Sources */,
@@ -494,6 +503,7 @@
 				8DF2A3B6185A2582003506C1 /* send_mosq.c in Sources */,
 				8DF2A37D185A2577003506C1 /* CBMessage.m in Sources */,
 				8D81556E1885E8EA004BF9CF /* CBUser.m in Sources */,
+				8D161B9C18E0C0300059057E /* CBHTTPConnection.m in Sources */,
 				8DF2A3AF185A2582003506C1 /* net_mosq.c in Sources */,
 				8DF2A3A9185A2582003506C1 /* messages_mosq.c in Sources */,
 				8DF2A3AB185A2582003506C1 /* mosquitto.c in Sources */,

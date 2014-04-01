@@ -129,7 +129,7 @@
         if (response.response.statusCode != 200) {
             error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:response.response.statusCode userInfo:nil];
         }
-        if (!error) {
+        if (!error && response.responseData) {
             JSON = [NSJSONSerialization JSONObjectWithData:response.responseData options:0 error:&error];
         }
         if (error) {
@@ -143,8 +143,10 @@
         NSMutableArray * responseItems;
         if ([JSON isKindOfClass:[NSDictionary class]]) {
             responseItems = @[JSON].mutableCopy;
-        } else {
+        } else if (JSON) {
             responseItems = JSON;
+        } else {
+            responseItems = [NSMutableArray array];
         }
         NSMutableArray * itemArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:responseItems withCollectionID:self.collectionID];
         if (successCallback) {

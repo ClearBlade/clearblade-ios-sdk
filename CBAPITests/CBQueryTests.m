@@ -23,7 +23,8 @@
     NSError * error;
     [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
                              withSystemSecret:APP_SECRET
-                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS}
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                                                CBSettingsOptionAllowUnsignedCerts: @(YES)}
                                     withError:&error];
     self.defaultQuery = [CBQuery queryWithCollectionID:TEST_COLLECTION];
 }

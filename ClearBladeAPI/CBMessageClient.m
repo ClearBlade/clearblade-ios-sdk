@@ -209,11 +209,15 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 -(void)publishMessage:(NSString *)message toTopic:(NSString *)topic {
     CBLogDebug(@"Message client publishing message <%@> to topic <%@>", message, topic);
     @synchronized (self.clientLock) {
-        int messageId;
-        [self addItemToMessageQueue:[CBMessage messageWithTopic:topic withPayloadText:message]];
-        mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
-                          (int)message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
-                          self.qos, true);
+        if (self.isConnected) {
+            int messageId;
+            [self addItemToMessageQueue:[CBMessage messageWithTopic:topic withPayloadText:message]];
+            mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
+                              (int)message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
+                              self.qos, true);
+        } else {
+            CBLogWarning(@"Cannot publish message <%@> to topic <%@>, client <%@> is not connected", message, topic, self);
+        }
     }
 }
 -(void)connectToHost:(NSURL *)hostName {

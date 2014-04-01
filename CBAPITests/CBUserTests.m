@@ -21,7 +21,8 @@
     NSError * error;
     [ClearBlade initSettingsSyncWithSystemKey:APP_KEY withSystemSecret:APP_SECRET
                                   withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
-                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
+                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                                                CBSettingsOptionAllowUnsignedCerts: @(YES)}
                                     withError:&error];
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
     CBUser * user = [ClearBlade settings].mainUser;
@@ -37,7 +38,8 @@
     [ClearBlade initSettingsWithSystemKey:APP_KEY
                          withSystemSecret:APP_SECRET
                               withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
-                                            CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
+                                            CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                                            CBSettingsOptionAllowUnsignedCerts: @(YES)}
                       withSuccessCallback:^(ClearBlade * cb) {
                           CBUser * user = cb.mainUser;
                           [user checkIsValidWithServerWithCallback:^(bool isValid) {
@@ -66,7 +68,8 @@
                                             CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
                                             CBSettingsOptionEmail: uid,
                                             CBSettingsOptionPassword: @"password",
-                                            CBSettingsOptionRegisterUser: @(true) }
+                                            CBSettingsOptionRegisterUser: @(true),
+                                            CBSettingsOptionAllowUnsignedCerts: @(YES)}
                       withSuccessCallback:^(ClearBlade * cb) {
                           CBUser * user = cb.mainUser;
                           [user checkIsValidWithServerWithCallback:^(bool isValid) {
@@ -96,7 +99,8 @@
                                                 CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
                                                 CBSettingsOptionEmail: uid,
                                                 CBSettingsOptionPassword: @"password",
-                                                CBSettingsOptionRegisterUser: @(true)}
+                                                CBSettingsOptionRegisterUser: @(true),
+                                                CBSettingsOptionAllowUnsignedCerts: @(YES)}
                                     withError:&error];
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
     CBUser * user = [ClearBlade settings].mainUser;

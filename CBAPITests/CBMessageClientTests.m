@@ -88,11 +88,13 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
 {
     [super setUp];
     NSError * error;
+    self.client = nil;
     [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
                              withSystemSecret:APP_SECRET
                                   withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
                                                 CBSettingsOptionMessagingAddress: MESSAGING_ADDRESS,
-                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
+                                                CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                                                CBSettingsOptionAllowUnsignedCerts: @(YES)}
                                     withError:&error];
 }
 

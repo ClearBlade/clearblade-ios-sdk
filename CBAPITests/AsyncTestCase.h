@@ -41,13 +41,3 @@
 //Resets the key after it completes
 -(void)waitForAsyncCompletion:(NSString *)completionKey;
 @end
-
-@interface NSURLRequest (HttpsIgnore)
-+(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host;
-@end
-
-@implementation NSURLRequest (HttpsIgnore)
-+(bool)allowsAnyHTTPSCertificateForHost:(NSString *)host {
-    return YES;
-}
-@end

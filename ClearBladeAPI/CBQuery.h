@@ -17,9 +17,15 @@
 
 /**
 Callback for handling successful queries
-@param foundItems array of CBItems that match the query
+@param succesfulResponse CBQueryResponse object holding the found items and pagination information
 */
 typedef void (^CBQuerySuccessCallback)(CBQueryResponse *successfulResponse);
+
+/**
+Callback for handling succesful remove, update, and insert operations
+@param items array of CBItems that were affected by the operation
+*/
+typedef void (^CBOperationSuccessCallback)(NSMutableArray *items);
 
 /**
 Callback for handling failed queries
@@ -72,7 +78,7 @@ Updates on the platform all the items that match the query sent
 @param failureCallback A callback block that handles the errors returned
 */
 -(void) updateWithChanges:(NSDictionary *)changes
-      withSuccessCallback:(CBQuerySuccessCallback)successCallback
+      withSuccessCallback:(CBOperationSuccessCallback)successCallback
         withErrorCallback:(CBQueryErrorCallback)failureCallback;
 
 /**
@@ -84,7 +90,7 @@ Inserts the object into the collection. Ignores any query parameters
 */
 -(void) insertItem:(CBItem *)item
 intoCollectionWithID:(NSString *)collectionID
-withSuccessCallback:(CBQuerySuccessCallback)successCallback
+withSuccessCallback:(CBOperationSuccessCallback)successCallback
  withErrorCallback:(CBQueryErrorCallback)errorCallback;
 
 /**
@@ -92,7 +98,7 @@ Remove from the platform all of the items that match the query sent
 @param successCallback A callback block that handles the returned data
 @param failureCallback A callback block that handles the errors returned
 */
--(void) removeWithSuccessCallback:(CBQuerySuccessCallback)successCallback
+-(void) removeWithSuccessCallback:(CBOperationSuccessCallback)successCallback
                 withErrorCallback:(CBQueryErrorCallback)failureCallback;
 /**
 Creates an equality clause and adds it to the query

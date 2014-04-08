@@ -48,7 +48,7 @@
 - (void)insertItem:(CBItem *)item {
     [[CBQuery queryWithCollectionID:item.collectionID] insertItem:item
                                              intoCollectionWithID:AUTH_TEST_COLLECTION
-                                              withSuccessCallback:^(CBQueryResponse *successResponse) {
+                                              withSuccessCallback:^(NSMutableArray *successResponse) {
                                                   [self signalAsyncComplete:MAIN_COMPLETION];
                                               } withErrorCallback:^(NSError * error, id JSON) {
                                                   XCTFail(@"Unexpected error %@", error);
@@ -59,7 +59,7 @@
 
 - (void)removeItemWithStringColumn:(NSString *)stringColumn {
     [[[CBQuery queryWithCollectionID:AUTH_TEST_COLLECTION] equalTo:stringColumn for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(CBQueryResponse *data) {
+     removeWithSuccessCallback:^(NSMutableArray *data) {
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Unexpected error %@", error);
@@ -148,7 +148,7 @@
     XCTAssertTrue([user logOutWithError:&error], @"Should successfully log out");
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
     [[[CBQuery queryWithCollectionID:AUTH_TEST_COLLECTION] equalTo:@"TEST" for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(CBQueryResponse *data) {
+     removeWithSuccessCallback:^(NSMutableArray *data) {
          XCTFail(@"Should not be allowed to insert item");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {

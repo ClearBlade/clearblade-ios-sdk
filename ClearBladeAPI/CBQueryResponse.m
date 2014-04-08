@@ -13,11 +13,11 @@
 -(id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     
-    self.currentPageNumber = (NSNumber *)[dictionary objectForKey:@"currentPageNum"];
-    self.nextPageURL = [dictionary objectForKey:@"nextPageUrl"];
-    self.prevPageURL = [dictionary objectForKey:@"prevPageUrl"];
-    self.totalCount = (NSNumber *)[dictionary objectForKey:@"totalCount"];
-    self.dataItems = [dictionary objectForKey:@"data"];
+    self.currentPageNumber = (NSNumber *)[dictionary objectForKey:@"CURRENTPAGE"];
+    self.nextPageURL = [dictionary objectForKey:@"NEXTPAGEURL"];
+    self.prevPageURL = [dictionary objectForKey:@"PREVPAGEURL"];
+    self.totalCount = (NSNumber *)[dictionary objectForKey:@"TOTALCOUNT"];
+    self.dataItems = [dictionary objectForKey:@"DATA"];
     
     return self;
 }

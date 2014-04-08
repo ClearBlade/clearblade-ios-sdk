@@ -69,12 +69,12 @@
     CBLogDebug(@"Saving %@", self);
     if (self.itemID) {
         [[query equalTo:self.itemID for:CBITEM_ID_KEY] updateWithChanges:self.data
-             withSuccessCallback:[self handleSuccessCallback:successCallback]
+             withSuccessCallback:[self handleSuccessOperationCallback:successCallback]
                withErrorCallback:[self handleErrorCallback:errorCallback]];
     } else {
         [query insertItem:self
      intoCollectionWithID:self.collectionID
-      withSuccessCallback:[self handleSuccessCallback:successCallback]
+      withSuccessCallback:[self handleSuccessOperationCallback:successCallback]
         withErrorCallback:[self handleErrorCallback:errorCallback]];
     }
 }
@@ -90,6 +90,19 @@
         }
     };
 }
+
+-(CBOperationSuccessCallback)handleSuccessOperationCallback:(CBItemSuccessCallback)successCallback {
+    return ^(NSMutableArray *successResponse) {
+        if (successResponse.count == 1) {
+            NSString * newID = [successResponse[0] objectForKey:CBITEM_ID_KEY];
+            self.itemID = newID;
+        }
+        if (successCallback) {
+            successCallback(self);
+        }
+    };
+}
+
 -(CBQueryErrorCallback)handleErrorCallback:(CBItemErrorCallback)errorCallback {
     return ^(NSError * error, id JSON) {
         if (errorCallback) {
@@ -119,7 +132,7 @@
     if ([self validateWithErrorCallback:errorCallback]) {
         CBQuery *query = [[CBQuery alloc] init];
         [query equalTo:self.itemID for:CBITEM_ID_KEY];
-        [query removeWithSuccessCallback:[self handleSuccessCallback:successCallback]
+        [query removeWithSuccessCallback:[self handleSuccessOperationCallback:successCallback]
                        withErrorCallback:[self handleErrorCallback:errorCallback]];
     }
    

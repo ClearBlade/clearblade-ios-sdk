@@ -17,7 +17,7 @@
 +(instancetype)requestWithMethod:(NSString *)method withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters withUser:(CBUser *)user {
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
                                                   withMethod:method
-                                              withCollection:[@"api/v1/data/" stringByAppendingString:collectionID]
+                                              withCollection:[@"api/v/1/data/" stringByAppendingString:collectionID]
                                               withParameters:parameters
                                                     withUser:user];
 }
@@ -32,7 +32,7 @@
     }
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:settings
                                                   withMethod:method
-                                                  withAction:[@"api/v1/user/" stringByAppendingString:action]
+                                                  withAction:[@"api/v/1/user/" stringByAppendingString:action]
                                                     withBody:body
                                                  withHeaders:headers];
 }

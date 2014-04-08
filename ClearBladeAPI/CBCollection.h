@@ -68,7 +68,7 @@ Updates an item or a set of items on the Platform that match the given query.
 */
 -(void) updateWithQuery:(CBQuery *) query
             withChanges:(NSDictionary *)changes
-    withSuccessCallback:(CBQuerySuccessCallback)successCallback
+    withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback;
 /**
 Removes an item or a set of items on the Platform that match the given query.
@@ -77,7 +77,7 @@ Removes an item or a set of items on the Platform that match the given query.
 @param failureCallback Callback Block to handle errors returned
 */
 -(void) removeWithQuery:(CBQuery *)query
-    withSuccessCallback:(CBQuerySuccessCallback)successCallback
+    withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback;
 
 @end

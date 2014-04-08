@@ -7,8 +7,8 @@
 //
 
 #import "TestCBItem.h"
-#define STRING_COLUMN @"StringColumn"
-#define INT_COLUMN @"IntColumn"
+#define STRING_COLUMN @"stringcolumn"
+#define INT_COLUMN @"intcolumn"
 
 @implementation TestCBItem
 @dynamic stringColumn;
@@ -47,7 +47,9 @@
     [self setObject:intColumn forKey:self.intColumnName];
 }
 
-+(instancetype)itemWithStringColumn:(NSString *)stringColumn withIntColumn:(int)intColumn withCollectionID:(NSString *)collectionID {
++(instancetype)itemWithStringColumn:(NSString *)stringColumn
+                      withIntColumn:(int)intColumn
+                   withCollectionID:(NSString *)collectionID {
     TestCBItem * item = [[TestCBItem alloc] init];
     item.stringColumn = stringColumn;
     item.intColumn = @(intColumn);
@@ -56,7 +58,8 @@
 }
 +(instancetype)itemFromCBItem:(CBItem *)item {
     TestCBItem * newItem = [TestCBItem itemWithStringColumn:[item objectForKey:[TestCBItem stringColumnName]]
-                                              withIntColumn:[[item objectForKey:[TestCBItem intColumnName]] intValue] withCollectionID:item.collectionID];
+                                              withIntColumn:[[item objectForKey:[TestCBItem intColumnName]] intValue]
+                                           withCollectionID:item.collectionID];
     newItem.itemID = item.itemID;
     return newItem;
 }

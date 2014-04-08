@@ -48,14 +48,14 @@
 
 -(void) updateWithQuery:(CBQuery *) query
             withChanges:(NSMutableDictionary *)changes
-    withSuccessCallback:(CBQuerySuccessCallback)successCallback
+    withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
     query.collectionID = self.collectionID;
     [query updateWithChanges:changes withSuccessCallback:successCallback withErrorCallback:failureCallback];
 }
 
 -(void) removeWithQuery:(CBQuery *)query
-    withSuccessCallback:(CBQuerySuccessCallback)successCallback
+    withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
     query.collectionID = self.collectionID;
     [query removeWithSuccessCallback:successCallback withErrorCallback:failureCallback];

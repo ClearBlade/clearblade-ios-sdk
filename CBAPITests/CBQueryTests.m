@@ -55,7 +55,7 @@
 - (void)insertItem:(CBItem *)item {
     [[CBQuery queryWithCollectionID:item.collectionID] insertItem:item
                                              intoCollectionWithID:TEST_COLLECTION
-                                              withSuccessCallback:^(CBQueryResponse *successResponse) {
+                                              withSuccessCallback:^(NSMutableArray *successResponse) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Unexpected error %@", error);
@@ -66,7 +66,7 @@
 
 - (void)removeItemWithStringColumn:(NSString *)stringColumn {
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:stringColumn for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(CBQueryResponse *successResponse) {
+     removeWithSuccessCallback:^(NSMutableArray *successResponse) {
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError * error, id JSON) {
         XCTFail(@"Unexpected error %@", error);
@@ -172,8 +172,8 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
-     removeWithSuccessCallback:^(CBQueryResponse *successResponse) {
-         XCTAssertTrue(successResponse.dataItems.count == 3, @"Should remove 3 items");
+     removeWithSuccessCallback:^(NSMutableArray *successResponse) {
+         XCTAssertTrue(successResponse.count == 3, @"Should remove 3 items");
          [self signalAsyncComplete:MAIN_COMPLETION];
      } withErrorCallback:^(NSError * error, id JSON) {
          XCTFail(@"Threw unexpected error %@", error);
@@ -195,7 +195,7 @@
 
 -(void)testUpdate {
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST_UPDATE" withIntColumn:0 withCollectionID:TEST_COLLECTION];
-    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName] removeWithSuccessCallback:^(CBQueryResponse *successResponse) {
+    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName] removeWithSuccessCallback:^(NSMutableArray *successResponse) {
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);
@@ -204,7 +204,7 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName]
-     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(CBQueryResponse *successResponse) {
+     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(NSMutableArray *successResponse) {
          XCTFail(@"Should fail if the item does not exist");
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
@@ -214,12 +214,12 @@
     
     [self insertItem:item];
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName]
-     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(CBQueryResponse *successResponse) {
-         XCTAssertTrue(successResponse.dataItems.count == 1, @"Should only be one item");
-         if (successResponse.dataItems.count == 1) {
-             XCTAssertTrue([[[successResponse.dataItems firstObject] objectForKey:item.stringColumnName] isEqualToString:@"TEST_UPDATE"],
+     updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(NSMutableArray *successResponse) {
+         XCTAssertTrue(successResponse.count == 1, @"Should only be one item");
+         if (successResponse.count == 1) {
+             XCTAssertTrue([[[successResponse firstObject] objectForKey:item.stringColumnName] isEqualToString:@"TEST_UPDATE"],
                            @"String Column should be TEST_UPDATE");
-             XCTAssertTrue([[[successResponse.dataItems firstObject] objectForKey:item.intColumnName] isEqualToNumber:@(25)] , @"Int Column should be 25");
+             XCTAssertTrue([[[successResponse firstObject] objectForKey:item.intColumnName] isEqualToNumber:@(25)] , @"Int Column should be 25");
          }
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {

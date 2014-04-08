@@ -118,11 +118,11 @@
 
 -(CBQuery *)addFilterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
     NSMutableDictionary *query = self.query;
-    NSMutableArray *filterArray = [query objectForKey:@"FILTERS"];
+    NSMutableArray *filterArray = [query objectForKey:@"FILTERS"][0];
     NSDictionary *keyValuePair = @{key: value};
     NSMutableArray *conditionArray = [NSMutableArray arrayWithObject:keyValuePair];
     if (!filterArray) {
-        filterArray = [NSMutableArray arrayWithObject:@{parameter: conditionArray}];
+        filterArray = [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:@{parameter: conditionArray}]];
         [query setObject:filterArray forKey:@"FILTERS"];
     } else {
         NSMutableDictionary *parameterDict = [filterArray objectAtIndex:0];
@@ -152,7 +152,6 @@
   withFailureCallback:(CBQueryErrorCallback)failureCallback {
     [apiRequest executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         NSError * error;
-        id JSON;
         NSDictionary *responseDict;
         CBQueryResponse *successResponse;
         if (response.response.statusCode != 200) {
@@ -170,14 +169,39 @@
             }
             return;
         }
-        NSMutableArray * responseItems;
-        if ([JSON isKindOfClass:[NSDictionary class]]) {
-            responseItems = @[JSON].mutableCopy;
-        } else {
-            responseItems = JSON;
-        }
-        NSMutableArray * itemArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:responseItems withCollectionID:self.collectionID];
+        NSMutableArray * itemArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:successResponse.dataItems withCollectionID:self.collectionID];
         successResponse.dataItems = itemArray;
+        if (successCallback) {
+            successCallback(successResponse);
+        }
+    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
+        if (failureCallback) {
+            failureCallback(error, response.responseData);
+        }
+    }];
+}
+
+-(void) executeOperation:(CBHTTPRequest *)apiRequest
+     withSuccessCallback:(CBOperationSuccessCallback)successCallback
+     withFailureCallback:(CBQueryErrorCallback)failureCallback {
+    [apiRequest executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
+        NSError * error;
+        NSMutableArray *successResponse;
+        if (response.response.statusCode != 200) {
+            error = [NSError errorWithDomain:CBQUERY_NON_OK_ERROR  code:response.response.statusCode userInfo:nil];
+        }
+        if (!error) {
+            // Since this is used for removals, updates, and inserts we know we will get back an array
+            successResponse = [NSJSONSerialization JSONObjectWithData:response.responseData options:0 error:&error];
+        }
+        if (error) {
+            if (failureCallback) {
+                failureCallback([NSError errorWithDomain:response.responseString
+                                                    code:response.response.statusCode
+                                                userInfo:nil], response.responseData);
+            }
+            return;
+        }
         if (successCallback) {
             successCallback(successResponse);
         }
@@ -192,7 +216,7 @@
                withErrorCallback:(CBQueryErrorCallback)failureCallback {
     NSDictionary * parameters = nil;
     if (self.OR.count > 1 || self.query.count > 0) {
-        parameters = @{@"query":[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fullQuery]
+        parameters = @{@"query":[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fetchQuery]
                                                                                                options:0
                                                                                                  error:NULL]
                                                       encoding:NSUTF8StringEncoding]};
@@ -202,28 +226,28 @@
 }
 
 -(void) updateWithChanges:(NSMutableDictionary *)changes
-      withSuccessCallback:(CBQuerySuccessCallback)successCallback
+      withSuccessCallback:(CBOperationSuccessCallback)successCallback
         withErrorCallback:(CBQueryErrorCallback)failureCallback {
     CBHTTPRequest *updateRequest = [self requestWithMethod:@"PUT" withParameters:nil];
-    updateRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": [self fullQuery], @"$set": changes}
+    updateRequest.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": [self operationQuery], @"$set": changes}
                                                              options:0
                                                                error:NULL];
     [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     CBLogDebug(@"Executing Update with %@ and changes %@", self, changes);
-    [self executeRequest:updateRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
+    [self executeOperation:updateRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
 
--(void) removeWithSuccessCallback:(CBQuerySuccessCallback)successCallback
+-(void) removeWithSuccessCallback:(CBOperationSuccessCallback)successCallback
                 withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fullQuery]
+    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self operationQuery]
                                                                                           options:0
                                                                                             error:NULL]
                                                  encoding:NSUTF8StringEncoding];
     CBHTTPRequest *removeRequest = [self requestWithMethod:@"DELETE" withParameters:@{@"query": jsonString}];
     CBLogDebug(@"Executing remove with %@", self);
-    [self executeRequest:removeRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
+    [self executeOperation:removeRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
 -(NSDictionary *)dictionaryValuesToStrings:(NSDictionary *)dictionary {
@@ -238,12 +262,20 @@
     return stringDictionary;
 }
 
--(NSArray *)fullQuery {
+// Generates a query for fetches
+-(NSDictionary *)fetchQuery {
+    return self.query;
+}
+
+// Generates a query for inserts, updates, and removes
+-(NSArray *)operationQuery {
     NSMutableArray * finalOrArray = [NSMutableArray array];
-    for (NSDictionary * orClause in self.OR) {
+    for (NSDictionary *orClause in [self.query objectForKey:@"FILTERS"]) {
         NSMutableArray * keyValuePairList = [NSMutableArray array];
-        for (id key in orClause.keyEnumerator) {
-            [keyValuePairList addObject:@{key:orClause[key]}];
+        for (NSDictionary *or in orClause) {
+            for (id key in or.keyEnumerator) {
+                [keyValuePairList addObject:@{key:or[key]}];
+            }
         }
         [finalOrArray addObject:keyValuePairList];
     }
@@ -252,7 +284,7 @@
 
 -(void)insertItem:(CBItem *)item
 intoCollectionWithID:(NSString *)collectionID
-withSuccessCallback:(CBQuerySuccessCallback)successCallback
+withSuccessCallback:(CBOperationSuccessCallback)successCallback
 withErrorCallback:(CBQueryErrorCallback)errorCallback {
     item.collectionID = collectionID;
     CBHTTPRequest *insertRequest = [self requestWithMethod:@"POST" withParameters:nil];
@@ -261,7 +293,7 @@ withErrorCallback:(CBQueryErrorCallback)errorCallback {
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [insertRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     CBLogDebug(@"Inserting %@ into collection %@", item, collectionID);
-    [self executeRequest:insertRequest withSuccessCallback:successCallback withFailureCallback:errorCallback];
+    [self executeOperation:insertRequest withSuccessCallback:successCallback withFailureCallback:errorCallback];
 }
 
 -(NSString *)description {
@@ -273,31 +305,33 @@ withErrorCallback:(CBQueryErrorCallback)errorCallback {
         } else if (orClause.count > 0) { //Want to ignore the situation where the last dictionary is empty
             whereClause = [whereClause stringByAppendingString:@" OR "];
         }
-        for (NSString *key in orClause.keyEnumerator) {
-            NSString *operator = nil;
-            if ([key isEqualToString:CBQUERY_EQ]) {
-                operator = @"=";
-            } else if ([key isEqualToString:CBQUERY_NEQ]) {
-                operator = @"!=";
-            } else if ([key isEqualToString:CBQUERY_GT]) {
-                operator = @">";
-            } else if ([key isEqualToString:CBQUERY_GTE]) {
-                operator = @">=";
-            } else if ([key isEqualToString:CBQUERY_LT]) {
-                operator = @"<";
-            } else if ([key isEqualToString:CBQUERY_LTE]) {
-                operator = @"<=";
-            }
-            bool isFirstFieldInAndBlock = true;
-            for (NSDictionary * field in [orClause objectForKey:key]) {
-                if (isFirstFieldInAndBlock) {
-                    isFirstFieldInAndBlock = false;
-                } else {
-                    whereClause = [whereClause stringByAppendingString:@" AND "];
+        for (NSMutableDictionary *or in orClause) {
+            for (NSString *key in or.keyEnumerator) {
+                NSString *operator = nil;
+                if ([key isEqualToString:CBQUERY_EQ]) {
+                    operator = @"=";
+                } else if ([key isEqualToString:CBQUERY_NEQ]) {
+                    operator = @"!=";
+                } else if ([key isEqualToString:CBQUERY_GT]) {
+                    operator = @">";
+                } else if ([key isEqualToString:CBQUERY_GTE]) {
+                    operator = @">=";
+                } else if ([key isEqualToString:CBQUERY_LT]) {
+                    operator = @"<";
+                } else if ([key isEqualToString:CBQUERY_LTE]) {
+                    operator = @"<=";
                 }
-                for (NSString * fieldName in field.keyEnumerator) {
-                    whereClause = [whereClause stringByAppendingString:
-                                   [NSString stringWithFormat:@"%@ %@ '%@'", fieldName, operator, [field objectForKey:fieldName]]];
+                bool isFirstFieldInAndBlock = true;
+                for (NSDictionary * field in [or objectForKey:key]) {
+                    if (isFirstFieldInAndBlock) {
+                        isFirstFieldInAndBlock = false;
+                    } else {
+                        whereClause = [whereClause stringByAppendingString:@" AND "];
+                    }
+                    for (NSString * fieldName in field.keyEnumerator) {
+                        whereClause = [whereClause stringByAppendingString:
+                                       [NSString stringWithFormat:@"%@ %@ '%@'", fieldName, operator, [field objectForKey:fieldName]]];
+                    }
                 }
             }
         }

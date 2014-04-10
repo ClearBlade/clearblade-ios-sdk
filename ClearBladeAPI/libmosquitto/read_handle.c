@@ -42,6 +42,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "time_mosq.h"
 #include "util_mosq.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 int _mosquitto_packet_handle(struct mosquitto *mosq)
 {
 	assert(mosq);
@@ -165,3 +168,4 @@ int _mosquitto_handle_publish(struct mosquitto *mosq)
 	}
 }
 
+#pragma clang diagnostic pop

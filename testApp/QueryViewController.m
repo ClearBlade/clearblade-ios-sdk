@@ -17,17 +17,17 @@
 
 @implementation QueryViewController
 
-@synthesize operationPicker;
-@synthesize colID;
-@synthesize display;
-@synthesize fetchKey;
-@synthesize fetchVal;
-@synthesize updateKey;
-@synthesize updateQuerKey;
-@synthesize updateQuerVal;
-@synthesize updateVal;
-@synthesize removeKey;
-@synthesize removeVal;
+@synthesize operationPicker = _operationPicker;
+@synthesize colID = _colID;
+@synthesize display = _display;
+@synthesize fetchKey = _fetchKey;
+@synthesize fetchVal = _fetchVal;
+@synthesize updateKey = _updateKey;
+@synthesize updateQuerKey = _updateQuerKey;
+@synthesize updateQuerVal = _updateQuerVal;
+@synthesize updateVal = _updateVal;
+@synthesize removeKey = _removeKey;
+@synthesize removeVal = _removeVal;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
@@ -48,8 +48,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    display.layer.borderWidth = 1.0f;
-    display.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.display.layer.borderWidth = 1.0f;
+    self.display.layer.borderColor = [[UIColor grayColor] CGColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,115 +59,115 @@
 }
 
 -(IBAction) fetchClick {
-    CBQuery *query = [[CBQuery alloc] initWithCollectionID:colID.text];
-    int num = operationPicker.selectedSegmentIndex;
+    CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.colID.text];
+    int num = self.operationPicker.selectedSegmentIndex;
     switch(num) {
         case 0:
-            [query equalTo:fetchVal.text for:fetchKey.text];
+            [query equalTo:self.fetchVal.text for:self.fetchKey.text];
             break;
         case 1:
-            [query notEqualTo:fetchVal.text for:fetchKey.text];
+            [query notEqualTo:self.fetchVal.text for:self.fetchKey.text];
             break;
         case 2:
-            [query greaterThan:fetchVal.text for:fetchKey.text];
+            [query greaterThan:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         case 3:
-            [query lessThan:fetchVal.text for:fetchKey.text];
+            [query lessThan:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         case 4:
-            [query greaterThanEqualTo:fetchVal.text for:fetchKey.text];
+            [query greaterThanEqualTo:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         case 5:
-            [query lessThanEqualTo:fetchVal.text for:fetchKey.text];
+            [query lessThanEqualTo:@([self.fetchVal.text intValue]) for:self.fetchKey.text];
             break;
         default:
-            [query equalTo:fetchVal.text for:fetchKey.text];
+            [query equalTo:self.fetchVal.text for:self.fetchKey.text];
             break;
     }
     [query fetchWithSuccessCallback:^(NSMutableArray *stuff) {
-        NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
+        //NSLog(@"%@", [(CBItem *)[stuff objectAtIndex:0] getValueFor:@"name"]);
         NSMutableString *str = [[NSMutableString alloc] init];
-        for (int i = 0; i < [stuff count]; i++) {
+        for (uint i = 0; i < [stuff count]; i++) {
             [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
         }
         NSLog(@"Str: %@", str);
-        display.text = str;
-    } ErrorCallback:nil];
+        self.display.text = str;
+    } withErrorCallback:nil];
 }
 
 -(IBAction) updateClick {
-    CBQuery *query = [[CBQuery alloc] initWithCollectionID:colID.text];
-    int num = operationPicker.selectedSegmentIndex;
+    CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.colID.text];
+    int num = self.operationPicker.selectedSegmentIndex;
     switch(num) {
         case 0:
-            [query equalTo:updateQuerVal.text for:updateQuerKey.text];
+            [query equalTo:self.updateQuerVal.text for:self.updateQuerKey.text];
             break;
         case 1:
-            [query notEqualTo:updateQuerVal.text for:updateQuerKey.text];
+            [query notEqualTo:self.updateQuerVal.text for:self.updateQuerKey.text];
             break;
         case 2:
-            [query greaterThan:updateQuerVal.text for:updateQuerKey.text];
+            [query greaterThan:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         case 3:
-            [query lessThan:updateQuerVal.text for:updateQuerKey.text];
+            [query lessThan:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         case 4:
-            [query greaterThanEqualTo:updateQuerVal.text for:updateQuerKey.text];
+            [query greaterThanEqualTo:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         case 5:
-            [query lessThanEqualTo:updateQuerVal.text for:updateQuerKey.text];
+            [query lessThanEqualTo:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
         default:
-            [query equalTo:updateQuerVal.text for:updateQuerKey.text];
+            [query equalTo:@([self.updateQuerVal.text intValue]) for:self.updateQuerKey.text];
             break;
     }
     NSMutableDictionary *changes = [[NSMutableDictionary alloc] init];
-    [changes setObject:updateVal.text forKey:updateKey.text];
-    [query updateWithChanges:changes SuccessCallback:^(NSMutableArray *stuff) {
+    [changes setObject:self.updateVal.text forKey:self.updateKey.text];
+    [query updateWithChanges:changes withSuccessCallback:^(NSMutableArray *stuff) {
         NSMutableString *str = [[NSMutableString alloc] init];
-        for (int i = 0; i < [stuff count]; i++) {
+        for (uint i = 0; i < [stuff count]; i++) {
             [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
         }
         NSLog(@"Str: %@", str);
-        display.text = str;
-    } ErrorCallback:nil];
+        self.display.text = str;
+    } withErrorCallback:nil];
 
 }
 
 -(IBAction) removeClick {
-    CBQuery *query = [[CBQuery alloc] initWithCollectionID:colID.text];
-    int num = operationPicker.selectedSegmentIndex;
+    CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.colID.text];
+    int num = self.operationPicker.selectedSegmentIndex;
     switch(num) {
         case 0:
-            [query equalTo:removeVal.text for:removeKey.text];
+            [query equalTo:self.removeVal.text for:self.removeKey.text];
             break;
         case 1:
-            [query notEqualTo:removeVal.text for:removeKey.text];
+            [query notEqualTo:self.removeVal.text for:self.removeKey.text];
             break;
         case 2:
-            [query greaterThan:removeVal.text for:removeKey.text];
+            [query greaterThan:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         case 3:
-            [query lessThan:removeVal.text for:removeKey.text];
+            [query lessThan:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         case 4:
-            [query greaterThanEqualTo:removeVal.text for:removeKey.text];
+            [query greaterThanEqualTo:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         case 5:
-            [query lessThanEqualTo:removeVal.text for:removeKey.text];
+            [query lessThanEqualTo:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
         default:
-            [query equalTo:removeVal.text for:removeKey.text];
+            [query equalTo:@([self.removeVal.text intValue]) for:self.removeKey.text];
             break;
     }
     [query removeWithSuccessCallback:^(NSMutableArray *stuff) {
         NSMutableString *str = [[NSMutableString alloc] init];
-        for (int i = 0; i < [stuff count]; i++) {
+        for (uint i = 0; i < [stuff count]; i++) {
             [str appendFormat:@"%i: %@ \n", i, [[(CBItem *)[stuff objectAtIndex:i] data] description]];
         }
         NSLog(@"Str: %@", str);
-        display.text = str;
-    } ErrorCallback:nil];
+        self.display.text = str;
+    } withErrorCallback:nil];
 }
 
 @end

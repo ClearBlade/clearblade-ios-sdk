@@ -3,6 +3,16 @@ iOS-API
 
 This is the API for communicating with the ClearBlade Platfrom from an iOS device
 
+Installation
+------------
+
+Use [Cocoapods](http://cocoapods.org/). Insert the following in your Podfile:
+
+    pod 'ClearBlade-iOS-API'
+
+With that in your Podfile, `pod install` should get everything ready for your
+project.
+
 Development Workflow
 --------------------
 

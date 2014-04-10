@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['notequalto_3afor_3a',['notEqualTo:for:',['../interface_c_b_query.html#a6f38448b1fa8cfeb6fb0e9a6661e2643',1,'CBQuery']]]
+  ['objectforkey_3a',['objectForKey:',['../interface_c_b_item.html#aeb280c9120217ef525b1c47adb5db344',1,'CBItem']]]
 ];

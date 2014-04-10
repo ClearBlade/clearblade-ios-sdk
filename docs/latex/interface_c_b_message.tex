@@ -1,0 +1,166 @@
+\hypertarget{interface_c_b_message}{\section{C\+B\+Message Class Reference}
+\label{interface_c_b_message}\index{C\+B\+Message@{C\+B\+Message}}
+}
+
+
+{\ttfamily \#import $<$C\+B\+Message.\+h$>$}
+
+Inheritance diagram for C\+B\+Message\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_c_b_message}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(instancetype) -\/ \hyperlink{interface_c_b_message_a38d3e9a65419e27551d38a7628995fb7}{init\+With\+Mosquitto\+Message\+:}
+\item 
+(instancetype) -\/ \hyperlink{interface_c_b_message_a044bf150504f584117fc5d50f025a26f}{init\+With\+Topic\+:with\+Payload\+Text\+:}
+\item 
+(instancetype) -\/ \hyperlink{interface_c_b_message_a95a5d53b35af87d89f8fc0c316f0499a}{init\+With\+Topic\+:with\+Payload\+Data\+:}
+\end{DoxyCompactItemize}
+\subsection*{Class Methods}
+\begin{DoxyCompactItemize}
+\item 
+(instancetype) + \hyperlink{interface_c_b_message_abba382b3f82cd7aebb2f3104ed543602}{message\+With\+Topic\+:with\+Payload\+Text\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_message_a01d6ea86886dec9962ee090d0e76608d}{message\+With\+Topic\+:with\+Payload\+Data\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_message_a3413a6c31ec75df51d2934f5ec58f0db}{message\+From\+Mosquitto\+Message\+:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_c_b_message_a5fef01f2b51495307023ad95e772c632}{topic}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_c_b_message_a40254070a83d97673d850d08437fc44b}{payload\+Text}
+\item 
+N\+S\+Data $\ast$ \hyperlink{interface_c_b_message_a11c9f8c3e5d3e137f6d735ffb3fa7560}{payload\+Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Holds all data for an individual message from M\+Q\+T\+T 
+
+\subsection{Method Documentation}
+\hypertarget{interface_c_b_message_a38d3e9a65419e27551d38a7628995fb7}{\index{C\+B\+Message@{C\+B\+Message}!init\+With\+Mosquitto\+Message\+:@{init\+With\+Mosquitto\+Message\+:}}
+\index{init\+With\+Mosquitto\+Message\+:@{init\+With\+Mosquitto\+Message\+:}!CBMessage@{C\+B\+Message}}
+\subsubsection[{init\+With\+Mosquitto\+Message\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id) init\+With\+Mosquitto\+Message\+: 
+\begin{DoxyParamCaption}
+\item[{(const struct mosquitto\+\_\+message $\ast$)}]{message}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_a38d3e9a65419e27551d38a7628995fb7}
+Initiates a message using a mosquitto\+\_\+message struct 
+\begin{DoxyParams}{Parameters}
+{\em message} & The mosquitto\+\_\+message struct used to initialize the \hyperlink{interface_c_b_message}{C\+B\+Message} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The initialized \hyperlink{interface_c_b_message}{C\+B\+Message} 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_message_a95a5d53b35af87d89f8fc0c316f0499a}{\index{C\+B\+Message@{C\+B\+Message}!init\+With\+Topic\+:with\+Payload\+Data\+:@{init\+With\+Topic\+:with\+Payload\+Data\+:}}
+\index{init\+With\+Topic\+:with\+Payload\+Data\+:@{init\+With\+Topic\+:with\+Payload\+Data\+:}!CBMessage@{C\+B\+Message}}
+\subsubsection[{init\+With\+Topic\+:with\+Payload\+Data\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (instancetype) init\+With\+Topic\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{topic}
+\item[{withPayloadData:(N\+S\+Data $\ast$)}]{data}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_a95a5d53b35af87d89f8fc0c316f0499a}
+Initiates a message using a topic and message data 
+\begin{DoxyParams}{Parameters}
+{\em topic} & A string with the topic name \\
+\hline
+{\em data} & A N\+S\+Data object with the payload \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created message 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_message_a044bf150504f584117fc5d50f025a26f}{\index{C\+B\+Message@{C\+B\+Message}!init\+With\+Topic\+:with\+Payload\+Text\+:@{init\+With\+Topic\+:with\+Payload\+Text\+:}}
+\index{init\+With\+Topic\+:with\+Payload\+Text\+:@{init\+With\+Topic\+:with\+Payload\+Text\+:}!CBMessage@{C\+B\+Message}}
+\subsubsection[{init\+With\+Topic\+:with\+Payload\+Text\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (instancetype) init\+With\+Topic\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{topic}
+\item[{withPayloadText:(N\+S\+String $\ast$)}]{text}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_a044bf150504f584117fc5d50f025a26f}
+Initiates a message using a topic and message string 
+\begin{DoxyParams}{Parameters}
+{\em topic} & A string with the topic name \\
+\hline
+{\em text} & A string with the payload text or message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created message 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_message_a3413a6c31ec75df51d2934f5ec58f0db}{\index{C\+B\+Message@{C\+B\+Message}!message\+From\+Mosquitto\+Message\+:@{message\+From\+Mosquitto\+Message\+:}}
+\index{message\+From\+Mosquitto\+Message\+:@{message\+From\+Mosquitto\+Message\+:}!CBMessage@{C\+B\+Message}}
+\subsubsection[{message\+From\+Mosquitto\+Message\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ ({\bf C\+B\+Message} $\ast$) message\+From\+Mosquitto\+Message\+: 
+\begin{DoxyParamCaption}
+\item[{(const struct mosquitto\+\_\+message $\ast$)}]{message}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_a3413a6c31ec75df51d2934f5ec58f0db}
+Creates a message from a mosquitto\+\_\+message struct 
+\begin{DoxyParams}{Parameters}
+{\em message} & The mosquitto\+\_\+message struct to convert from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created message 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_message_a01d6ea86886dec9962ee090d0e76608d}{\index{C\+B\+Message@{C\+B\+Message}!message\+With\+Topic\+:with\+Payload\+Data\+:@{message\+With\+Topic\+:with\+Payload\+Data\+:}}
+\index{message\+With\+Topic\+:with\+Payload\+Data\+:@{message\+With\+Topic\+:with\+Payload\+Data\+:}!CBMessage@{C\+B\+Message}}
+\subsubsection[{message\+With\+Topic\+:with\+Payload\+Data\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) message\+With\+Topic\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{topic}
+\item[{withPayloadData:(N\+S\+Data $\ast$)}]{data}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_a01d6ea86886dec9962ee090d0e76608d}
+Creates a message with the given topic and text 
+\begin{DoxyParams}{Parameters}
+{\em topic} & A string with the topic name \\
+\hline
+{\em data} & A N\+S\+Data object that represents the payload of the message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created message 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_message_abba382b3f82cd7aebb2f3104ed543602}{\index{C\+B\+Message@{C\+B\+Message}!message\+With\+Topic\+:with\+Payload\+Text\+:@{message\+With\+Topic\+:with\+Payload\+Text\+:}}
+\index{message\+With\+Topic\+:with\+Payload\+Text\+:@{message\+With\+Topic\+:with\+Payload\+Text\+:}!CBMessage@{C\+B\+Message}}
+\subsubsection[{message\+With\+Topic\+:with\+Payload\+Text\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) message\+With\+Topic\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{topic}
+\item[{withPayloadText:(N\+S\+String $\ast$)}]{text}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_abba382b3f82cd7aebb2f3104ed543602}
+Creates a message with the given topic and text 
+\begin{DoxyParams}{Parameters}
+{\em topic} & A string with the topic name \\
+\hline
+{\em text} & A string with the payload text or message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The created message 
+\end{DoxyReturn}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_c_b_message_a11c9f8c3e5d3e137f6d735ffb3fa7560}{\index{C\+B\+Message@{C\+B\+Message}!payload\+Data@{payload\+Data}}
+\index{payload\+Data@{payload\+Data}!CBMessage@{C\+B\+Message}}
+\subsubsection[{payload\+Data}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+Data$\ast$) payload\+Data\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_message_a11c9f8c3e5d3e137f6d735ffb3fa7560}
+The Payload Text as a data object \hypertarget{interface_c_b_message_a40254070a83d97673d850d08437fc44b}{\index{C\+B\+Message@{C\+B\+Message}!payload\+Text@{payload\+Text}}
+\index{payload\+Text@{payload\+Text}!CBMessage@{C\+B\+Message}}
+\subsubsection[{payload\+Text}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String $\ast$) payload\+Text\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_message_a40254070a83d97673d850d08437fc44b}
+The Payload Text (This is generated from payload\+Data \hypertarget{interface_c_b_message_a5fef01f2b51495307023ad95e772c632}{\index{C\+B\+Message@{C\+B\+Message}!topic@{topic}}
+\index{topic@{topic}!CBMessage@{C\+B\+Message}}
+\subsubsection[{topic}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) topic\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_message_a5fef01f2b51495307023ad95e772c632}
+The message's topic 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+B\+Message.\+h\item 
+C\+B\+Message.\+m\end{DoxyCompactItemize}

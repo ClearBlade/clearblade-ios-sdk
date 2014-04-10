@@ -1,0 +1,399 @@
+\hypertarget{interface_c_b_user}{\section{C\+B\+User Class Reference}
+\label{interface_c_b_user}\index{C\+B\+User@{C\+B\+User}}
+}
+
+
+{\ttfamily \#import $<$C\+B\+User.\+h$>$}
+
+Inheritance diagram for C\+B\+User\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_c_b_user}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(bool) -\/ \hyperlink{interface_c_b_user_a28b25fbf031ecb81c531e6a003ccf766}{check\+Is\+Valid\+With\+Server\+With\+Error\+:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_user_ab423b6cd05f2db5f6835e886088c83d6}{check\+Is\+Valid\+With\+Server\+With\+Callback\+:with\+Error\+Callback\+:}
+\item 
+(bool) -\/ \hyperlink{interface_c_b_user_a06f36a7260297c2b191ed2f6e98e43fa}{log\+Out\+With\+Error\+:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_user_a8deee144e1e7fbc6e1b4c8522a59921e}{log\+Out\+With\+Success\+Callback\+:with\+Error\+Callback\+:}
+\end{DoxyCompactItemize}
+\subsection*{Class Methods}
+\begin{DoxyCompactItemize}
+\item 
+(instancetype) + \hyperlink{interface_c_b_user_af932ff5e8e7cf2614e223b8bb1040e5d}{anonymous\+User\+With\+Auth\+Token\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_user_ac45cec16ef019ff7d160864c0b73b3a3}{authenticated\+User\+With\+Email\+:with\+Auth\+Token\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_user_a3196760e01e3215f93cd2fab8e515bc9}{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_user_adab8bc298bccc0892dbb431b3bd6b72e}{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_user_a87de9d5282ea3a1b1f400cc5e31a8100}{register\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}
+\item 
+(instancetype) + \hyperlink{interface_c_b_user_a8ee4f3073a9360c5829abb300234477c}{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}
+\item 
+(void) + \hyperlink{interface_c_b_user_a00b1b4b1ba436b1081b92d9c50d42da0}{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+\item 
+(void) + \hyperlink{interface_c_b_user_ad4295bcc046be1b9b988f52757e6253b}{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+\item 
+(void) + \hyperlink{interface_c_b_user_a3b2eced573b27bdc4bbf6d1401cc74d9}{register\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+\item 
+(void) + \hyperlink{interface_c_b_user_a5cd8d3c8cabe7988dc70237903bafae9}{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+\item 
+(\hyperlink{interface_c_b_user}{C\+B\+User} $\ast$) + \hyperlink{interface_c_b_user_aaa5d3708c50ffc320fb80c92faeba4ef}{anonymous\+User\+With\+Settings\+:\+With\+Error\+:}
+\item 
+(void) + \hyperlink{interface_c_b_user_a177e50a6f6fd1bae2e9bae9a6ad073e6}{anonymous\+User\+With\+Settings\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+B\+O\+O\+L \hyperlink{interface_c_b_user_a50094838fe6cca3581124412ed588b51}{is\+Anonymous}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_c_b_user_a7907af25f66ea43d5b53ca0e70df34a2}{email}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_c_b_user_a942ca51689b5cfc7f8dc740f7543f54a}{auth\+Token}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Represents a user authenticated into the platform. Can be used directly on requests, or can be applied globally to requests using \mbox{[}\mbox{[}\hyperlink{interface_clear_blade}{Clear\+Blade} settings\mbox{]} set\+Main\+User\+:\mbox{]} 
+
+\subsection{Method Documentation}
+\hypertarget{interface_c_b_user_af932ff5e8e7cf2614e223b8bb1040e5d}{\index{C\+B\+User@{C\+B\+User}!anonymous\+User\+With\+Auth\+Token\+:@{anonymous\+User\+With\+Auth\+Token\+:}}
+\index{anonymous\+User\+With\+Auth\+Token\+:@{anonymous\+User\+With\+Auth\+Token\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{anonymous\+User\+With\+Auth\+Token\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) anonymous\+User\+With\+Auth\+Token\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{auth\+Token}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_af932ff5e8e7cf2614e223b8bb1040e5d}
+Creates an anonymous user with the specified auth token. This does not communicate with the server in any way to validate the token. 
+\begin{DoxyParams}{Parameters}
+{\em auth\+Token} & The authorization token to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A User object with an anonymous user using the specified auth\+Token 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_aaa5d3708c50ffc320fb80c92faeba4ef}{\index{C\+B\+User@{C\+B\+User}!anonymous\+User\+With\+Settings\+:\+With\+Error\+:@{anonymous\+User\+With\+Settings\+:\+With\+Error\+:}}
+\index{anonymous\+User\+With\+Settings\+:\+With\+Error\+:@{anonymous\+User\+With\+Settings\+:\+With\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{anonymous\+User\+With\+Settings\+:\+With\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ ({\bf C\+B\+User} $\ast$) anonymous\+User\+With\+Settings\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf Clear\+Blade} $\ast$)}]{settings}
+\item[{WithError:(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_aaa5d3708c50ffc320fb80c92faeba4ef}
+Requests an anonynomous user token from the server synchronously. 
+\begin{DoxyParams}{Parameters}
+{\em settings} & The \hyperlink{interface_clear_blade}{Clear\+Blade} settings object to use. If nil, will just use the default address \\
+\hline
+{\em error} & Set if there's any issue with requesting the user token. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created anonymous user. 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a177e50a6f6fd1bae2e9bae9a6ad073e6}{\index{C\+B\+User@{C\+B\+User}!anonymous\+User\+With\+Settings\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{anonymous\+User\+With\+Settings\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{anonymous\+User\+With\+Settings\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{anonymous\+User\+With\+Settings\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{anonymous\+User\+With\+Settings\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (void) anonymous\+User\+With\+Settings\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf Clear\+Blade} $\ast$)}]{settings}
+\item[{withSuccessCallback:(C\+B\+User\+Success\+Callback)}]{success\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a177e50a6f6fd1bae2e9bae9a6ad073e6}
+Request an anonymous user token from the server asynchronously. 
+\begin{DoxyParams}{Parameters}
+{\em settings} & The \hyperlink{interface_clear_blade}{Clear\+Blade} settings object to use. If nil, will just use the default address \\
+\hline
+{\em Success\+Callback} & Called with the user when the anonymous user is successfully created from the server \\
+\hline
+{\em Error\+Callback} & Called if any issue while creating the anonymous user arrises. \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_user_ac45cec16ef019ff7d160864c0b73b3a3}{\index{C\+B\+User@{C\+B\+User}!authenticated\+User\+With\+Email\+:with\+Auth\+Token\+:@{authenticated\+User\+With\+Email\+:with\+Auth\+Token\+:}}
+\index{authenticated\+User\+With\+Email\+:with\+Auth\+Token\+:@{authenticated\+User\+With\+Email\+:with\+Auth\+Token\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{authenticated\+User\+With\+Email\+:with\+Auth\+Token\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) authenticated\+User\+With\+Email\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{email}
+\item[{withAuthToken:(N\+S\+String $\ast$)}]{auth\+Token}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_ac45cec16ef019ff7d160864c0b73b3a3}
+Creates a named user with the specified email and auth token. This does not communicate with the server in any way to validate the token, or the email. Currently there is not a way to verify that the email is attached to the auth\+Token, but you can verify that the auth\+Token at least is valid through the selector check\+Is\+Valid\+With\+Server\+Sync\+With\+Error\+: 
+\begin{DoxyParams}{Parameters}
+{\em Email} & The email the user has \\
+\hline
+{\em auth\+Token} & The auth token associated with that email \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A User object with the specified email and auth\+Token. 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a3196760e01e3215f93cd2fab8e515bc9}{\index{C\+B\+User@{C\+B\+User}!authenticate\+User\+With\+Email\+:with\+Password\+:with\+Error\+:@{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}}
+\index{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Error\+:@{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) authenticate\+User\+With\+Email\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withError:(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a3196760e01e3215f93cd2fab8e515bc9}
+Authenticates a user with the specified email and password. It retrieves the user's token from the server synchronously, and does not store the password locally. 
+\begin{DoxyParams}{Parameters}
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em error} & A pointer to the error if there was an issue authenticating the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created user 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a00b1b4b1ba436b1081b92d9c50d42da0}{\index{C\+B\+User@{C\+B\+User}!authenticate\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{authenticate\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (void) authenticate\+User\+With\+Email\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withSuccessCallback:(C\+B\+User\+Success\+Callback)}]{success\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a00b1b4b1ba436b1081b92d9c50d42da0}
+Authenticates a user with the specified email and password. It retrieves the user's token from the server asynchronously and calls the callback once the user is authenticated, and does not store the password locally. 
+\begin{DoxyParams}{Parameters}
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em success\+Callback} & The callback that handles a successful authentication \\
+\hline
+{\em error\+Callback} & The callback that handles a failed authentication \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_user_adab8bc298bccc0892dbb431b3bd6b72e}{\index{C\+B\+User@{C\+B\+User}!authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:@{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}}
+\index{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:@{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) authenticate\+User\+With\+Settings\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf Clear\+Blade} $\ast$)}]{settings}
+\item[{withEmail:(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withError:(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_adab8bc298bccc0892dbb431b3bd6b72e}
+Authenticates a user with the specified email and password. It retrieves the user's token from the server synchronusly, and does not store the password locally. Uses the specified settings object for the server Address 
+\begin{DoxyParams}{Parameters}
+{\em settings} & The settings to use to lookup the platform \\
+\hline
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em error} & A pointer to the error if there was an issue authenticating the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created user 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_ad4295bcc046be1b9b988f52757e6253b}{\index{C\+B\+User@{C\+B\+User}!authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{authenticate\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (void) authenticate\+User\+With\+Settings\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf Clear\+Blade} $\ast$)}]{settings}
+\item[{withEmail:(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withSuccessCallback:(C\+B\+User\+Success\+Callback)}]{success\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_ad4295bcc046be1b9b988f52757e6253b}
+Authenticates a user with the specified email and password. It retrieves the user's token from the server synchronusly, and does not store the password locally. Uses the specified settings object for the server Address 
+\begin{DoxyParams}{Parameters}
+{\em settings} & The settings to use to lookup the platform \\
+\hline
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em success\+Callback} & The callback that handles a successful authentication \\
+\hline
+{\em error\+Callback} & The callback that handles a failed authentication \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_user_ab423b6cd05f2db5f6835e886088c83d6}{\index{C\+B\+User@{C\+B\+User}!check\+Is\+Valid\+With\+Server\+With\+Callback\+:with\+Error\+Callback\+:@{check\+Is\+Valid\+With\+Server\+With\+Callback\+:with\+Error\+Callback\+:}}
+\index{check\+Is\+Valid\+With\+Server\+With\+Callback\+:with\+Error\+Callback\+:@{check\+Is\+Valid\+With\+Server\+With\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{check\+Is\+Valid\+With\+Server\+With\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) check\+Is\+Valid\+With\+Server\+With\+Callback\+: 
+\begin{DoxyParamCaption}
+\item[{(C\+B\+User\+Is\+Valid\+Callback)}]{is\+Valid\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_ab423b6cd05f2db5f6835e886088c83d6}
+Checks if the user token is still valid with server asynchronously. Error callback is only called if there is an issue communicating with the server 
+\begin{DoxyParams}{Parameters}
+{\em is\+Valid\+Callback} & Has a true boolean if the server thinks it's a valid token, false if the server thinks it is not \\
+\hline
+{\em error\+Callback} & Only called if there is an issue communicating with the server \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_user_a28b25fbf031ecb81c531e6a003ccf766}{\index{C\+B\+User@{C\+B\+User}!check\+Is\+Valid\+With\+Server\+With\+Error\+:@{check\+Is\+Valid\+With\+Server\+With\+Error\+:}}
+\index{check\+Is\+Valid\+With\+Server\+With\+Error\+:@{check\+Is\+Valid\+With\+Server\+With\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{check\+Is\+Valid\+With\+Server\+With\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (bool) check\+Is\+Valid\+With\+Server\+With\+Error\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a28b25fbf031ecb81c531e6a003ccf766}
+Checks if the user token is still valid with server synchronously. Error is only set if there is an issue communicating with the server 
+\begin{DoxyParams}{Parameters}
+{\em error} & The error if there's an issue communicating with server \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the server thinks it's a valid token, false if the server thinks it is not. 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a06f36a7260297c2b191ed2f6e98e43fa}{\index{C\+B\+User@{C\+B\+User}!log\+Out\+With\+Error\+:@{log\+Out\+With\+Error\+:}}
+\index{log\+Out\+With\+Error\+:@{log\+Out\+With\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{log\+Out\+With\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (bool) log\+Out\+With\+Error\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a06f36a7260297c2b191ed2f6e98e43fa}
+Logs the user with the token out of the server synchronously. 
+\begin{DoxyParams}{Parameters}
+{\em error} & If there's any error logging the user out, including if the user's token is already logged out \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if there's no error 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a8deee144e1e7fbc6e1b4c8522a59921e}{\index{C\+B\+User@{C\+B\+User}!log\+Out\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{log\+Out\+With\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{log\+Out\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{log\+Out\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{log\+Out\+With\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) log\+Out\+With\+Success\+Callback\+: 
+\begin{DoxyParamCaption}
+\item[{(void($^\wedge$)())}]{success\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a8deee144e1e7fbc6e1b4c8522a59921e}
+Logs the user with the token out of the server asynchronously. 
+\begin{DoxyParams}{Parameters}
+{\em Success\+Callback} & Called if the user is logged out successfully. \\
+\hline
+{\em Error\+Callback} & Called if there is any error logging the user out, including if the user's token is already logged out \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_user_a87de9d5282ea3a1b1f400cc5e31a8100}{\index{C\+B\+User@{C\+B\+User}!register\+User\+With\+Email\+:with\+Password\+:with\+Error\+:@{register\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}}
+\index{register\+User\+With\+Email\+:with\+Password\+:with\+Error\+:@{register\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{register\+User\+With\+Email\+:with\+Password\+:with\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) register\+User\+With\+Email\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withError:(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a87de9d5282ea3a1b1f400cc5e31a8100}
+Registers a user with the specified email and password. It retrieves the user's token from the server synchronously, and does not store the password locally. 
+\begin{DoxyParams}{Parameters}
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em error} & A pointer to the error if there was an issue registering the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created user 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a3b2eced573b27bdc4bbf6d1401cc74d9}{\index{C\+B\+User@{C\+B\+User}!register\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{register\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{register\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{register\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{register\+User\+With\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (void) register\+User\+With\+Email\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withSuccessCallback:(C\+B\+User\+Success\+Callback)}]{success\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a3b2eced573b27bdc4bbf6d1401cc74d9}
+Registers a user with the specified email and password. It retrieves the user's token from the server asynchronously and calls the callback once the user is authenticated, and does not store the password locally. 
+\begin{DoxyParams}{Parameters}
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em success\+Callback} & The callback that handles a successful register \\
+\hline
+{\em error\+Callback} & The callback that handles a failed register \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created user 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a8ee4f3073a9360c5829abb300234477c}{\index{C\+B\+User@{C\+B\+User}!register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:@{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}}
+\index{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:@{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) register\+User\+With\+Settings\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf Clear\+Blade} $\ast$)}]{settings}
+\item[{withEmail:(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withError:(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a8ee4f3073a9360c5829abb300234477c}
+Registers a user with the specified email and password. It retrieves the user's token from the server synchronously, and does not store the password locally. 
+\begin{DoxyParams}{Parameters}
+{\em settings} & The settings to use to lookup the platform \\
+\hline
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em error} & A pointer to the error if there was an issue registering the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created user 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_user_a5cd8d3c8cabe7988dc70237903bafae9}{\index{C\+B\+User@{C\+B\+User}!register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBUser@{C\+B\+User}}
+\subsubsection[{register\+User\+With\+Settings\+:with\+Email\+:with\+Password\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (void) register\+User\+With\+Settings\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf Clear\+Blade} $\ast$)}]{settings}
+\item[{withEmail:(N\+S\+String $\ast$)}]{email}
+\item[{withPassword:(N\+S\+String $\ast$)}]{password}
+\item[{withSuccessCallback:(C\+B\+User\+Success\+Callback)}]{success\+Callback}
+\item[{withErrorCallback:(C\+B\+User\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_user_a5cd8d3c8cabe7988dc70237903bafae9}
+Registers a user with the specified email and password. It retrieves the user's token from the server asynchronously and calls the callback once the user is authenticated, and does not store the password locally. Uses the specified settings object for the server Address 
+\begin{DoxyParams}{Parameters}
+{\em settings} & The settings to use to lookup the platform \\
+\hline
+{\em email} & The email to create the user with \\
+\hline
+{\em password} & The password to use \\
+\hline
+{\em success\+Callback} & The callback that handles a successful register \\
+\hline
+{\em error\+Callback} & The callback that handles a failed register \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created user 
+\end{DoxyReturn}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_c_b_user_a942ca51689b5cfc7f8dc740f7543f54a}{\index{C\+B\+User@{C\+B\+User}!auth\+Token@{auth\+Token}}
+\index{auth\+Token@{auth\+Token}!CBUser@{C\+B\+User}}
+\subsubsection[{auth\+Token}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) auth\+Token\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_user_a942ca51689b5cfc7f8dc740f7543f54a}
+The token from the server used to identify the user in requests \hypertarget{interface_c_b_user_a7907af25f66ea43d5b53ca0e70df34a2}{\index{C\+B\+User@{C\+B\+User}!email@{email}}
+\index{email@{email}!CBUser@{C\+B\+User}}
+\subsubsection[{email}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) email\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_user_a7907af25f66ea43d5b53ca0e70df34a2}
+The email identifying the user \hypertarget{interface_c_b_user_a50094838fe6cca3581124412ed588b51}{\index{C\+B\+User@{C\+B\+User}!is\+Anonymous@{is\+Anonymous}}
+\index{is\+Anonymous@{is\+Anonymous}!CBUser@{C\+B\+User}}
+\subsubsection[{is\+Anonymous}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (B\+O\+O\+L) is\+Anonymous\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_c_b_user_a50094838fe6cca3581124412ed588b51}
+Is true if the user has no email or password, and is just an anonymous token from the server 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+B\+User.\+h\item 
+C\+B\+User.\+m\end{DoxyCompactItemize}

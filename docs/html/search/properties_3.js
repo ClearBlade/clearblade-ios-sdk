@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['host',['host',['../interface_m_q_t_t_client.html#a1f617c2783f5f49fe0eade772b848330',1,'MQTTClient']]]
+  ['email',['email',['../interface_c_b_user.html#a7907af25f66ea43d5b53ca0e70df34a2',1,'CBUser']]]
 ];

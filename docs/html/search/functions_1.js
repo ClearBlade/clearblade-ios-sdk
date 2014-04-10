@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['destroy',['destroy',['../interface_c_b_item.html#ae0e3edabb3f5ecf9edf318b66c96792e',1,'CBItem']]],
-  ['didconnect_3a',['didConnect:',['../protocol_m_q_t_t_client_delegate-p.html#abb74a5596c9ad44a7052211b93e37cc9',1,'MQTTClientDelegate-p']]],
-  ['diddisconnect',['didDisconnect',['../protocol_m_q_t_t_client_delegate-p.html#af2c500a4d472477e679d645c5b27d85c',1,'MQTTClientDelegate-p']]],
-  ['didpublish_3a',['didPublish:',['../protocol_m_q_t_t_client_delegate-p.html#ae779c7d4627f8aa3e154b42b76433884',1,'MQTTClientDelegate-p']]],
-  ['didreceivemessage_3a',['didReceiveMessage:',['../protocol_m_q_t_t_client_delegate-p.html#a6222052eaf37f65f0b535daac93b917b',1,'MQTTClientDelegate-p']]],
-  ['didsubscribe_3agrantedqos_3a',['didSubscribe:grantedQos:',['../protocol_m_q_t_t_client_delegate-p.html#a1ace3cd8729f0f4ae0f0b4426005fbc6',1,'MQTTClientDelegate-p']]],
-  ['didunsubscribe_3a',['didUnsubscribe:',['../protocol_m_q_t_t_client_delegate-p.html#a0413071b5250d70186de525049240038',1,'MQTTClientDelegate-p']]],
-  ['disconnect',['disconnect',['../interface_m_q_t_t_client.html#a5da21136f56343f0db9dba70e0384ba9',1,'MQTTClient']]]
+  ['checkisvalidwithserverwithcallback_3awitherrorcallback_3a',['checkIsValidWithServerWithCallback:withErrorCallback:',['../interface_c_b_user.html#ab423b6cd05f2db5f6835e886088c83d6',1,'CBUser']]],
+  ['checkisvalidwithserverwitherror_3a',['checkIsValidWithServerWithError:',['../interface_c_b_user.html#a28b25fbf031ecb81c531e6a003ccf766',1,'CBUser']]],
+  ['client',['client',['../interface_c_b_message_client.html#acef3f93cc08d62c70a978d81b04d8f6f',1,'CBMessageClient']]],
+  ['collectionwithid_3a',['collectionWithID:',['../interface_c_b_collection.html#ad0d5e667992df0fbeedc094edd29375b',1,'CBCollection']]],
+  ['connect',['connect',['../interface_c_b_message_client.html#a98951fb3c734b7f2dfc4ef3607f54b8d',1,'CBMessageClient']]],
+  ['connecttohost_3a',['connectToHost:',['../interface_c_b_message_client.html#aa4f3f4ff5be3929038bf6045846738cf',1,'CBMessageClient']]],
+  ['connectwithqos_3a',['connectWithQoS:',['../interface_c_b_message_client.html#ad3fc84eac6cbdef60ee25f5e5a76195f',1,'CBMessageClient']]],
+  ['createwithdata_3awithsuccesscallback_3awitherrorcallback_3a',['createWithData:withSuccessCallback:withErrorCallback:',['../interface_c_b_collection.html#a72a5135772c9829d253fb614887158b4',1,'CBCollection']]]
 ];

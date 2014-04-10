@@ -37,8 +37,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    col = [[CBCollection alloc] initWithCollectionID:@"5227487d8ab3a32f2caee87f"];
-    query = [[CBQuery alloc] initWithCollectionID:@"5227487d8ab3a32f2caee87f"];
+    col = [[CBCollection alloc] initWithCollectionID:@"a2d5c0a60a98f1e9ffe9aed686d001"];
+    query = [[CBQuery alloc] initWithCollectionID:@"a2d5c0a60a98f1e9ffe9aed686d001"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +58,7 @@
 
         return NO;
     } else {
-        [ClearBlade initAppKey:key.text AppSecret:secret.text];
+        [ClearBlade initSettingsWithAppKey:key.text withAppSecret:secret.text];
         return YES;
     }
 }

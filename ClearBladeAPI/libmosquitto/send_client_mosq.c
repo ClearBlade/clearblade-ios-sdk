@@ -42,6 +42,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "mosquitto_broker.h"
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
 int _mosquitto_send_connect(struct mosquitto *mosq, uint16_t keepalive, bool clean_session)
 {
 	struct _mosquitto_packet *packet = NULL;
@@ -225,3 +228,4 @@ int _mosquitto_send_unsubscribe(struct mosquitto *mosq, int *mid, bool dup, cons
 	return _mosquitto_packet_queue(mosq, packet);
 }
 
+#pragma clang diagnostic pop

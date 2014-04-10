@@ -9,14 +9,14 @@
  *******************************************************************************/
 
 #import "MQTTViewController.h"
-#import "MQTTClient.h"
+#import "CBMessageClient.h"
 
 @interface MQTTViewController ()
 
 @end
 
 @implementation MQTTViewController {
-    MQTTClient *client;
+    CBMessageClient *client;
     NSString *currentTopic;
 }
 
@@ -38,10 +38,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    client = [[MQTTClient alloc] initWithClientId:@"ClientID"];
+    client = [[CBMessageClient alloc] init];
     [client setDelegate:self];
     
-    [client connectToHost:@"ec2-23-23-31-115.compute-1.amazonaws.com"];
+    [client connectToHost:[NSURL URLWithString:@"ec2-23-23-31-115.compute-1.amazonaws.com"]];
     
     display.layer.borderWidth = 1.0f;
     display.layer.borderColor = [[UIColor grayColor] CGColor];
@@ -60,11 +60,10 @@
 
 -(IBAction)subSwitchChanged:(id)sender {
     if( self.subSwitch.on) {
-        [client subscribe:topic.text];
+        [client subscribeToTopic:topic.text];
         currentTopic = topic.text;
         NSLog(@"ON");
     } else {
-        [client unsubscribe:currentTopic];
         NSLog(@"OFF");
     }
 }
@@ -73,7 +72,7 @@
     if (![currentTopic isEqual: topic.text]) {
         currentTopic = topic.text;
     }
-    [client publishString:messField.text toTopic:currentTopic withQos:0 retain:YES];
+    [client publishMessage:messField.text toTopic:currentTopic];
     
 }
 
@@ -84,15 +83,14 @@
     NSLog(@"DISCONNECTED");
 }
 
--(void)didReceiveMessage:(MQTTMessage *) mqtt_msg {
+-(void)messageClient:(CBMessageClient *)client didReceiveMessage:(CBMessage *)message {
     NSString *oldMessages = [NSString stringWithString:display.text];
-    display.text = [NSString stringWithFormat:@"%@\n--------------------------------------------------------\n%@",  mqtt_msg.payload, oldMessages];
+    display.text = [NSString stringWithFormat:@"%@\n--------------------------------------------------------\n%@",
+                    message.payloadText, oldMessages];
 }
 
-- (void) didPublish: (NSUInteger)messageId {
-    NSLog(@"Published: %i", messageId);
+-(void)messageClient:(CBMessageClient *)client didPublish:(NSString *)message {
+    NSLog(@"Published: %@", message);
 }
-- (void) didSubscribe: (NSUInteger)messageId grantedQos:(NSArray*)qos {}
-- (void) didUnsubscribe: (NSUInteger)messageId {}
 
 @end

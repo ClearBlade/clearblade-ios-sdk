@@ -1,27 +1,177 @@
-\hypertarget{interface_clear_blade}{\section{Clear\-Blade Class Reference}
-\label{interface_clear_blade}\index{Clear\-Blade@{Clear\-Blade}}
+\hypertarget{interface_clear_blade}{\section{Clear\+Blade Class Reference}
+\label{interface_clear_blade}\index{Clear\+Blade@{Clear\+Blade}}
 }
-Inheritance diagram for Clear\-Blade\-:\begin{figure}[H]
+
+
+{\ttfamily \#import $<$Clear\+Blade.\+h$>$}
+
+Inheritance diagram for Clear\+Blade\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=2.000000cm]{interface_clear_blade}
 \end{center}
 \end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(void) -\/ \hyperlink{interface_clear_blade_a4a2da5ca59acd23e44d0f793e9eb778b}{log\+Error\+:}
+\item 
+(void) -\/ \hyperlink{interface_clear_blade_aa1d4699543bf38e300b5b0ad256c44c2}{log\+Warning\+:}
+\item 
+(void) -\/ \hyperlink{interface_clear_blade_ada4ef00171405d7247b1d07d3a3e70f6}{log\+Debug\+:}
+\item 
+(void) -\/ \hyperlink{interface_clear_blade_a03f35439a4d2b9908872cfdfbd50a0b5}{log\+Extra\+:}
+\item 
+(int) -\/ \hyperlink{interface_clear_blade_acdf4d6feb5a40c60be3b4ed0846d52e5}{generate\+I\+D}
+\end{DoxyCompactItemize}
 \subsection*{Class Methods}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{interface_clear_blade_aefa5fa46208d7fe4f1ee440aa4a47620}{(N\-S\-String $\ast$) + {\bfseries app\-Key}}\label{interface_clear_blade_aefa5fa46208d7fe4f1ee440aa4a47620}
-
+(instancetype) + \hyperlink{interface_clear_blade_accced1239f531de87d166d617a021673}{settings}
 \item 
-\hypertarget{interface_clear_blade_ada3a778e38a9f290b08bc4d0611e7ed2}{(N\-S\-String $\ast$) + {\bfseries app\-Secret}}\label{interface_clear_blade_ada3a778e38a9f290b08bc4d0611e7ed2}
-
+(instancetype) + \hyperlink{interface_clear_blade_a234fefa317e73d46768506a34a89e5fa}{init\+Settings\+Sync\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Error\+:}
 \item 
-\hypertarget{interface_clear_blade_a4d5ef33050ded6f2a821f2431d0ade38}{(void) + {\bfseries init\-App\-Key\-:\-App\-Secret\-:}}\label{interface_clear_blade_a4d5ef33050ded6f2a821f2431d0ade38}
-
+(void) + \hyperlink{interface_clear_blade_a76b3d3e815239c17dba4f858e774bcab}{init\+Settings\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_clear_blade_aab0eaf0d5cb8cabae0889b19230859b5}{system\+Key}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_clear_blade_ac86550adaf64238807f4bc536af7d1d0}{system\+Secret}
+\item 
+N\+S\+String $\ast$ \hyperlink{interface_clear_blade_a254d692b3e85e4d33a4518e9ff9e4f40}{server\+Address}
+\item 
+N\+S\+U\+R\+L $\ast$ \hyperlink{interface_clear_blade_a6d90355650360ef27ac6aad5f3df2a7b}{messaging\+Address}
+\item 
+C\+B\+Message\+Client\+Quality \hyperlink{interface_clear_blade_a886dc9ea49818af85910b4373f95096b}{messaging\+Default\+Qo\+S}
+\item 
+\hyperlink{interface_c_b_user}{C\+B\+User} $\ast$ \hyperlink{interface_clear_blade_a2c5ec6113244b327a374c1f939efbce5}{main\+User}
+\item 
+C\+B\+Logging\+Level \hyperlink{interface_clear_blade_a63988be37c99a5e90c91b89be9106a5d}{logging\+Level}
 \end{DoxyCompactItemize}
 
 
-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\subsection{Detailed Description}
+Encapsulates all the global configuration for the \hyperlink{interface_clear_blade}{Clear\+Blade} A\+P\+I 
+
+\subsection{Method Documentation}
+\hypertarget{interface_clear_blade_acdf4d6feb5a40c60be3b4ed0846d52e5}{\index{Clear\+Blade@{Clear\+Blade}!generate\+I\+D@{generate\+I\+D}}
+\index{generate\+I\+D@{generate\+I\+D}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{generate\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (int) generate\+I\+D 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_acdf4d6feb5a40c60be3b4ed0846d52e5}
+Generates an I\+D that's guaranteed to be unique for this instance of \hyperlink{interface_clear_blade}{Clear\+Blade} Settings \hypertarget{interface_clear_blade_a234fefa317e73d46768506a34a89e5fa}{\index{Clear\+Blade@{Clear\+Blade}!init\+Settings\+Sync\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Error\+:@{init\+Settings\+Sync\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Error\+:}}
+\index{init\+Settings\+Sync\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Error\+:@{init\+Settings\+Sync\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Error\+:}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{init\+Settings\+Sync\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) init\+Settings\+Sync\+With\+System\+Key\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{key}
+\item[{withSystemSecret:(N\+S\+String $\ast$)}]{secret}
+\item[{withOptions:(N\+S\+Dictionary $\ast$)}]{options}
+\item[{withError:(N\+S\+Error $\ast$$\ast$)}]{error}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_a234fefa317e73d46768506a34a89e5fa}
+Initializes settings synchronously with default settings. Also initializes with an anonymous user. 
+\begin{DoxyParams}{Parameters}
+{\em key} & The System Key. \\
+\hline
+{\em secret} & The System Secret. \\
+\hline
+{\em error} & Is set if the \hyperlink{interface_clear_blade}{Clear\+Blade} settings fails to initialize \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The newly created Settings object 
+\end{DoxyReturn}
+\hypertarget{interface_clear_blade_a76b3d3e815239c17dba4f858e774bcab}{\index{Clear\+Blade@{Clear\+Blade}!init\+Settings\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{init\+Settings\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\index{init\+Settings\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{init\+Settings\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{init\+Settings\+With\+System\+Key\+:with\+System\+Secret\+:with\+Options\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ (void) init\+Settings\+With\+System\+Key\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{key}
+\item[{withSystemSecret:(N\+S\+String $\ast$)}]{secret}
+\item[{withOptions:(N\+S\+Dictionary $\ast$)}]{options}
+\item[{withSuccessCallback:(Clear\+Blade\+Settings\+Success\+Callback)}]{success\+Callback}
+\item[{withErrorCallback:(Clear\+Blade\+Settings\+Error\+Callback)}]{error\+Callback}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_a76b3d3e815239c17dba4f858e774bcab}
+Initializes settings asynchronously with default settings. Also initializes with an anonymous user. 
+\begin{DoxyParams}{Parameters}
+{\em key} & The System Key. \\
+\hline
+{\em secret} & The System Secret. \\
+\hline
+{\em success\+Callback} & The callback for when settings successfully initializes. \\
+\hline
+{\em error\+Callback} & The callback for when settings fails to initialize for whatever reason \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_clear_blade_ada4ef00171405d7247b1d07d3a3e70f6}{\index{Clear\+Blade@{Clear\+Blade}!log\+Debug\+:@{log\+Debug\+:}}
+\index{log\+Debug\+:@{log\+Debug\+:}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{log\+Debug\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) log\+Debug\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{debug}
+\item[{,}]{...}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_ada4ef00171405d7247b1d07d3a3e70f6}
+Logs a debug statement as filtered by the logging\+Level setting \hypertarget{interface_clear_blade_a4a2da5ca59acd23e44d0f793e9eb778b}{\index{Clear\+Blade@{Clear\+Blade}!log\+Error\+:@{log\+Error\+:}}
+\index{log\+Error\+:@{log\+Error\+:}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{log\+Error\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) log\+Error\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{error}
+\item[{,}]{...}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_a4a2da5ca59acd23e44d0f793e9eb778b}
+Logs an error as filtered by the logging\+Level setting \hypertarget{interface_clear_blade_a03f35439a4d2b9908872cfdfbd50a0b5}{\index{Clear\+Blade@{Clear\+Blade}!log\+Extra\+:@{log\+Extra\+:}}
+\index{log\+Extra\+:@{log\+Extra\+:}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{log\+Extra\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) log\+Extra\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{extra}
+\item[{,}]{...}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_a03f35439a4d2b9908872cfdfbd50a0b5}
+Logs a extra data as filtered by the logging\+Level setting \hypertarget{interface_clear_blade_aa1d4699543bf38e300b5b0ad256c44c2}{\index{Clear\+Blade@{Clear\+Blade}!log\+Warning\+:@{log\+Warning\+:}}
+\index{log\+Warning\+:@{log\+Warning\+:}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{log\+Warning\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) log\+Warning\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{warning}
+\item[{,}]{...}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_aa1d4699543bf38e300b5b0ad256c44c2}
+Logs a warning as filtered by the logging\+Level setting \hypertarget{interface_clear_blade_accced1239f531de87d166d617a021673}{\index{Clear\+Blade@{Clear\+Blade}!settings@{settings}}
+\index{settings@{settings}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{settings}]{\setlength{\rightskip}{0pt plus 5cm}+ (instancetype) settings 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_clear_blade_accced1239f531de87d166d617a021673}
+The global settings used by queries by default 
+
+\subsection{Property Documentation}
+\hypertarget{interface_clear_blade_a63988be37c99a5e90c91b89be9106a5d}{\index{Clear\+Blade@{Clear\+Blade}!logging\+Level@{logging\+Level}}
+\index{logging\+Level@{logging\+Level}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{logging\+Level}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (C\+B\+Logging\+Level) logging\+Level\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_clear_blade_a63988be37c99a5e90c91b89be9106a5d}
+The Logging level the A\+P\+I uses. Defaults to C\+B\+\_\+\+L\+O\+G\+\_\+\+W\+A\+R\+N \hypertarget{interface_clear_blade_a2c5ec6113244b327a374c1f939efbce5}{\index{Clear\+Blade@{Clear\+Blade}!main\+User@{main\+User}}
+\index{main\+User@{main\+User}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{main\+User}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\+B\+User}$\ast$) main\+User\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [strong]}}}\label{interface_clear_blade_a2c5ec6113244b327a374c1f939efbce5}
+The Main User of the app. Can be modified at runtime to change main users \hypertarget{interface_clear_blade_a6d90355650360ef27ac6aad5f3df2a7b}{\index{Clear\+Blade@{Clear\+Blade}!messaging\+Address@{messaging\+Address}}
+\index{messaging\+Address@{messaging\+Address}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{messaging\+Address}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+U\+R\+L$\ast$) messaging\+Address\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_clear_blade_a6d90355650360ef27ac6aad5f3df2a7b}
+The Address for the Platform messaging service \hypertarget{interface_clear_blade_a886dc9ea49818af85910b4373f95096b}{\index{Clear\+Blade@{Clear\+Blade}!messaging\+Default\+Qo\+S@{messaging\+Default\+Qo\+S}}
+\index{messaging\+Default\+Qo\+S@{messaging\+Default\+Qo\+S}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{messaging\+Default\+Qo\+S}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (C\+B\+Message\+Client\+Quality) messaging\+Default\+Qo\+S\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_clear_blade_a886dc9ea49818af85910b4373f95096b}
+The Default quality of service to use for messaging clients \hypertarget{interface_clear_blade_a254d692b3e85e4d33a4518e9ff9e4f40}{\index{Clear\+Blade@{Clear\+Blade}!server\+Address@{server\+Address}}
+\index{server\+Address@{server\+Address}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{server\+Address}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) server\+Address\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_clear_blade_a254d692b3e85e4d33a4518e9ff9e4f40}
+The Address for the Platform Data service \hypertarget{interface_clear_blade_aab0eaf0d5cb8cabae0889b19230859b5}{\index{Clear\+Blade@{Clear\+Blade}!system\+Key@{system\+Key}}
+\index{system\+Key@{system\+Key}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{system\+Key}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) system\+Key\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_clear_blade_aab0eaf0d5cb8cabae0889b19230859b5}
+The System Key used throughout the A\+P\+I \hypertarget{interface_clear_blade_ac86550adaf64238807f4bc536af7d1d0}{\index{Clear\+Blade@{Clear\+Blade}!system\+Secret@{system\+Secret}}
+\index{system\+Secret@{system\+Secret}!ClearBlade@{Clear\+Blade}}
+\subsubsection[{system\+Secret}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) system\+Secret\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_clear_blade_ac86550adaf64238807f4bc536af7d1d0}
+The System Secret used throughout the A\+P\+I 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-Clear\-Blade.\-h\item 
-Clear\-Blade.\-m\end{DoxyCompactItemize}
+Clear\+Blade.\+h\end{DoxyCompactItemize}

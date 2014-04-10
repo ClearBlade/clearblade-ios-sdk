@@ -1,0 +1,156 @@
+\hypertarget{interface_c_b_message_client}{\section{C\+B\+Message\+Client Class Reference}
+\label{interface_c_b_message_client}\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}}
+}
+Inheritance diagram for C\+B\+Message\+Client\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_c_b_message_client}
+\end{center}
+\end{figure}
+\subsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_a98951fb3c734b7f2dfc4ef3607f54b8d}{connect}
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_ad3fc84eac6cbdef60ee25f5e5a76195f}{connect\+With\+Qo\+S\+:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_aacd81270fa332e1a1f534f5ccd51eac8}{disconnect}
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_aa4f3f4ff5be3929038bf6045846738cf}{connect\+To\+Host\+:}
+\item 
+\hypertarget{interface_c_b_message_client_a783328bc604af291da0d49a8cca8cc26}{(void) -\/ {\bfseries connect\+To\+Host\+:with\+Qo\+S\+:}}\label{interface_c_b_message_client_a783328bc604af291da0d49a8cca8cc26}
+
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_abcbd056a8bdffbb5c00299343c1b0aeb}{publish\+Message\+:to\+Topic\+:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_a5a2d3e7f602801310df4c29fef97c85e}{subscribe\+To\+Topic\+:}
+\item 
+(void) -\/ \hyperlink{interface_c_b_message_client_a2d09ed72620aad690bbc38a7042106b5}{unsubscribe\+From\+Topic\+:}
+\end{DoxyCompactItemize}
+\subsection*{Class Methods}
+\begin{DoxyCompactItemize}
+\item 
+(instancetype) + \hyperlink{interface_c_b_message_client_acef3f93cc08d62c70a978d81b04d8f6f}{client}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+id$<$ \hyperlink{protocol_c_b_message_client_delegate-p}{C\+B\+Message\+Client\+Delegate} $>$ \hyperlink{interface_c_b_message_client_a6a94ee89f64cbc4bef855ecdda6fbf85}{delegate}
+\item 
+bool \hyperlink{interface_c_b_message_client_a6a385330b831471122ffb52b101422fb}{is\+Connected}
+\item 
+N\+S\+U\+R\+L $\ast$ \hyperlink{interface_c_b_message_client_a770ff8d5b798d220ecc7bc00804112d4}{host}
+\item 
+N\+S\+Array $\ast$ \hyperlink{interface_c_b_message_client_a41081dc92c32ef8aa7ab364463825398}{topics}
+\item 
+\hypertarget{interface_c_b_message_client_a735d7e8e3ed831a23e3890cecd45e9e8}{C\+B\+Message\+Client\+Quality {\bfseries qos}}\label{interface_c_b_message_client_a735d7e8e3ed831a23e3890cecd45e9e8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Method Documentation}
+\hypertarget{interface_c_b_message_client_acef3f93cc08d62c70a978d81b04d8f6f}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!client@{client}}
+\index{client@{client}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{client}]{\setlength{\rightskip}{0pt plus 5cm}+ (struct mosquitto $\ast$) client 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_acef3f93cc08d62c70a978d81b04d8f6f}
+Creates a new \hyperlink{interface_c_b_message_client}{C\+B\+Message\+Client} instance. \hypertarget{interface_c_b_message_client_a98951fb3c734b7f2dfc4ef3607f54b8d}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!connect@{connect}}
+\index{connect@{connect}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{connect}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) connect 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_a98951fb3c734b7f2dfc4ef3607f54b8d}
+Connects the client to the default host, specified in \mbox{[}\hyperlink{interface_clear_blade}{Clear\+Blade} settings\mbox{]} \hypertarget{interface_c_b_message_client_aa4f3f4ff5be3929038bf6045846738cf}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!connect\+To\+Host\+:@{connect\+To\+Host\+:}}
+\index{connect\+To\+Host\+:@{connect\+To\+Host\+:}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{connect\+To\+Host\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) connect\+To\+Host\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+U\+R\+L $\ast$)}]{host\+Name}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_aa4f3f4ff5be3929038bf6045846738cf}
+Connects the client to the host at the specified url. 
+\begin{DoxyParams}{Parameters}
+{\em host\+Name} & The U\+R\+L to connect to. The U\+R\+L should be of the format tcp\+://address. \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_message_client_ad3fc84eac6cbdef60ee25f5e5a76195f}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!connect\+With\+Qo\+S\+:@{connect\+With\+Qo\+S\+:}}
+\index{connect\+With\+Qo\+S\+:@{connect\+With\+Qo\+S\+:}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{connect\+With\+Qo\+S\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) connect\+With\+Qo\+S\+: 
+\begin{DoxyParamCaption}
+\item[{(C\+B\+Message\+Client\+Quality)}]{qos}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_ad3fc84eac6cbdef60ee25f5e5a76195f}
+Connects the client to the default host, specified in \mbox{[}\hyperlink{interface_clear_blade}{Clear\+Blade} settings\mbox{]}. However, uses the given Quality of Service 
+\begin{DoxyParams}{Parameters}
+{\em qos} & The Quality of Service of the connection \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_message_client_aacd81270fa332e1a1f534f5ccd51eac8}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) disconnect 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_aacd81270fa332e1a1f534f5ccd51eac8}
+Disconnects the client from it's current server \hypertarget{interface_c_b_message_client_abcbd056a8bdffbb5c00299343c1b0aeb}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!publish\+Message\+:to\+Topic\+:@{publish\+Message\+:to\+Topic\+:}}
+\index{publish\+Message\+:to\+Topic\+:@{publish\+Message\+:to\+Topic\+:}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{publish\+Message\+:to\+Topic\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) publish\+Message\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{message}
+\item[{toTopic:(N\+S\+String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_abcbd056a8bdffbb5c00299343c1b0aeb}
+Publishs the message client a message to the specified topic. 
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to send \\
+\hline
+{\em topic} & The topic to send the message to \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_message_client_a5a2d3e7f602801310df4c29fef97c85e}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!subscribe\+To\+Topic\+:@{subscribe\+To\+Topic\+:}}
+\index{subscribe\+To\+Topic\+:@{subscribe\+To\+Topic\+:}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{subscribe\+To\+Topic\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) subscribe\+To\+Topic\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_a5a2d3e7f602801310df4c29fef97c85e}
+Subscribes the message client to a topic 
+\begin{DoxyParams}{Parameters}
+{\em topic} & The topic the message client connected to \\
+\hline
+\end{DoxyParams}
+\hypertarget{interface_c_b_message_client_a2d09ed72620aad690bbc38a7042106b5}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!unsubscribe\+From\+Topic\+:@{unsubscribe\+From\+Topic\+:}}
+\index{unsubscribe\+From\+Topic\+:@{unsubscribe\+From\+Topic\+:}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{unsubscribe\+From\+Topic\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) unsubscribe\+From\+Topic\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+String $\ast$)}]{topic}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_message_client_a2d09ed72620aad690bbc38a7042106b5}
+Unsubscribes the message client to a topic 
+\begin{DoxyParams}{Parameters}
+{\em topic} & The topic to unsubscribe from \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Property Documentation}
+\hypertarget{interface_c_b_message_client_a6a94ee89f64cbc4bef855ecdda6fbf85}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!delegate@{delegate}}
+\index{delegate@{delegate}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{delegate}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id$<${\bf C\+B\+Message\+Client\+Delegate}$>$) delegate\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [atomic]}, {\ttfamily [weak]}}}\label{interface_c_b_message_client_a6a94ee89f64cbc4bef855ecdda6fbf85}
+The delegate that will handle all events from message client \hypertarget{interface_c_b_message_client_a770ff8d5b798d220ecc7bc00804112d4}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!host@{host}}
+\index{host@{host}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{host}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+U\+R\+L $\ast$) host\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_c_b_message_client_a770ff8d5b798d220ecc7bc00804112d4}
+The host that this client is connected to. \hypertarget{interface_c_b_message_client_a6a385330b831471122ffb52b101422fb}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!is\+Connected@{is\+Connected}}
+\index{is\+Connected@{is\+Connected}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{is\+Connected}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (bool) is\+Connected\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_c_b_message_client_a6a385330b831471122ffb52b101422fb}
+Whether or not this message client is connected to a host \hypertarget{interface_c_b_message_client_a41081dc92c32ef8aa7ab364463825398}{\index{C\+B\+Message\+Client@{C\+B\+Message\+Client}!topics@{topics}}
+\index{topics@{topics}!CBMessageClient@{C\+B\+Message\+Client}}
+\subsubsection[{topics}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+Array $\ast$) topics\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [atomic]}, {\ttfamily [assign]}}}\label{interface_c_b_message_client_a41081dc92c32ef8aa7ab364463825398}
+The list of topics this client is currently subscribed to 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+B\+Message\+Client.\+h\item 
+C\+B\+Message\+Client.\+m\end{DoxyCompactItemize}

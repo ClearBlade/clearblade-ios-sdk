@@ -38,6 +38,10 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "send_mosq.h"
 #include "time_mosq.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Wsign-compare"
+
 void _mosquitto_message_cleanup(struct mosquitto_message_all **message)
 {
 	struct mosquitto_message_all *msg;
@@ -236,7 +240,6 @@ int _mosquitto_message_remove(struct mosquitto *mosq, uint16_t mid, enum mosquit
 				pthread_mutex_unlock(&mosq->message_mutex);
 				return MOSQ_ERR_SUCCESS;
 			}
-			prev = cur;
 			cur = cur->next;
 		}
 		pthread_mutex_unlock(&mosq->message_mutex);
@@ -318,3 +321,4 @@ int mosquitto_max_inflight_messages_set(struct mosquitto *mosq, unsigned int max
 	return MOSQ_ERR_SUCCESS;
 }
 
+#pragma clang diagnostic pop

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['password',['password',['../interface_m_q_t_t_client.html#adb44dfa2630f0ac31524a0823c1f00f4',1,'MQTTClient']]],
-  ['payload',['payload',['../interface_m_q_t_t_message.html#ac2974959b4fca4589e4b6fc9f044f41e',1,'MQTTMessage']]],
-  ['payloadlen',['payloadlen',['../interface_m_q_t_t_message.html#af430192b287cfb6ef131f7e3d89249ef',1,'MQTTMessage']]],
-  ['port',['port',['../interface_m_q_t_t_client.html#a1d5b24d0ebc1a18fa8cb85a48381513e',1,'MQTTClient']]]
+  ['mainuser',['mainUser',['../interface_clear_blade.html#a2c5ec6113244b327a374c1f939efbce5',1,'ClearBlade']]],
+  ['messagingaddress',['messagingAddress',['../interface_clear_blade.html#a6d90355650360ef27ac6aad5f3df2a7b',1,'ClearBlade']]],
+  ['messagingdefaultqos',['messagingDefaultQoS',['../interface_clear_blade.html#a886dc9ea49818af85910b4373f95096b',1,'ClearBlade']]]
 ];

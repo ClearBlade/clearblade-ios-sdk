@@ -7,17 +7,20 @@
 //
 
 #import "CBQueryResponse.h"
+#import "CBItem.h"
 
 @implementation CBQueryResponse
 
--(id)initWithDictionary:(NSDictionary *)dictionary {
+-(id)initWithDictionary:(NSDictionary *)dictionary
+       withCollectionID:(NSString *)collectionID{
     self = [super init];
     
     self.currentPageNumber = (NSNumber *)[dictionary objectForKey:@"CURRENTPAGE"];
     self.nextPageURL = [dictionary objectForKey:@"NEXTPAGEURL"];
     self.prevPageURL = [dictionary objectForKey:@"PREVPAGEURL"];
-    self.totalCount = (NSNumber *)[dictionary objectForKey:@"TOTALCOUNT"];
-    self.dataItems = [dictionary objectForKey:@"DATA"];
+    self.totalCount = (NSNumber *)[dictionary objectForKey:@"TOTAL"];
+    NSMutableArray *convertedArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:[dictionary objectForKey:@"DATA"] withCollectionID:collectionID];
+    self.dataItems = convertedArray;
     
     return self;
 }

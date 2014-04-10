@@ -15,5 +15,5 @@
 @property NSNumber *totalCount;
 @property NSMutableArray *dataItems;
 
--(id)initWithDictionary:(NSDictionary *)dictionary;
+-(id)initWithDictionary:(NSDictionary *)dictionary withCollectionID:(NSString *)collectionID;
 @end

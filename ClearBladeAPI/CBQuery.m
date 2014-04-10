@@ -116,6 +116,16 @@
     return self;
 }
 
+-(CBQuery *)setPageNum:(NSNumber *)num {
+    [self.query setObject:num forKey:@"PAGENUM"];
+    return self;
+}
+
+-(CBQuery *)setPageSize:(NSNumber *)size {
+    [self.query setObject:size forKey:@"PAGESIZE"];
+    return self;
+}
+
 -(CBQuery *)addFilterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
     NSMutableDictionary *query = self.query;
     NSMutableArray *filterArray = [query objectForKey:@"FILTERS"][0];
@@ -159,7 +169,7 @@
         }
         if (!error) {
             responseDict = [NSJSONSerialization JSONObjectWithData:response.responseData options:0 error:&error];
-            successResponse = [[CBQueryResponse alloc] initWithDictionary:responseDict];
+            successResponse = [[CBQueryResponse alloc] initWithDictionary:responseDict withCollectionID:self.collectionID];
         }
         if (error) {
             if (failureCallback) {
@@ -169,8 +179,6 @@
             }
             return;
         }
-        NSMutableArray * itemArray = [CBItem arrayOfCBItemsFromArrayOfDictionaries:successResponse.dataItems withCollectionID:self.collectionID];
-        successResponse.dataItems = itemArray;
         if (successCallback) {
             successCallback(successResponse);
         }

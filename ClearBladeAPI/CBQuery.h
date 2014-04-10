@@ -143,6 +143,18 @@ Creates a less than or equal to clause and adds it to the query
 */
 -(CBQuery *) lessThanEqualTo: (NSNumber *) value for: (NSString *)key;
 /**
+Sets the page size for the query that is called
+@param size The page size
+@return The query with the page size added
+*/
+-(CBQuery *) setPageSize:(NSNumber *)size;
+/**
+Sets the page num for the query that is called
+@param num The page number
+@return the query with the page number added
+*/
+-(CBQuery *) setPageNum:(NSNumber *)num;
+/**
 Adds another CBQuery as an OR clause. This allows you to create two
 separate CBQuery objects to then OR together.
 This operation happens in place so the caller's underlying query is

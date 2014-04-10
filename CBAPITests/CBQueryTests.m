@@ -148,6 +148,51 @@
     [self removeItemWithStringColumn:@"TEST"];
 }
 
+- (void)testSingleArgumentFetchWithPagination {
+    [self removeItemWithStringColumn:@"TEST"];
+    TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST"
+                                           withIntColumn:5 withCollectionID:TEST_COLLECTION];
+    TestCBItem * item2 = [TestCBItem itemWithStringColumn:@"TEST"
+                                            withIntColumn:6 withCollectionID:TEST_COLLECTION];
+    
+    [item saveWithSuccessCallback:^(CBItem *item) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(CBItem *item, NSError * error, id JSON) {
+        XCTFail(@"Threw unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    [item2 saveWithSuccessCallback:^(CBItem *item) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(CBItem *item, NSError * error, id JSON) {
+        XCTFail(@"Threw unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    [self.defaultQuery equalTo:@"TEST" for:STRING_COLUMN];
+    [self.defaultQuery setPageSize:[NSNumber numberWithInt:1]];
+    [self.defaultQuery setPageNum:[NSNumber numberWithInt:1]];
+    
+    [self.defaultQuery fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
+        XCTAssertTrue([successResponse.dataItems count] == 1, @"Should be single response to equal to Test One");
+        if (successResponse.dataItems.count == 1) {
+            CBItem * otherItem = [TestCBItem itemFromCBItem:[successResponse.dataItems objectAtIndex:0]];
+            XCTAssertTrue([item isEqualToCBItem:otherItem], @"Should be item inserted");
+        }
+        XCTAssertTrue([successResponse.totalCount intValue] == 2);
+        XCTAssertTrue([successResponse.currentPageNumber intValue] == 1);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError * error, id JSON) {
+        XCTFail(@"Threw unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    [self removeItemWithStringColumn:@"TEST"];
+}
+
 - (void)testRemoval {
     NSArray * items = @[[TestCBItem itemWithStringColumn:@"TEST_REMOVE"
                                            withIntColumn:5 withCollectionID:TEST_COLLECTION],
@@ -155,12 +200,13 @@
                                            withIntColumn:6 withCollectionID:TEST_COLLECTION],
                         [TestCBItem itemWithStringColumn:@"TEST_REMOVE"
                                            withIntColumn:7 withCollectionID:TEST_COLLECTION]];
-    
+
     [self removeItemWithStringColumn:@"TEST_REMOVE"];
-    
+
     for (TestCBItem * item in items) {
         [self insertItem:item];
     }
+
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
      fetchWithSuccessCallback:^(CBQueryResponse *successResponse) {
          XCTAssertTrue(successResponse.dataItems.count == items.count, @"All items should be in the collection");
@@ -170,7 +216,7 @@
          [self signalAsyncComplete:MAIN_COMPLETION];
      }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
-    
+
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]
      removeWithSuccessCallback:^(NSMutableArray *successResponse) {
          XCTAssertTrue(successResponse.count == 3, @"Should remove 3 items");
@@ -179,6 +225,7 @@
          XCTFail(@"Threw unexpected error %@", error);
          [self signalAsyncComplete:MAIN_COMPLETION];
      }];
+
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_REMOVE" for:[TestCBItem stringColumnName]]

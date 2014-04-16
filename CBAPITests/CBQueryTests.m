@@ -179,7 +179,6 @@
         XCTAssertTrue([successResponse.dataItems count] == 1, @"Should be single response to equal to Test One");
         if (successResponse.dataItems.count == 1) {
             CBItem * otherItem = [TestCBItem itemFromCBItem:[successResponse.dataItems objectAtIndex:0]];
-            XCTAssertEqual([[item.data objectForKey:@"intcolumn"] intValue], [[otherItem.data objectForKey:@"intcolumn"] intValue]);
             XCTAssertTrue([[item.data objectForKey:@"stringcolumn"] isEqualToString:[otherItem.data objectForKey:@"stringcolumn"]]);
         }
         XCTAssertTrue([successResponse.totalCount intValue] == 2);

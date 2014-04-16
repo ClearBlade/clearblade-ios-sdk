@@ -22,7 +22,7 @@
 #define AUTH_TEST_COLLECTION @"b6b1b0b10ac8beb08a9ed9f1cfd301"
 #define PLATFORM_ADDRESS @"https://platform.clearblade.com/"
 #define MESSAGING_ADDRESS @"tcp://messaging.clearblade.com"
-#define TEST_LOGGING_LEVEL CB_LOG_EXTRA
+#define TEST_LOGGING_LEVEL CB_LOG_DEBUG
 #endif
 #ifdef STAGING
 #define APP_KEY @"e0b7e9b40a9680e8cababef6fcdc01"

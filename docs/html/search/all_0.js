@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['addqueryasorclauseusingquery_3a',['addQueryAsOrClauseUsingQuery:',['../interface_c_b_query.html#abcb133d3ea6c27ccd85fc9d1278f7f41',1,'CBQuery']]],
   ['anonymoususerwithauthtoken_3a',['anonymousUserWithAuthToken:',['../interface_c_b_user.html#af932ff5e8e7cf2614e223b8bb1040e5d',1,'CBUser']]],
   ['anonymoususerwithsettings_3awitherror_3a',['anonymousUserWithSettings:WithError:',['../interface_c_b_user.html#aaa5d3708c50ffc320fb80c92faeba4ef',1,'CBUser']]],
   ['anonymoususerwithsettings_3awithsuccesscallback_3awitherrorcallback_3a',['anonymousUserWithSettings:withSuccessCallback:withErrorCallback:',['../interface_c_b_user.html#a177e50a6f6fd1bae2e9bae9a6ad073e6',1,'CBUser']]],

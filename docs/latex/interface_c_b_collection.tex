@@ -22,9 +22,9 @@ Inheritance diagram for C\+B\+Collection\+:\begin{figure}[H]
 \item 
 (void) -\/ \hyperlink{interface_c_b_collection_a72a5135772c9829d253fb614887158b4}{create\+With\+Data\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
 \item 
-(void) -\/ \hyperlink{interface_c_b_collection_af556b08ec3e81638b50b0bc8e06a9938}{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+(void) -\/ \hyperlink{interface_c_b_collection_a381368878ef4df6b8871457e1f7e62a8}{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
 \item 
-(void) -\/ \hyperlink{interface_c_b_collection_a020a60192df9f85305aea894a19ac9ec}{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+(void) -\/ \hyperlink{interface_c_b_collection_aaf2a876d05e293b1381f491639f40c1d}{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
 \end{DoxyCompactItemize}
 \subsection*{Class Methods}
 \begin{DoxyCompactItemize}
@@ -123,15 +123,15 @@ Initialize a new \hyperlink{interface_c_b_collection}{C\+B\+Collection} object
 \begin{DoxyReturn}{Returns}
 a newly initialized object 
 \end{DoxyReturn}
-\hypertarget{interface_c_b_collection_a020a60192df9f85305aea894a19ac9ec}{\index{C\+B\+Collection@{C\+B\+Collection}!remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\hypertarget{interface_c_b_collection_aaf2a876d05e293b1381f491639f40c1d}{\index{C\+B\+Collection@{C\+B\+Collection}!remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
 \index{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBCollection@{C\+B\+Collection}}
 \subsubsection[{remove\+With\+Query\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) remove\+With\+Query\+: 
 \begin{DoxyParamCaption}
 \item[{({\bf C\+B\+Query} $\ast$)}]{query}
-\item[{withSuccessCallback:(C\+B\+Query\+Success\+Callback)}]{success\+Callback}
+\item[{withSuccessCallback:(C\+B\+Operation\+Success\+Callback)}]{success\+Callback}
 \item[{withErrorCallback:(C\+B\+Query\+Error\+Callback)}]{failure\+Callback}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_collection_a020a60192df9f85305aea894a19ac9ec}
+}}\label{interface_c_b_collection_aaf2a876d05e293b1381f491639f40c1d}
 Removes an item or a set of items on the Platform that match the given query. 
 \begin{DoxyParams}{Parameters}
 {\em query} & A \hyperlink{interface_c_b_query}{C\+B\+Query} object that defines what you want removed from the Platform \\
@@ -141,16 +141,16 @@ Removes an item or a set of items on the Platform that match the given query.
 {\em failure\+Callback} & Callback Block to handle errors returned \\
 \hline
 \end{DoxyParams}
-\hypertarget{interface_c_b_collection_af556b08ec3e81638b50b0bc8e06a9938}{\index{C\+B\+Collection@{C\+B\+Collection}!update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\hypertarget{interface_c_b_collection_a381368878ef4df6b8871457e1f7e62a8}{\index{C\+B\+Collection@{C\+B\+Collection}!update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
 \index{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBCollection@{C\+B\+Collection}}
 \subsubsection[{update\+With\+Query\+:with\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) update\+With\+Query\+: 
 \begin{DoxyParamCaption}
 \item[{({\bf C\+B\+Query} $\ast$)}]{query}
 \item[{withChanges:(N\+S\+Dictionary $\ast$)}]{changes}
-\item[{withSuccessCallback:(C\+B\+Query\+Success\+Callback)}]{success\+Callback}
+\item[{withSuccessCallback:(C\+B\+Operation\+Success\+Callback)}]{success\+Callback}
 \item[{withErrorCallback:(C\+B\+Query\+Error\+Callback)}]{failure\+Callback}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_collection_af556b08ec3e81638b50b0bc8e06a9938}
+}}\label{interface_c_b_collection_a381368878ef4df6b8871457e1f7e62a8}
 Updates an item or a set of items on the Platform that match the given query. 
 \begin{DoxyParams}{Parameters}
 {\em query} & A \hyperlink{interface_c_b_query}{C\+B\+Query} object that defines what you want updated on the Platform \\

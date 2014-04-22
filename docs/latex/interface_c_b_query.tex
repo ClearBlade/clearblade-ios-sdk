@@ -20,11 +20,11 @@ Inheritance diagram for C\+B\+Query\+:\begin{figure}[H]
 \item 
 (void) -\/ \hyperlink{interface_c_b_query_a2ff55cfdc8420ce06c3bfe334691a7cd}{fetch\+With\+Success\+Callback\+:with\+Error\+Callback\+:}
 \item 
-(void) -\/ \hyperlink{interface_c_b_query_abc87df2b71bebfdb3a3d18cc8a864b72}{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+(void) -\/ \hyperlink{interface_c_b_query_aca3f69cedd6770da3fac14535b050d6c}{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
 \item 
-(void) -\/ \hyperlink{interface_c_b_query_ad4969cfce37f0dbd14c825db32946f31}{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
+(void) -\/ \hyperlink{interface_c_b_query_a7c2529e9ef2e4c3630b01d8bff1ea25b}{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}
 \item 
-(void) -\/ \hyperlink{interface_c_b_query_aebdcf0fe2e5db5152cc3da1ef077b52f}{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}
+(void) -\/ \hyperlink{interface_c_b_query_acecf2b37deaf04803066830664b81ad1}{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}
 \item 
 (\hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a3ff649bb71392f2f21e210f07f0ef761}{equal\+To\+:for\+:}
 \item 
@@ -38,7 +38,11 @@ Inheritance diagram for C\+B\+Query\+:\begin{figure}[H]
 \item 
 (\hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$) -\/ \hyperlink{interface_c_b_query_ac8007f263dbc069970ee76c90666b043}{less\+Than\+Equal\+To\+:for\+:}
 \item 
-(\hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a6c53b75ca0e6e4f3abe09194676f5a80}{start\+Next\+Or\+Clause}
+(\hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a5d7977f390caeb0eccb620ddf6e24c2f}{set\+Page\+Size\+:}
+\item 
+(\hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$) -\/ \hyperlink{interface_c_b_query_a04a966e136634595b92597e8437ff176}{set\+Page\+Num\+:}
+\item 
+(\hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$) -\/ \hyperlink{interface_c_b_query_abcb133d3ea6c27ccd85fc9d1278f7f41}{add\+Query\+As\+Or\+Clause\+Using\+Query\+:}
 \end{DoxyCompactItemize}
 \subsection*{Class Methods}
 \begin{DoxyCompactItemize}
@@ -58,7 +62,25 @@ N\+S\+String $\ast$ \hyperlink{interface_c_b_query_ad7e594dc30699c9dbae407e55b58
 Class representing a query that can be used in operations on Platform 
 
 \subsection{Method Documentation}
-\hypertarget{interface_c_b_query_a3ff649bb71392f2f21e210f07f0ef761}{\index{C\+B\+Query@{C\+B\+Query}!equal\+To\+:for\+:@{equal\+To\+:for\+:}}
+\hypertarget{interface_c_b_query_abcb133d3ea6c27ccd85fc9d1278f7f41}{\index{C\+B\+Query@{C\+B\+Query}!add\+Query\+As\+Or\+Clause\+Using\+Query\+:@{add\+Query\+As\+Or\+Clause\+Using\+Query\+:}}
+\index{add\+Query\+As\+Or\+Clause\+Using\+Query\+:@{add\+Query\+As\+Or\+Clause\+Using\+Query\+:}!CBQuery@{C\+B\+Query}}
+\subsubsection[{add\+Query\+As\+Or\+Clause\+Using\+Query\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\+B\+Query} $\ast$) add\+Query\+As\+Or\+Clause\+Using\+Query\+: 
+\begin{DoxyParamCaption}
+\item[{({\bf C\+B\+Query} $\ast$)}]{or\+Query}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_abcb133d3ea6c27ccd85fc9d1278f7f41}
+Adds another \hyperlink{interface_c_b_query}{C\+B\+Query} as an O\+R clause. This allows you to create two separate \hyperlink{interface_c_b_query}{C\+B\+Query} objects to then O\+R together. This operation happens in place so the caller's underlying query is changed but the Query used as the argument is not. 
+\begin{DoxyParams}{Parameters}
+{\em or\+Query} & A \hyperlink{interface_c_b_query}{C\+B\+Query} to be O\+R'd to the calling \hyperlink{interface_c_b_query}{C\+B\+Query}.\\
+\hline
+\end{DoxyParams}
+Example\+: \hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$first\+Query = \mbox{[}\hyperlink{interface_c_b_query}{C\+B\+Query} query\+With\+Collection\+I\+D\+:"f28faaa10a8ca5a5f2f5acd297cc01\char`\"{}\mbox{]}
+\mbox{[}first\+Query equal\+To\+:@\char`\"{}value1\char`\"{} for\+:@\char`\"{}key1\char`\"{}\mbox{]}
+\mbox{[}first\+Query equal\+To\+:@\char`\"{}value2\char`\"{} for\+:@\char`\"{}key2\char`\"{}\mbox{]}
+\+C\+B\+Query $\ast$second\+Query = \mbox{[}\+C\+B\+Query query\+With\+Collection\+I\+D\+:@\char`\"{}f28faaa10a8ca5a5f2f5acd297cc01\char`\"{}\mbox{]}
+\mbox{[}second\+Query equal\+To@\char`\"{}value3\char`\"{} for\+:@\char`\"{}key3"\mbox{]} \hyperlink{interface_c_b_query}{C\+B\+Query} $\ast$third\+Query = \mbox{[}first\+Query add\+Query\+As\+Or\+Clause\+Using\+Query\+:second\+Query\mbox{]}
+
+In the example, third\+Query would be equivalent to this S\+Q\+L\+: W\+H\+E\+R\+E \char`\"{}key1\char`\"{} = \char`\"{}value1\char`\"{} A\+N\+D \char`\"{}key2\char`\"{} = \char`\"{}value2\char`\"{} O\+R \char`\"{}key3\char`\"{} = \char`\"{}value3\char`\"{} \hypertarget{interface_c_b_query_a3ff649bb71392f2f21e210f07f0ef761}{\index{C\+B\+Query@{C\+B\+Query}!equal\+To\+:for\+:@{equal\+To\+:for\+:}}
 \index{equal\+To\+:for\+:@{equal\+To\+:for\+:}!CBQuery@{C\+B\+Query}}
 \subsubsection[{equal\+To\+:for\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\+B\+Query} $\ast$) equal\+To\+: 
 \begin{DoxyParamCaption}
@@ -142,16 +164,16 @@ Initializes the query object and sets the collection\+I\+D
 \begin{DoxyReturn}{Returns}
 the newly instantiated \hyperlink{interface_c_b_query}{C\+B\+Query} Object 
 \end{DoxyReturn}
-\hypertarget{interface_c_b_query_ad4969cfce37f0dbd14c825db32946f31}{\index{C\+B\+Query@{C\+B\+Query}!insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\hypertarget{interface_c_b_query_a7c2529e9ef2e4c3630b01d8bff1ea25b}{\index{C\+B\+Query@{C\+B\+Query}!insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
 \index{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBQuery@{C\+B\+Query}}
 \subsubsection[{insert\+Item\+:into\+Collection\+With\+I\+D\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) insert\+Item\+: 
 \begin{DoxyParamCaption}
 \item[{({\bf C\+B\+Item} $\ast$)}]{item}
 \item[{intoCollectionWithID:(N\+S\+String $\ast$)}]{collection\+I\+D}
-\item[{withSuccessCallback:(C\+B\+Query\+Success\+Callback)}]{success\+Callback}
+\item[{withSuccessCallback:(C\+B\+Operation\+Success\+Callback)}]{success\+Callback}
 \item[{withErrorCallback:(C\+B\+Query\+Error\+Callback)}]{error\+Callback}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_query_ad4969cfce37f0dbd14c825db32946f31}
+}}\label{interface_c_b_query_a7c2529e9ef2e4c3630b01d8bff1ea25b}
 Inserts the object into the collection. Ignores any query parameters 
 \begin{DoxyParams}{Parameters}
 {\em item} & The item to be inserted into the collection \\
@@ -224,14 +246,14 @@ The query with the new clause added
 \item[{(N\+S\+String $\ast$)}]{collection\+I\+D}
 \end{DoxyParamCaption}
 }}\label{interface_c_b_query_a616541706465f78433a3b2488760df4f}
-Creates a query object that will operate on the collection with the collection\+I\+D \hypertarget{interface_c_b_query_aebdcf0fe2e5db5152cc3da1ef077b52f}{\index{C\+B\+Query@{C\+B\+Query}!remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}}
+Creates a query object that will operate on the collection with the collection\+I\+D \hypertarget{interface_c_b_query_acecf2b37deaf04803066830664b81ad1}{\index{C\+B\+Query@{C\+B\+Query}!remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}}
 \index{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!CBQuery@{C\+B\+Query}}
 \subsubsection[{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) remove\+With\+Success\+Callback\+: 
 \begin{DoxyParamCaption}
-\item[{(C\+B\+Query\+Success\+Callback)}]{success\+Callback}
+\item[{(C\+B\+Operation\+Success\+Callback)}]{success\+Callback}
 \item[{withErrorCallback:(C\+B\+Query\+Error\+Callback)}]{failure\+Callback}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_query_aebdcf0fe2e5db5152cc3da1ef077b52f}
+}}\label{interface_c_b_query_acecf2b37deaf04803066830664b81ad1}
 Remove from the platform all of the items that match the query sent 
 \begin{DoxyParams}{Parameters}
 {\em success\+Callback} & A callback block that handles the returned data \\
@@ -251,32 +273,45 @@ Sets the collection I\+D attribute
 {\em col\+I\+D} & A string that will be set as the Collection I\+D \\
 \hline
 \end{DoxyParams}
-\hypertarget{interface_c_b_query_a6c53b75ca0e6e4f3abe09194676f5a80}{\index{C\+B\+Query@{C\+B\+Query}!start\+Next\+Or\+Clause@{start\+Next\+Or\+Clause}}
-\index{start\+Next\+Or\+Clause@{start\+Next\+Or\+Clause}!CBQuery@{C\+B\+Query}}
-\subsubsection[{start\+Next\+Or\+Clause}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\+B\+Query} $\ast$) start\+Next\+Or\+Clause 
+\hypertarget{interface_c_b_query_a04a966e136634595b92597e8437ff176}{\index{C\+B\+Query@{C\+B\+Query}!set\+Page\+Num\+:@{set\+Page\+Num\+:}}
+\index{set\+Page\+Num\+:@{set\+Page\+Num\+:}!CBQuery@{C\+B\+Query}}
+\subsubsection[{set\+Page\+Num\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\+B\+Query} $\ast$) set\+Page\+Num\+: 
 \begin{DoxyParamCaption}
-{}
+\item[{(N\+S\+Number $\ast$)}]{num}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_query_a6c53b75ca0e6e4f3abe09194676f5a80}
-Adds an Or Clause to the query. This makes it so all previous clauses are placed to the leftside of the O\+R, and now all future clauses will be added to the rightside of the O\+R. This edits the query in place, so it's returning the same object
-
-Or clauses are the topmost section of a query, so any Or clause that's added will be to the top. Below is how this maps to S\+Q\+L
-
-\hyperlink{interface_c_b_query}{C\+B\+Query} Example\+: \mbox{[}\mbox{[}\mbox{[}\mbox{[}\mbox{[}\mbox{[}\hyperlink{interface_c_b_query}{C\+B\+Query} query\+With\+Collection\+I\+D\mbox{]} equal\+To\+:"value1\char`\"{} for\+:@\char`\"{}key1"\mbox{]} start\+Next\+Or\+Clause\mbox{]} equal\+To\+:"value2\char`\"{} for\+:@\char`\"{}key2\char`\"{}\mbox{]}
-                                     equal\+To\+:@\char`\"{}value3\char`\"{} for\+:@\char`\"{}key3"\mbox{]} start\+Next\+Or\+Clause\mbox{]} equal\+To\+:"value4\char`\"{} for @\char`\"{}key4"\mbox{]} S\+Q\+L Example W\+H\+E\+R\+E \char`\"{}key1\char`\"{} = \char`\"{}value1\char`\"{} O\+R \char`\"{}key2\char`\"{} = \char`\"{}value2\char`\"{} A\+N\+D \char`\"{}key3\char`\"{} = \char`\"{}value3\char`\"{} O\+R \char`\"{}key4\char`\"{} = \char`\"{}value4\char`\"{}
-
+}}\label{interface_c_b_query_a04a966e136634595b92597e8437ff176}
+Sets the page num for the query that is called 
+\begin{DoxyParams}{Parameters}
+{\em num} & The page number \\
+\hline
+\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-This query with the new Or clause 
+the query with the page number added 
 \end{DoxyReturn}
-\hypertarget{interface_c_b_query_abc87df2b71bebfdb3a3d18cc8a864b72}{\index{C\+B\+Query@{C\+B\+Query}!update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
+\hypertarget{interface_c_b_query_a5d7977f390caeb0eccb620ddf6e24c2f}{\index{C\+B\+Query@{C\+B\+Query}!set\+Page\+Size\+:@{set\+Page\+Size\+:}}
+\index{set\+Page\+Size\+:@{set\+Page\+Size\+:}!CBQuery@{C\+B\+Query}}
+\subsubsection[{set\+Page\+Size\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ ({\bf C\+B\+Query} $\ast$) set\+Page\+Size\+: 
+\begin{DoxyParamCaption}
+\item[{(N\+S\+Number $\ast$)}]{size}
+\end{DoxyParamCaption}
+}}\label{interface_c_b_query_a5d7977f390caeb0eccb620ddf6e24c2f}
+Sets the page size for the query that is called 
+\begin{DoxyParams}{Parameters}
+{\em size} & The page size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The query with the page size added 
+\end{DoxyReturn}
+\hypertarget{interface_c_b_query_aca3f69cedd6770da3fac14535b050d6c}{\index{C\+B\+Query@{C\+B\+Query}!update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}}
 \index{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:@{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}!CBQuery@{C\+B\+Query}}
 \subsubsection[{update\+With\+Changes\+:with\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) update\+With\+Changes\+: 
 \begin{DoxyParamCaption}
 \item[{(N\+S\+Dictionary $\ast$)}]{changes}
-\item[{withSuccessCallback:(C\+B\+Query\+Success\+Callback)}]{success\+Callback}
+\item[{withSuccessCallback:(C\+B\+Operation\+Success\+Callback)}]{success\+Callback}
 \item[{withErrorCallback:(C\+B\+Query\+Error\+Callback)}]{failure\+Callback}
 \end{DoxyParamCaption}
-}}\label{interface_c_b_query_abc87df2b71bebfdb3a3d18cc8a864b72}
+}}\label{interface_c_b_query_aca3f69cedd6770da3fac14535b050d6c}
 Updates on the platform all the items that match the query sent 
 \begin{DoxyParams}{Parameters}
 {\em changes} & A dictoinary of all the changes that will be applied to the items that match the query \\

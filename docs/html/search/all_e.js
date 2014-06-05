@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['reconnectondisconnect',['reconnectOnDisconnect',['../interface_c_b_message_client.html#ab7081a5e525a5b45420b1e44e23a90a4',1,'CBMessageClient']]],
   ['refreshwithsuccesscallback_3awitherrorcallback_3a',['refreshWithSuccessCallback:withErrorCallback:',['../interface_c_b_item.html#acb4af198992cddea658fb099bbd81583',1,'CBItem']]],
   ['registeruserwithemail_3awithpassword_3awitherror_3a',['registerUserWithEmail:withPassword:withError:',['../interface_c_b_user.html#a87de9d5282ea3a1b1f400cc5e31a8100',1,'CBUser']]],
   ['registeruserwithemail_3awithpassword_3awithsuccesscallback_3awitherrorcallback_3a',['registerUserWithEmail:withPassword:withSuccessCallback:withErrorCallback:',['../interface_c_b_user.html#a3b2eced573b27bdc4bbf6d1401cc74d9',1,'CBUser']]],

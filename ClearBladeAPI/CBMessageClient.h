@@ -109,6 +109,7 @@ Delegate selector to handle when a message client fails to connect to the server
 /** The list of topics this client is currently subscribed to */
 @property (atomic, readonly) NSArray * topics;
 @property (atomic, readonly) CBMessageClientQuality qos;
+@property (nonatomic) bool reconnectOnDisconnect;
 
 /** Connects the client to the default host, specified in [ClearBlade settings] */
 -(void)connect;

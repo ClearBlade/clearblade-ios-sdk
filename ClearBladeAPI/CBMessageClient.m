@@ -36,12 +36,14 @@
 @property (strong, nonatomic) NSThread * clientThread;
 @property (strong, atomic) NSNumber * isConnectedContainer;
 @property (atomic) CBMessageClientQuality qos;
+@property (nonatomic) bool tryingToReconnect;
+@property (nonatomic) bool plannedDisconnect;
 @end
- /* * 0 - success
-  * * 1 - connection refused (unacceptable protocol version)
-  * * 2 - connection refused (identifier rejected)
-  * * 3 - connection refused (broker unavailable)
-  */
+/* * 0 - success
+ * * 1 - connection refused (unacceptable protocol version)
+ * * 2 - connection refused (identifier rejected)
+ * * 3 - connection refused (broker unavailable)
+ */
 static void CBMessageClient_onConnect(struct mosquitto * mosq, void * voidClient, int connectionResponse) {
     CBMessageClient * client = (__bridge CBMessageClient *)voidClient;
     switch (connectionResponse) {
@@ -103,6 +105,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 @synthesize isConnectedContainer = _isConnectedContainer;
 @synthesize host = _host;
 @synthesize qos = _qos;
+@synthesize reconnectOnDisconnect = _reconnectOnDisconnect;
 
 @dynamic isConnected;
 
@@ -135,6 +138,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     }
 }
 
+
 -(bool)isConnected {
     return [self.isConnectedContainer boolValue];
 }
@@ -147,6 +151,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 -(id)init {
     self = [super init];
     if (self) {
+        self.reconnectOnDisconnect = true;
     }
     return self;
 }
@@ -168,6 +173,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 }
 
 -(void)disconnect {
+    self.plannedDisconnect = true;
     @synchronized (self.clientLock) {
         if (self.isConnected) {
             mosquitto_disconnect(self.client);
@@ -177,6 +183,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
         }
     }
 }
+
 -(struct mosquitto *)client {
     if (!_client) {
         NSString * clientID = [NSString stringWithFormat:@"MosquittoClient_%d", [[ClearBlade settings] generateID]];
@@ -273,6 +280,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 -(void)handleConnect:(CBMessageClientConnectStatus)status {
     id<CBMessageClientDelegate> delegate = self.delegate;
     self.isConnectedContainer = @(true);
+    self.tryingToReconnect = false;
     CBLogDebug(@"Mosquitto client connected to %@", self.host);
     dispatch_async(dispatch_get_main_queue(), ^{
         if (status == CBMessageClientConnectSuccess) {
@@ -328,14 +336,56 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     CBLogDebug(@"Mosquitto client disconnected from host %@", self.host);
     id<CBMessageClientDelegate> delegate = self.delegate;
     
-    self.isConnectedContainer = false;
-    self.topicList = nil;
-    if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [delegate messageClientDidDisconnect:self];
-        });
+    if(!self.tryingToReconnect){
+        if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [delegate messageClientDidDisconnect:self];
+            });
+        }
+    }
+    if (self.reconnectOnDisconnect && !self.plannedDisconnect) {
+        self.tryingToReconnect = true;
+        [self tryReconnect];
+        sleep(5);
+    } else{
+        self.isConnectedContainer = false;
+        self.topicList = nil;
+        self.clientThread = nil;
+        if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [delegate messageClientDidDisconnect:self];
+            });
+        }
     }
 }
+
+-(void)tryReconnect {
+    id<CBMessageClientDelegate> delegate = self.delegate;
+    @synchronized (self.clientLock) {
+        int resp = mosquitto_reconnect(self.client);
+        switch (resp) {
+            case MOSQ_ERR_SUCCESS:
+                //this doesn't mean we successfully connected in libmosquitto, so we do nothing
+                //on_connect callback will be called if reconnect is successful
+                break;
+            case MOSQ_ERR_INVAL:
+                if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {
+                    [delegate messageClient:self didFailToConnect:CBMessageClientConnectMalformedURL];
+                }
+                break;
+            case MOSQ_ERR_ERRNO:
+                if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {
+                    CBMessageClientConnectStatus status = CBMessageClientConnectErrnoSet;
+                    if (errno == 2) { //No File found
+                        status = CBMessageClientConnectServerNotFound;
+                    }
+                    [delegate messageClient:self didFailToConnect:status];
+                }
+                break;
+            default:
+                break;
+        }
+    }}
 
 -(NSString *)description {
     if (self.isConnected) {

@@ -1,4 +1,6 @@
 language: objective-c
+  - brew update
+  - brew upgrade xctool
 xcode_project: CBAPI.xcodeproj
 xcode_scheme: CBAPI
 xcode_sdk: iphonesimulator

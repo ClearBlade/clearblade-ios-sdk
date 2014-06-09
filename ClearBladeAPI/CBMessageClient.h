@@ -48,7 +48,10 @@ Delegate selector to handle when a message client successfully connects.
 @optional -(void)messageClientDidConnect:(CBMessageClient *)client;
 
 /**
-Delegate selector to handle when a message client disconnects.
+Delegate selector to handle when a message client disconnects. NOTE - This delegate
+ is also called when an unexpected disconnect occurs. If the reconnectOnDisconnect
+ flag is set to true, the Message Client will continue to try and reconnect
+ every 5 seconds. If set to false, you will need to handle the reconnect on your own
 @param client The client that disconnected
 */
 @optional -(void)messageClientDidDisconnect:(CBMessageClient *)client;
@@ -109,6 +112,9 @@ Delegate selector to handle when a message client fails to connect to the server
 /** The list of topics this client is currently subscribed to */
 @property (atomic, readonly) NSArray * topics;
 @property (atomic, readonly) CBMessageClientQuality qos;
+
+/** True/False for the client to automatically attempt reconnect on a disconnect */
+@property (nonatomic) bool reconnectOnDisconnect;
 
 /** Connects the client to the default host, specified in [ClearBlade settings] */
 -(void)connect;

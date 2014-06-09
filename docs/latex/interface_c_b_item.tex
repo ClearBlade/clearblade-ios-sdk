@@ -53,7 +53,7 @@ Class that represents an individual item from the platform
 
 \subsection{Method Documentation}
 \hypertarget{interface_c_b_item_ace72b56932f3aa3b636800abdb50daa0}{\index{C\+B\+Item@{C\+B\+Item}!init\+With\+Data\+:with\+Collection\+I\+D\+:@{init\+With\+Data\+:with\+Collection\+I\+D\+:}}
-\index{init\+With\+Data\+:with\+Collection\+I\+D\+:@{init\+With\+Data\+:with\+Collection\+I\+D\+:}!CBItem@{C\+B\+Item}}
+\index{init\+With\+Data\+:with\+Collection\+I\+D\+:@{init\+With\+Data\+:with\+Collection\+I\+D\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{init\+With\+Data\+:with\+Collection\+I\+D\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (instancetype) init\+With\+Data\+: 
 \begin{DoxyParamCaption}
 \item[{(N\+S\+Dictionary $\ast$)}]{input\+Data}
@@ -71,7 +71,7 @@ Initializes the Item with data and sets the data and collection\+I\+D.
 the newly created \hyperlink{interface_c_b_item}{C\+B\+Item} 
 \end{DoxyReturn}
 \hypertarget{interface_c_b_item_ab47361f0044a8fd1893823b6ec95c46f}{\index{C\+B\+Item@{C\+B\+Item}!is\+Equal\+To\+C\+B\+Item\+:@{is\+Equal\+To\+C\+B\+Item\+:}}
-\index{is\+Equal\+To\+C\+B\+Item\+:@{is\+Equal\+To\+C\+B\+Item\+:}!CBItem@{C\+B\+Item}}
+\index{is\+Equal\+To\+C\+B\+Item\+:@{is\+Equal\+To\+C\+B\+Item\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{is\+Equal\+To\+C\+B\+Item\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (bool) is\+Equal\+To\+C\+B\+Item\+: 
 \begin{DoxyParamCaption}
 \item[{({\bf C\+B\+Item} $\ast$)}]{item}
@@ -86,7 +86,7 @@ Checks if all keys on both this \hyperlink{interface_c_b_item}{C\+B\+Item} and t
 true if the other item has all the same keys and values as this item. 
 \end{DoxyReturn}
 \hypertarget{interface_c_b_item_a5f9b22377c54afcb79916eaa66108140}{\index{C\+B\+Item@{C\+B\+Item}!item\+With\+Data\+:with\+Collection\+I\+D\+:@{item\+With\+Data\+:with\+Collection\+I\+D\+:}}
-\index{item\+With\+Data\+:with\+Collection\+I\+D\+:@{item\+With\+Data\+:with\+Collection\+I\+D\+:}!CBItem@{C\+B\+Item}}
+\index{item\+With\+Data\+:with\+Collection\+I\+D\+:@{item\+With\+Data\+:with\+Collection\+I\+D\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{item\+With\+Data\+:with\+Collection\+I\+D\+:}]{\setlength{\rightskip}{0pt plus 5cm}+ ({\bf C\+B\+Item} $\ast$) item\+With\+Data\+: 
 \begin{DoxyParamCaption}
 \item[{(N\+S\+Dictionary $\ast$)}]{input\+Data}
@@ -104,7 +104,7 @@ Creates an Item with data belonging to the collection with collection\+I\+D
 The newly created \hyperlink{interface_c_b_item}{C\+B\+Item} 
 \end{DoxyReturn}
 \hypertarget{interface_c_b_item_aeb280c9120217ef525b1c47adb5db344}{\index{C\+B\+Item@{C\+B\+Item}!object\+For\+Key\+:@{object\+For\+Key\+:}}
-\index{object\+For\+Key\+:@{object\+For\+Key\+:}!CBItem@{C\+B\+Item}}
+\index{object\+For\+Key\+:@{object\+For\+Key\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{object\+For\+Key\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id) object\+For\+Key\+: 
 \begin{DoxyParamCaption}
 \item[{(N\+S\+String $\ast$)}]{key}
@@ -119,7 +119,7 @@ Gets an item out of the data attribute that matches the given string
 The id that is referenced by the value for the given key 
 \end{DoxyReturn}
 \hypertarget{interface_c_b_item_acb4af198992cddea658fb099bbd81583}{\index{C\+B\+Item@{C\+B\+Item}!refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:}}
-\index{refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!CBItem@{C\+B\+Item}}
+\index{refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{refresh\+With\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) refresh\+With\+Success\+Callback\+: 
 \begin{DoxyParamCaption}
 \item[{(C\+B\+Item\+Success\+Callback)}]{success\+Callback}
@@ -127,7 +127,7 @@ The id that is referenced by the value for the given key
 \end{DoxyParamCaption}
 }}\label{interface_c_b_item_acb4af198992cddea658fb099bbd81583}
 Pulls down any changes that have been made on the server to the item since being instantiated. This updates the data attribute to reflect the current state of the Item on the server \hypertarget{interface_c_b_item_acc375a79b97c2fcfaeda1c2737de51c0}{\index{C\+B\+Item@{C\+B\+Item}!remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}}
-\index{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!CBItem@{C\+B\+Item}}
+\index{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{remove\+With\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) remove\+With\+Success\+Callback\+: 
 \begin{DoxyParamCaption}
 \item[{(C\+B\+Item\+Success\+Callback)}]{success\+Callback}
@@ -135,7 +135,7 @@ Pulls down any changes that have been made on the server to the item since being
 \end{DoxyParamCaption}
 }}\label{interface_c_b_item_acc375a79b97c2fcfaeda1c2737de51c0}
 Deletes the Item on the server This cannot be undone. \hypertarget{interface_c_b_item_a35bde628ed02786ebcd145d74bea5ead}{\index{C\+B\+Item@{C\+B\+Item}!save\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{save\+With\+Success\+Callback\+:with\+Error\+Callback\+:}}
-\index{save\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{save\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!CBItem@{C\+B\+Item}}
+\index{save\+With\+Success\+Callback\+:with\+Error\+Callback\+:@{save\+With\+Success\+Callback\+:with\+Error\+Callback\+:}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{save\+With\+Success\+Callback\+:with\+Error\+Callback\+:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) save\+With\+Success\+Callback\+: 
 \begin{DoxyParamCaption}
 \item[{(C\+B\+Item\+Success\+Callback)}]{success\+Callback}
@@ -146,17 +146,17 @@ Saves any changes that have been made to the data property to the Platform This 
 
 \subsection{Property Documentation}
 \hypertarget{interface_c_b_item_a8d47dba1bcfeb0754b65d312a48a939a}{\index{C\+B\+Item@{C\+B\+Item}!collection\+I\+D@{collection\+I\+D}}
-\index{collection\+I\+D@{collection\+I\+D}!CBItem@{C\+B\+Item}}
+\index{collection\+I\+D@{collection\+I\+D}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{collection\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String$\ast$) collection\+I\+D\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_item_a8d47dba1bcfeb0754b65d312a48a939a}
 A string holding the I\+D of the collection to which this item belongs \hypertarget{interface_c_b_item_a056a3d35cb718cb306dc69915bec29e2}{\index{C\+B\+Item@{C\+B\+Item}!data@{data}}
-\index{data@{data}!CBItem@{C\+B\+Item}}
+\index{data@{data}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+Mutable\+Dictionary $\ast$) data\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_item_a056a3d35cb718cb306dc69915bec29e2}
 A dictionary that holds the data that was stored in the platform. \hypertarget{interface_c_b_item_adc7d0932fa46e75354e7dbe63d714165}{\index{C\+B\+Item@{C\+B\+Item}!item\+I\+D@{item\+I\+D}}
-\index{item\+I\+D@{item\+I\+D}!CBItem@{C\+B\+Item}}
+\index{item\+I\+D@{item\+I\+D}!C\+B\+Item@{C\+B\+Item}}
 \subsubsection[{item\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (N\+S\+String $\ast$) item\+I\+D\hspace{0.3cm}{\ttfamily [read]}, {\ttfamily [write]}, {\ttfamily [nonatomic]}, {\ttfamily [strong]}}}\label{interface_c_b_item_adc7d0932fa46e75354e7dbe63d714165}
 A string holding the I\+D of the item 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+B\+Item.\+h\item 
-C\+B\+Item.\+m\end{DoxyCompactItemize}
+Clear\+Blade\+A\+P\+I/C\+B\+Item.\+h\item 
+Clear\+Blade\+A\+P\+I/C\+B\+Item.\+m\end{DoxyCompactItemize}

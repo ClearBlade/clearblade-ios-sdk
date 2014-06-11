@@ -16,4 +16,5 @@
 #import "CBMessageClient.h"
 #import "CBMessage.h"
 #import "CBUser.h"
+#import "CBCode.h"
 #import "ClearBlade.h"

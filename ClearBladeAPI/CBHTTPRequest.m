@@ -37,6 +37,15 @@
                                                  withHeaders:headers];
 }
 
++(instancetype)codeRequestWithName:(NSString *)name
+                     withParamters:(NSDictionary *)params {
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
+                                                  withMethod:@"GET"
+                                                  withAction:[[@"api/v/1/code/" stringByAppendingString:[[ClearBlade settings] systemKey]] stringByAppendingString:name]
+                                               withParameters:params
+                                                    withUser:[[ClearBlade settings] mainUser]];
+}
+
 -(NSString *)encodeQuery:(NSString *)query {
     //http://stackoverflow.com/questions/3423545/objective-c-iphone-percent-encode-a-string
     NSMutableString * output = [NSMutableString string];
@@ -108,6 +117,35 @@
         }
     }
     return self;
+}
+
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
+                               withMethod:(NSString *)method
+                               withAction:(NSString *)action
+                                 withParameters:(NSDictionary *)params
+                              withUser:(CBUser *)user {
+    
+    NSURL * url = [[NSURL URLWithString:[settings serverAddress]] URLByAppendingPathComponent:action];
+    NSError * error = nil;
+    
+    NSData * bodyData;
+    if (params) {
+        bodyData = [NSJSONSerialization dataWithJSONObject:params options:0 error:&error];
+    }
+    
+    self = [super initWithURL:url];
+    if (self) {
+        self.HTTPMethod = method;
+        self.HTTPBody = bodyData;
+        self.settings = settings;
+        self.user = user;
+        if (error) {
+            CBLogWarning(@"Request <%@> failed to initialize body <%@> with error <%@>", self, params, error);
+        }
+    }
+    return self;
+    
+
 }
 
 -(CBUser *)user {

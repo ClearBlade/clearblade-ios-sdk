@@ -90,6 +90,10 @@
 		8DF2A3BF185A2582003506C1 /* will_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2A3A1185A2582003506C1 /* will_mosq.c */; };
 		8DF2A3C0185A2582003506C1 /* will_mosq.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A3A2185A2582003506C1 /* will_mosq.h */; };
 		8DF2A3C4185A27E4003506C1 /* CBAPI-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8DF2A3C3185A27E4003506C1 /* CBAPI-Prefix.pch */; };
+		D33040491948EBCF00376DAD /* CBCode.h in Headers */ = {isa = PBXBuildFile; fileRef = D33040471948EBCF00376DAD /* CBCode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D330404A1948EBCF00376DAD /* CBCode.m in Sources */ = {isa = PBXBuildFile; fileRef = D33040481948EBCF00376DAD /* CBCode.m */; };
+		D330404E1948FCD900376DAD /* CBCode.m in Sources */ = {isa = PBXBuildFile; fileRef = D33040481948EBCF00376DAD /* CBCode.m */; };
+		D330404F1948FCD900376DAD /* CBCodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D330404B1948F7E200376DAD /* CBCodeTests.m */; };
 		FAE765C918DA2DBD006833AF /* CBQueryResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = FAE765C718DA2DBD006833AF /* CBQueryResponse.h */; };
 		FAE765CA18DA2DBD006833AF /* CBQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE765C818DA2DBD006833AF /* CBQueryResponse.m */; };
 		FAE765CB18DA3CF1006833AF /* CBQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE765C818DA2DBD006833AF /* CBQueryResponse.m */; };
@@ -162,6 +166,9 @@
 		8DF2A3A2185A2582003506C1 /* will_mosq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = will_mosq.h; sourceTree = "<group>"; };
 		8DF2A3C1185A2796003506C1 /* CBAPI-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CBAPI-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8DF2A3C3185A27E4003506C1 /* CBAPI-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBAPI-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		D33040471948EBCF00376DAD /* CBCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBCode.h; path = ClearBladeAPI/CBCode.h; sourceTree = SOURCE_ROOT; };
+		D33040481948EBCF00376DAD /* CBCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBCode.m; path = ClearBladeAPI/CBCode.m; sourceTree = SOURCE_ROOT; };
+		D330404B1948F7E200376DAD /* CBCodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBCodeTests.m; sourceTree = "<group>"; };
 		FAE765C718DA2DBD006833AF /* CBQueryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBQueryResponse.h; path = ClearBladeAPI/CBQueryResponse.h; sourceTree = SOURCE_ROOT; };
 		FAE765C818DA2DBD006833AF /* CBQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBQueryResponse.m; path = ClearBladeAPI/CBQueryResponse.m; sourceTree = SOURCE_ROOT; };
 		FAFF2E5B18C63DFD0030D8B3 /* CBUserDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBUserDataTests.m; sourceTree = "<group>"; };
@@ -219,6 +226,8 @@
 		8DF2A33D185A24DB003506C1 /* CBAPI */ = {
 			isa = PBXGroup;
 			children = (
+				D33040471948EBCF00376DAD /* CBCode.h */,
+				D33040481948EBCF00376DAD /* CBCode.m */,
 				8DF2A366185A2577003506C1 /* CBAPI.h */,
 				8DF2A367185A2577003506C1 /* CBCollection.h */,
 				8DF2A368185A2577003506C1 /* CBCollection.m */,
@@ -259,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				FAFF2E5B18C63DFD0030D8B3 /* CBUserDataTests.m */,
+				D330404B1948F7E200376DAD /* CBCodeTests.m */,
 				8D542780185FC5B500E17A34 /* AsyncTestCase.h */,
 				8D542781185FC5B500E17A34 /* AsyncTestCase.m */,
 				8D542783185FC5B500E17A34 /* CBItemTests.m */,
@@ -334,6 +344,7 @@
 				8DF2A37C185A2577003506C1 /* CBMessage.h in Headers */,
 				8DF2A37A185A2577003506C1 /* CBItem.h in Headers */,
 				8DF2A378185A2577003506C1 /* CBHTTPRequest.h in Headers */,
+				D33040491948EBCF00376DAD /* CBCode.h in Headers */,
 				8DF2A3AE185A2582003506C1 /* mqtt3_protocol.h in Headers */,
 				8DF2A3AA185A2582003506C1 /* messages_mosq.h in Headers */,
 				8DF2A3C4185A27E4003506C1 /* CBAPI-Prefix.pch in Headers */,
@@ -465,6 +476,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D330404E1948FCD900376DAD /* CBCode.m in Sources */,
+				D330404F1948FCD900376DAD /* CBCodeTests.m in Sources */,
 				8DBFB77F18909916001651C8 /* CBHTTPRequestResponse.m in Sources */,
 				8D6EBCA31868B9BB0083623F /* CBCollection.m in Sources */,
 				8D6EBCA41868B9BB0083623F /* CBHTTPRequest.m in Sources */,
@@ -509,6 +522,7 @@
 				8D81556E1885E8EA004BF9CF /* CBUser.m in Sources */,
 				8DF2A3AF185A2582003506C1 /* net_mosq.c in Sources */,
 				8DF2A3A9185A2582003506C1 /* messages_mosq.c in Sources */,
+				D330404A1948EBCF00376DAD /* CBCode.m in Sources */,
 				8DF2A3AB185A2582003506C1 /* mosquitto.c in Sources */,
 				8DF2A37B185A2577003506C1 /* CBItem.m in Sources */,
 				8DF2A3A7185A2582003506C1 /* memory_mosq.c in Sources */,

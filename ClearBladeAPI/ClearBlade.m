@@ -43,7 +43,12 @@ static ClearBlade * _settings = nil;
 }
 
 +(NSError *)validateOptions:(NSDictionary *)options {
-    bool shouldRegister = options[CBSettingsOptionRegisterUser] != nil;
+    bool shouldRegister;
+    if (options[CBSettingsOptionRegisterUser] == nil) {
+        shouldRegister = false;
+    }else {
+        shouldRegister = [options[CBSettingsOptionRegisterUser] boolValue];
+    }
     NSString * email = options[CBSettingsOptionEmail];
     NSString * password = options[CBSettingsOptionPassword];
     if (!email && password) {
@@ -60,7 +65,14 @@ static ClearBlade * _settings = nil;
     ClearBlade * settings = [[ClearBlade alloc] initWithSystemKey:key withSystemSecret:secret withOptions:options];
     NSError * error;
     if (!settings.mainUser) {
-        bool shouldRegister = options[CBSettingsOptionRegisterUser] != nil;
+        
+        bool shouldRegister;
+        if (options[CBSettingsOptionRegisterUser] == nil) {
+            shouldRegister = false;
+        }else {
+            shouldRegister = [options[CBSettingsOptionRegisterUser] boolValue];
+        }
+        
         NSString * email = options[CBSettingsOptionEmail];
         NSString * password = options[CBSettingsOptionPassword];
         error = [ClearBlade validateOptions:options];
@@ -110,7 +122,12 @@ static ClearBlade * _settings = nil;
     };
     
     if (!settings.mainUser) {
-        bool shouldRegister = options[CBSettingsOptionRegisterUser] != nil;
+        bool shouldRegister;
+        if (options[CBSettingsOptionRegisterUser] == nil) {
+            shouldRegister = false;
+        }else {
+            shouldRegister = [options[CBSettingsOptionRegisterUser] boolValue];
+        }
         NSString * email = options[CBSettingsOptionEmail];
         NSString * password = options[CBSettingsOptionPassword];
         NSError * error = [ClearBlade validateOptions:options];
@@ -226,7 +243,7 @@ static ClearBlade * _settings = nil;
             self.messagingAddress = CB_DEFAULT_MESSAGING;
         }
         return _messagingAddress;
-            
+        
     }
 }
 

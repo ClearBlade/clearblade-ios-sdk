@@ -20,6 +20,12 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
+    [super setUp];
+    NSError * error;
+    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
+                             withSystemSecret:APP_SECRET
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS}
+                                    withError:&error];
 }
 
 - (void)tearDown
@@ -52,5 +58,26 @@
     otherItem.itemID = @"12345";
     XCTAssertFalse([otherItem isEqualToCBItem:item], @"When both ids are set, should check if they are the same");
 }
+
+-(void)testCreate {
+    CBItem *item = [CBItem itemWithData:@{@"stringcolumn": @"should be delted"} withCollectionID: TEST_COLLECTION];
+    [item saveWithSuccessCallback:^(CBItem *item) {
+        XCTAssertNotNil([item itemID], @"item id should exist after creation");
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(CBItem *item, NSError *error, id JSON) {
+        XCTFail(@"Failed to create CBItem: %@",error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+    
+    [item removeWithSuccessCallback:^(CBItem *item) {
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(CBItem *item, NSError *error, id JSON) {
+        XCTFail(@"Failed to create CBItem: %@",error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+}
+
 
 @end

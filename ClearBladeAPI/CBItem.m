@@ -69,12 +69,12 @@
     CBLogDebug(@"Saving %@", self);
     if (self.itemID) {
         [[query equalTo:self.itemID for:CBITEM_ID_KEY] updateWithChanges:self.data
-             withSuccessCallback:[self handleSuccessOperationCallback:successCallback]
+             withSuccessCallback:[self handleSuccessSaveCallback:successCallback]
                withErrorCallback:[self handleErrorCallback:errorCallback]];
     } else {
         [query insertItem:self
      intoCollectionWithID:self.collectionID
-      withSuccessCallback:[self handleSuccessOperationCallback:successCallback]
+      withSuccessCallback:[self handleSuccessSaveCallback:successCallback]
         withErrorCallback:[self handleErrorCallback:errorCallback]];
     }
 }
@@ -91,12 +91,20 @@
     };
 }
 
--(CBOperationSuccessCallback)handleSuccessOperationCallback:(CBItemSuccessCallback)successCallback {
+-(CBOperationSuccessCallback)handleSuccessSaveCallback:(CBItemSuccessCallback)successCallback {
     return ^(NSMutableArray *successResponse) {
-        if (successResponse.count == 1) {
-            NSString * newID = [successResponse[0] objectForKey:CBITEM_ID_KEY];
+        if (successResponse.count > 0) {
+            NSString * newID = [successResponse valueForKey:CBITEM_ID_KEY];
             self.itemID = newID;
         }
+        if (successCallback) {
+            successCallback(self);
+        }
+    };
+}
+
+-(CBOperationSuccessCallback)handleSuccessDeleteCallback:(CBItemSuccessCallback)successCallback {
+    return ^(NSMutableArray *successResponse) {
         if (successCallback) {
             successCallback(self);
         }
@@ -130,9 +138,9 @@
                 withErrorCallback:(CBItemErrorCallback)errorCallback {
     CBLogDebug(@"Removing %@", self);
     if ([self validateWithErrorCallback:errorCallback]) {
-        CBQuery *query = [[CBQuery alloc] init];
+        CBQuery *query = [[CBQuery alloc] initWithCollectionID:self.collectionID];
         [query equalTo:self.itemID for:CBITEM_ID_KEY];
-        [query removeWithSuccessCallback:[self handleSuccessOperationCallback:successCallback]
+        [query removeWithSuccessCallback:[self handleSuccessDeleteCallback:successCallback]
                        withErrorCallback:[self handleErrorCallback:errorCallback]];
     }
    

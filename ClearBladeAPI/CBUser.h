@@ -36,7 +36,7 @@ typedef void (^CBUserIsValidCallback)(bool);
 @interface CBUser : NSObject
 
 /**
- Creates an anonymous user with the specified auth token. This does not communicate with the server in any way to validate 
+ Creates an anonymous user with the specified auth token. This does not communicate with the server in any way to validate
  the token.
  @param authToken The authorization token to use
  @return A User object with an anonymous user using the specified authToken
@@ -104,7 +104,7 @@ typedef void (^CBUserIsValidCallback)(bool);
                            withPassword:(NSString *)password
                               withError:(NSError **)error;
 /**
- Authenticates a user with the specified email and password. It retrieves the user's token from the server asynchronously and 
+ Authenticates a user with the specified email and password. It retrieves the user's token from the server asynchronously and
  calls the callback once the user is authenticated, and does not store the password locally.
  @param email The email to create the user with
  @param password The password to use
@@ -147,7 +147,7 @@ typedef void (^CBUserIsValidCallback)(bool);
 
 /**
  Registers a user with the specified email and password. It retrieves the user's token from the server asynchronously and
- calls the callback once the user is authenticated, and does not store the password locally. Uses the specified settings object 
+ calls the callback once the user is authenticated, and does not store the password locally. Uses the specified settings object
  for the server Address
  @param settings The settings to use to lookup the platform
  @param email The email to create the user with
@@ -158,9 +158,9 @@ typedef void (^CBUserIsValidCallback)(bool);
  */
 +(void)registerUserWithSettings:(ClearBlade *)settings
                       withEmail:(NSString *)email
-                withPassword:(NSString *)password
-         withSuccessCallback:(CBUserSuccessCallback)successCallback
-           withErrorCallback:(CBUserErrorCallback)errorCallback;
+                   withPassword:(NSString *)password
+            withSuccessCallback:(CBUserSuccessCallback)successCallback
+              withErrorCallback:(CBUserErrorCallback)errorCallback;
 
 /**
  Requests an anonynomous user token from the server synchronously.
@@ -195,10 +195,24 @@ typedef void (^CBUserIsValidCallback)(bool);
 -(void)checkIsValidWithServerWithCallback:(CBUserIsValidCallback)isValidCallback withErrorCallback:(CBUserErrorCallback)errorCallback;
 
 /**
+ Gets current users row from auth table synchronously. Error is only set if there is an issue communicating with the server
+ @param error The error if there's an issue communicating with server
+ @return NSDictionary of user data store in the auth table on the server (does not include password or roles)
+ */
+-(NSDictionary *)getCurrentUserInfoWithError:(NSError **)error;
+
+/**
+ Sets current users info in the auth table. Error is only set if there is an issue communicating with the server
+ @param userInfo a NSDictionary of key/value pairs of data to add. The keys must be existing columns in the auth table
+ @param error The error if there's an issue communicating with server
+ */
+-(void)setCurrentUserInfoWithDict:(NSDictionary *)userInfo withError:(NSError **)error;
+
+/**
  Logs the user with the token out of the server synchronously.
  @param error If there's any error logging the user out, including if the user's token is already logged out
  @return Returns true if there's no error
-*/
+ */
 -(bool)logOutWithError:(NSError **)error;
 
 /**

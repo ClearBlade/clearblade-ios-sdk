@@ -40,9 +40,9 @@
 +(instancetype)codeRequestWithName:(NSString *)name
                      withParamters:(NSDictionary *)params {
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
-                                                  withMethod:@"GET"
-                                                  withAction:[[@"api/v/1/code/" stringByAppendingString:[[ClearBlade settings] systemKey]] stringByAppendingString:name]
-                                               withParameters:params
+                                                  withMethod:@"POST"
+                                                  withAction:[NSString stringWithFormat:@"api/v/1/code/%@/%@",[[ClearBlade settings] systemKey],name]
+                                              withParameters:params
                                                     withUser:[[ClearBlade settings] mainUser]];
 }
 
@@ -122,8 +122,8 @@
 -(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
                                withMethod:(NSString *)method
                                withAction:(NSString *)action
-                                 withParameters:(NSDictionary *)params
-                              withUser:(CBUser *)user {
+                           withParameters:(NSDictionary *)params
+                                 withUser:(CBUser *)user {
     
     NSURL * url = [[NSURL URLWithString:[settings serverAddress]] URLByAppendingPathComponent:action];
     NSError * error = nil;
@@ -145,7 +145,7 @@
     }
     return self;
     
-
+    
 }
 
 -(CBUser *)user {

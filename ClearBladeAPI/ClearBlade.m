@@ -95,7 +95,7 @@ static ClearBlade * _settings = nil;
         _settings = settings;
         return settings;
     } else {
-        [settings logError:@"Failed initialization with error <%@>", returnedError];
+        CBLogError(@"Failed initialization with error <%@>", returnedError);
         if (returnedError) {
             *returnedError = error;
         }

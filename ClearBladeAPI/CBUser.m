@@ -38,32 +38,46 @@
 +(CBHTTPRequest *)authRequestWithAnonWithSettings:(ClearBlade *)settings {
     return [CBHTTPRequest userRequestWithSettings:settings
                                        withMethod:@"POST"
-                                     withAction:@"anon"
-                                       withBody:nil
-                                    withHeaders:nil];
+                                       withAction:@"anon"
+                                         withBody:nil
+                                      withHeaders:nil];
 }
 
 +(CBHTTPRequest *)regRequestWithSettings:(ClearBlade *)settings withEmail:(NSString *)email withPassword:(NSString *)password {
     return [CBHTTPRequest userRequestWithSettings:settings
                                        withMethod:@"POST"
-                                     withAction:@"reg"
-                                       withBody:[CBUser dictWithEmail:email withPassword:password]
-                                    withHeaders:nil];
+                                       withAction:@"reg"
+                                         withBody:[CBUser dictWithEmail:email withPassword:password]
+                                      withHeaders:nil];
 }
 
 +(CBHTTPRequest *)checkRequestWithSettings:(ClearBlade *)settings withToken:(NSString *)authToken {
     return [CBHTTPRequest userRequestWithSettings:settings
                                        withMethod:@"POST"
-                                     withAction:@"checkauth"
-                                       withBody:@{}
-                                    withHeaders:@{@"ClearBlade-UserToken": authToken}];
+                                       withAction:@"checkauth"
+                                         withBody:@{}
+                                      withHeaders:@{@"ClearBlade-UserToken": authToken}];
 }
 +(CBHTTPRequest *)logoutRequestWithSettings:(ClearBlade *)settings withToken:(NSString *)authToken {
     return [CBHTTPRequest userRequestWithSettings:settings
                                        withMethod:@"POST"
-                                     withAction:@"logout"
-                                       withBody:@{}
-                                    withHeaders:@{@"ClearBlade-UserToken": authToken}];
+                                       withAction:@"logout"
+                                         withBody:@{}
+                                      withHeaders:@{@"ClearBlade-UserToken": authToken}];
+}
++(CBHTTPRequest *)getUserInfoRequestWithSettings:(ClearBlade *)settings withToken:(NSString *)authToken {
+    return [CBHTTPRequest userRequestWithSettings:settings
+                                       withMethod:@"GET"
+                                       withAction:@"info"
+                                         withBody:nil
+                                      withHeaders:@{@"ClearBlade-UserToken":authToken}];
+}
++(CBHTTPRequest *)setUserInfoRequestWithSettings:(ClearBlade *)settings withInfo:(NSDictionary *)userInfo withToken:(NSString *)authToken {
+    return [CBHTTPRequest userRequestWithSettings:settings
+                                       withMethod:@"PUT"
+                                       withAction:@"info"
+                                         withBody:userInfo
+                                      withHeaders:@{@"ClearBlade-UserToken":authToken}];
 }
 
 +(instancetype)authenticateUserWithEmail:(NSString *)email withPassword:(NSString *)password withError:(NSError *__autoreleasing *)error {
@@ -207,6 +221,8 @@
     }];
 }
 
+
+
 +(instancetype)authenticatedUserWithEmail:(NSString *)email withAuthToken:(NSString *)authToken {
     CBUser * user = [[CBUser alloc] init];
     user.email = email;
@@ -233,15 +249,34 @@
 -(void)checkIsValidWithServerWithCallback:(CBUserIsValidCallback)isValidCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[CBUser checkRequestWithSettings:[ClearBlade settings] withToken:self.authToken]
      executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
-        if (isValidCallback) {
-            isValidCallback([CBUser parseCheckAuthResponse:response.responseData]);
-        }
-    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
-        CBLogError(@"Failed to check auth token of user <%@> because of error <%@>", self, error);
-        if (errorCallback) {
-            errorCallback(error);
-        }
-    }];
+         if (isValidCallback) {
+             isValidCallback([CBUser parseCheckAuthResponse:response.responseData]);
+         }
+     } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
+         CBLogError(@"Failed to check auth token of user <%@> because of error <%@>", self, error);
+         if (errorCallback) {
+             errorCallback(error);
+         }
+     }];
+}
+
+-(NSDictionary *)getCurrentUserInfoWithError:(NSError *__autoreleasing *)error {
+    NSData *data = [[CBUser getUserInfoRequestWithSettings:[ClearBlade settings] withToken:self.authToken] executeWithError:error];
+    if (*error) {
+        CBLogError(@"Failed to get user info of user <%@> because of error <%@>", self, *error);
+    }
+    NSDictionary *userInfo = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+    if (*error) {
+        CBLogError(@"Failed to parse user info of user <%@> because of error <%@>", self, *error);
+    }
+    return userInfo;
+}
+
+-(void)setCurrentUserInfoWithDict:(NSDictionary *)userInfo withError:(NSError *__autoreleasing *)error {
+    [[CBUser setUserInfoRequestWithSettings:[ClearBlade settings] withInfo:userInfo withToken:self.authToken] executeWithError:error];
+    if (*error) {
+        CBLogError(@"Failed to set user info of user <%@> because of error <%@>", self, *error);
+    }
 }
 
 -(bool)logOutWithError:(NSError *__autoreleasing *)error {
@@ -257,16 +292,16 @@
 -(void)logOutWithSuccessCallback:(void (^)())successCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[CBUser logoutRequestWithSettings:[ClearBlade settings] withToken:self.authToken]
      executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
-        CBLogDebug(@"User <%@> logged out", self);
-        if (successCallback) {
-            successCallback();
-        }
-    } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
-        CBLogError(@"Failed to logout user <%@> because of error <%@>", self, error);
-        if (errorCallback) {
-            errorCallback(error);
-        }
-    }];
+         CBLogDebug(@"User <%@> logged out", self);
+         if (successCallback) {
+             successCallback();
+         }
+     } withErrorCallback:^(CBHTTPRequestResponse * response, NSError * error) {
+         CBLogError(@"Failed to logout user <%@> because of error <%@>", self, error);
+         if (errorCallback) {
+             errorCallback(error);
+         }
+     }];
 }
 
 -(NSString *)description {

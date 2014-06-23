@@ -25,16 +25,16 @@
 #define TEST_LOGGING_LEVEL CB_LOG_DEBUG
 #endif
 #ifdef STAGING
-#define APP_KEY @"e0b7e9b40a9680e8cababef6fcdc01"
-#define APP_SECRET @"E0B7E9B40AF0EDD9A9E0EAB7CC72"
-#define TEST_COLLECTION @"9eeae9b40ae4c1a5f293aacc9133"
+#define APP_KEY @"a295bbba0ac2ed8bb09d87fcefa101"
+#define APP_SECRET @"A295BBBA0AD0EBE088ECEBD1F626"
+#define TEST_COLLECTION @"fa95bbba0aa294b5f6e8dcffafec01"
 
-#define AUTH_APP_KEY @"b6b7e9b40ab0dab8d0f6fcd5d0a501"
-#define AUTH_APP_SECRET @"B6B7E9B40A9EF89ED4BBE0C8B0C001"
-#define AUTH_TEST_COLLECTION @"d0eae9b40abc8eafe7b3b9aa8e31"
+#define AUTH_APP_KEY @"92f4baba0abe9ae2e2e9d3b78c8001"
+#define AUTH_APP_SECRET @"92F4BABA0A8CBFD6CFEA89E5FF42"
+#define AUTH_TEST_COLLECTION @"eef4baba0ae888e7d8a08dfb9013"
 
 #define PLATFORM_ADDRESS @"https://staging.clearblade.com/"
-#define MESSAGING_ADDRESS @"tcp://staging.clearblade.com"
+#define MESSAGING_ADDRESS @"tcp://ec2-54-82-138-91.compute-1.amazonaws.com:1883"
 #define TEST_LOGGING_LEVEL CB_LOG_EXTRA
 #endif
 #ifdef RTP

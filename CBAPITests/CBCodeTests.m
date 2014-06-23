@@ -36,10 +36,14 @@
 - (void)testCloudCode {
     CBCode *code = [[CBCode alloc] init];
     [code executeFunction:@"test" withParams:@{@"name":@"michael"} withSuccessCallback:^(NSString * response) {
-        XCTAssertEqual(response, @"michael");
+        NSError *jsonError;
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&jsonError];
+        XCTAssertTrue([[json valueForKey:@"results"] isEqualToString:@"michael"], @"code response should equal value passed in");
+        [self signalAsyncComplete:MAIN_COMPLETION];
     }withErrorCallback:^(NSError *error){
-        
+        XCTFail(@"Error executing cloudcode: <%@>", error);
     }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
 

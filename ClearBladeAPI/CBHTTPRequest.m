@@ -181,7 +181,7 @@
         CBHTTPRequestResponse * requestResponse = [CBHTTPRequestResponse responseWithRequest:self
                                                                                 withResponse:(NSHTTPURLResponse *)response
                                                                                     withData:data];
-        [self.settings logExtra:@"Executed Request with Response\n%@\n\n", requestResponse];
+        CBLogExtra(@"Executed Request with Response\n%@\n\n", requestResponse);
         if (connectionError) {
             if (errorCallback) {
                 errorCallback(requestResponse, connectionError);

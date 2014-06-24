@@ -34,8 +34,7 @@
 }
 
 - (void)testCloudCode {
-    CBCode *code = [[CBCode alloc] init];
-    [code executeFunction:@"test" withParams:@{@"name":@"michael"} withSuccessCallback:^(NSString * response) {
+    [CBCode executeFunction:@"test" withParams:@{@"name":@"michael"} withSuccessCallback:^(NSString * response) {
         NSError *jsonError;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&jsonError];
         XCTAssertTrue([[json valueForKey:@"results"] isEqualToString:@"michael"], @"code response should equal value passed in");

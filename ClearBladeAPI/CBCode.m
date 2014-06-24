@@ -12,8 +12,9 @@
 
 @implementation CBCode
 
--(void) executeFunction:(NSString *)function withParams:(NSDictionary *)params withSuccessCallback:(CBCodeSuccessCallback)successCallback withErrorCallback:(CBCodeErrorCallback)failureCallback{
++(void) executeFunction:(NSString *)function withParams:(NSDictionary *)params withSuccessCallback:(CBCodeSuccessCallback)successCallback withErrorCallback:(CBCodeErrorCallback)failureCallback{
     CBHTTPRequest *apiRequest = [CBHTTPRequest codeRequestWithName:function withParamters:params];
+    
     [apiRequest executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {
         NSError * error;
         if (response.response.statusCode != 200) {

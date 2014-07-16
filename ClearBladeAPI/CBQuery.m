@@ -13,6 +13,7 @@
 #import "CBHTTPRequestResponse.h"
 #import "CBItem.h"
 #import "ClearBlade.h"
+#import "CBUser.h"
 #define CBQUERY_EQ @"EQ"
 #define CBQUERY_NEQ @"NEQ"
 #define CBQUERY_GT @"GT"

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class CBQuery;
 @class CBUser;
 @class ClearBlade;
 
@@ -200,6 +201,14 @@ typedef void (^CBUserIsValidCallback)(bool);
  @return NSDictionary of user data store in the auth table on the server (does not include password or roles)
  */
 -(NSDictionary *)getCurrentUserInfoWithError:(NSError **)error;
+
+/**
+ Gets all user rows from the current user's system if they are permitted.
+ @param error The error if there's an issue getting the relevant information
+ @return NSDictionary with Data and Total keys, with Total being total amount of users.
+ */
+-(NSDictionary *)getAllUsersWithError:(NSError *__autoreleasing *)error
+                       withQuery:(CBQuery *)query;
 
 /**
  Sets current users info in the auth table. Error is only set if there is an issue communicating with the server

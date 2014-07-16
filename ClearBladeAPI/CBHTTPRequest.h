@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ClearBlade.h"
+#import "CBQuery.h"
 
 @class CBHTTPRequestResponse;
 
@@ -22,7 +23,18 @@ typedef void (^CBHTTPRequestErrorCallback)(CBHTTPRequestResponse *, NSError *);
 
 +(instancetype)requestWithMethod:(NSString *)method withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters withUser:(CBUser *)user;
 
-+(instancetype)userRequestWithSettings:(ClearBlade *)settings withMethod:(NSString *)method withAction:(NSString *)action withBody:(NSDictionary *)body withHeaders:(NSDictionary *)headers;
++(instancetype)userRequestWithSettings:(ClearBlade *)settings
+                            withMethod:(NSString *)method
+                            withAction:(NSString *)action
+                              withBody:(NSDictionary *)body
+                           withHeaders:(NSDictionary *)headers;
+
++(instancetype)userRequestWithSettings:(ClearBlade *)settings
+                            withMethod:(NSString *)method
+                            withAction:(NSString *)action
+                              withBody:(NSDictionary *)body
+                           withHeaders:(NSDictionary *)headers
+                             withQuery:(CBQuery *)query;
 
 +(instancetype)codeRequestWithName:(NSString *)name
                      withParamters:(NSDictionary *)params;

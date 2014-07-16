@@ -9,6 +9,7 @@
 #import "CBHTTPRequest.h"
 #import "CBHTTPRequestResponse.h"
 #import "CBUser.h"
+#import "CBQuery.h"
 
 @implementation CBHTTPRequest
 @synthesize settings = _settings;
@@ -35,6 +36,24 @@
                                                   withAction:[@"api/v/1/user/" stringByAppendingString:action]
                                                     withBody:body
                                                  withHeaders:headers];
+}
+
++(instancetype)userRequestWithSettings:(ClearBlade *)settings
+                            withMethod:(NSString *)method
+                            withAction:(NSString *)action
+                              withBody:(NSDictionary *)body
+                           withHeaders:(NSDictionary *)headers
+                             withQuery:(CBQuery *)query {
+    if (!settings) {
+        settings = [ClearBlade settings];
+    }
+
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:settings
+                                                  withMethod:method
+                                                  withAction:[@"api/v/1/user" stringByAppendingString:action]
+                                                    withBody:body
+                                                 withHeaders:headers
+                                                   withQuery:query];
 }
 
 +(instancetype)codeRequestWithName:(NSString *)name
@@ -115,6 +134,33 @@
         if (error) {
             CBLogWarning(@"Request <%@> failed to initialize body <%@> with error <%@>", self, body, error);
         }
+    }
+    return self;
+}
+
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
+                               withMethod:(NSString *)method
+                               withAction:(NSString *)action
+                                 withBody:(NSDictionary *)body
+                              withHeaders:(NSDictionary *)headers
+                                withQuery:(CBQuery *)query {
+    NSDictionary *paramDict = [query fetchQuery];
+    NSURL *url;
+    if ([paramDict count] != 0) {
+        NSDictionary *parameters = @{@"query":[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:paramDict
+                                                                                                             options:0
+                                                                                                               error:NULL]
+                                                                    encoding:NSUTF8StringEncoding]};
+        
+        NSString *queryString = [self encodeQuery:parameters[@"query"]];
+        NSString *paramString = [NSString stringWithFormat:@"%@?query=%@", action, queryString];
+        url = [NSURL URLWithString:[[settings serverAddress] stringByAppendingString:paramString]];
+    } else {
+        url = [NSURL URLWithString:[[settings serverAddress] stringByAppendingString:action]];
+    }
+    self = [super initWithURL:url];
+    for (id key in headers.keyEnumerator) {
+        [self setValue:[headers objectForKey:key] forHTTPHeaderField:key];
     }
     return self;
 }

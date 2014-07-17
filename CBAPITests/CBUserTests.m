@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "AsyncTestCase.h"
 #import "CBUser.h"
-
+#import "CBQuery.h"
 
 @interface CBUserTests : AsyncTestCase
 
@@ -106,6 +106,36 @@
     
     XCTAssertTrue([user logOutWithError:&error], @"Should successfully log out");
     XCTAssertNil(error, @"Should initialize with no errors %@", error);
+}
+
+-(void)testGetAllUsers {
+    NSString * uid = [[NSUUID UUID] UUIDString];
+    [ClearBlade initSettingsWithSystemKey:AUTH_APP_KEY
+                         withSystemSecret:AUTH_APP_SECRET
+                              withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                                            CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                                            CBSettingsOptionEmail: uid,
+                                            CBSettingsOptionPassword: @"password",
+                                            CBSettingsOptionRegisterUser: @(true)}
+                      withSuccessCallback:^(ClearBlade * cb) {
+                          NSError *error;
+                          CBUser * user = cb.mainUser;
+                          CBQuery *query = [[CBQuery alloc] init];
+                          [query lessThan:[NSNumber numberWithInteger:1401897300] for:@"creation_date"];
+                          NSDictionary *users = [user getAllUsersWithError:&error
+                                                            withQuery:query];
+                          XCTAssertNil(error, @"Should get users with no errors %@", error);
+                          XCTAssertNotNil(users[@"Data"], @"Users should not be nil");
+                          NSDictionary *userDict2 = [user getAllUsersWithError:&error withQuery:nil];
+                          XCTAssertNil(error, @"Should get users with no errors %@", error);
+                          XCTAssertNotNil(userDict2[@"Data"], @"Users should not be nil");
+                          XCTAssertTrue(userDict2[@"Total"] > users[@"Total"], @"Users with the query restriction should be fewer");
+                          [self signalAsyncComplete:MAIN_COMPLETION];
+                      } withErrorCallback:^(NSError * error) {
+                          XCTFail(@"Unexpected error <%@>", error);
+                          [self signalAsyncComplete:MAIN_COMPLETION];
+                      }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
 

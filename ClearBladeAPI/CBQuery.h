@@ -10,10 +10,11 @@
 
 #import <Foundation/Foundation.h>
 #import "CBItem.h"
-#import "CBUser.h"
 #import "CBQueryResponse.h"
 
 #define CBQUERY_NON_OK_ERROR @"Received Non 200 status from server"
+
+@class CBUser;
 
 /**
 Callback for handling successful queries
@@ -174,4 +175,5 @@ In the example, thirdQuery would be equivalent to this SQL:
 */
 -(CBQuery *)addQueryAsOrClauseUsingQuery:(CBQuery *)orQuery;
 
+-(NSDictionary *)fetchQuery;
 @end

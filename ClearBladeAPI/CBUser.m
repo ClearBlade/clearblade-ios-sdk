@@ -7,6 +7,7 @@
 //
 
 #import "CBUser.h"
+#import "CBQuery.h"
 #import "CBHTTPRequest.h"
 #import "CBHTTPRequestResponse.h"
 
@@ -78,6 +79,17 @@
                                        withAction:@"info"
                                          withBody:userInfo
                                       withHeaders:@{@"ClearBlade-UserToken":authToken}];
+}
++(CBHTTPRequest *)getAllUserInfoRequestWithSettings:(ClearBlade *)settings
+                                          withToken:(NSString *)authToken
+                                          withQuery:(CBQuery *)query
+{
+    return [CBHTTPRequest userRequestWithSettings:settings
+                                       withMethod:@"GET"
+                                       withAction:@""
+                                         withBody:nil
+                                      withHeaders:@{@"ClearBlade-UserToken":authToken}
+                                        withQuery:query];
 }
 
 +(instancetype)authenticateUserWithEmail:(NSString *)email withPassword:(NSString *)password withError:(NSError *__autoreleasing *)error {
@@ -270,6 +282,20 @@
         CBLogError(@"Failed to parse user info of user <%@> because of error <%@>", self, *error);
     }
     return userInfo;
+}
+
+-(NSDictionary *)getAllUsersWithError:(NSError *__autoreleasing *)error
+                       withQuery:(CBQuery *)query
+{
+    NSData *data = [[CBUser getAllUserInfoRequestWithSettings:[ClearBlade settings] withToken:self.authToken withQuery:query] executeWithError:error];
+    if (*error) {
+        CBLogError(@"Failed to get all users because of error <%@>", *error);
+    }
+    NSDictionary *userInfoDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+    if (*error) {
+        CBLogError(@"Failed to parse all users call because of error <%@>", *error);
+    }
+    return userInfoDict;
 }
 
 -(void)setCurrentUserInfoWithDict:(NSDictionary *)userInfo withError:(NSError *__autoreleasing *)error {

@@ -186,7 +186,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 
 -(struct mosquitto *)client {
     if (!_client) {
-        NSString * clientID = [NSString stringWithFormat:@"MosquittoClient_%d", [[ClearBlade settings] generateID]];
+        NSString * clientID = [NSString stringWithFormat:@"MosquittoClient_%u", [[ClearBlade settings] generateID]];
         _client = mosquitto_new([clientID cStringUsingEncoding:NSUTF8StringEncoding], YES, (__bridge void *)(self));
         mosquitto_connect_callback_set(_client, CBMessageClient_onConnect);
         mosquitto_message_callback_set(_client, CBMessageClient_onMessage);

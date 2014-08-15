@@ -287,11 +287,7 @@ static ClearBlade * _settings = nil;
     
 }
 -(int)generateID {
-    @synchronized (self.nextID) {
-        int nextId = [self.nextID intValue];
-        self.nextID = @(nextId + 1);
-        return nextId;
-    }
+    return arc4random();
 }
 
 @end

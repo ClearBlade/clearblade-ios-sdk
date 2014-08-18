@@ -88,8 +88,8 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
 {
     [super setUp];
     NSError * error;
-    [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
-                             withSystemSecret:APP_SECRET
+    [ClearBlade initSettingsSyncWithSystemKey:AUTH_APP_KEY
+                             withSystemSecret:AUTH_APP_SECRET
                                   withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
                                                 CBSettingsOptionMessagingAddress: MESSAGING_ADDRESS,
                                                 CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
@@ -345,6 +345,13 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
     [self.client publishMessage:TEST_MESSAGE_ONE toTopic:TEST_PUBLISH_TOPIC_ONE];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
     [self.client disconnect];
+}
+
+-(void)testMessageHistory {
+    NSDate *testDate = [NSDate date];
+    NSError *error;
+    NSArray *history = [CBMessageClient getMessageHistoryOfTopic:TEST_TOPIC_ONE fromTime:testDate withCount:[NSNumber numberWithInt:10] withError:error];
+    XCTAssertNotNil(history, @"history should not be nil for TEST_TOPIC_ONE");
 }
 
 // Pending more information from tdodge this test is marked as invalid

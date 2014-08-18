@@ -56,6 +56,17 @@
                                                    withQuery:query];
 }
 
++(instancetype)messageHistoryRequestWithSettings:(ClearBlade *)settings
+                                      withMethod:(NSString *)method
+                                      withAction:(NSString *)action
+                                 withQueryString:(NSString *)queryString {
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
+                                                  withMethod:@"GET"
+                                                  withAction:[NSString stringWithFormat:@"api/v/1/message/%@", [[ClearBlade settings] systemKey]]
+                                             withQueryString:queryString
+                                                    withUser:[[ClearBlade settings] mainUser]];
+}
+
 +(instancetype)codeRequestWithName:(NSString *)name
                      withParamters:(NSDictionary *)params {
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
@@ -100,6 +111,23 @@
     }
     NSURL * url = [NSURL URLWithString:paramString];
     
+    self = [super initWithURL:url];
+    if (self) {
+        self.HTTPMethod = method;
+        self.settings = settings;
+        self.user = user;
+    }
+    return self;
+}
+
+
+-(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
+                               withMethod:(NSString *)method
+                               withAction:(NSString *)action
+                          withQueryString:(NSString *)queryString
+                                 withUser:(CBUser *)user {
+    NSString *urlString = [NSString stringWithFormat:@"%@%@?%@", [settings serverAddress], action, queryString];
+    NSURL *url = [NSURL URLWithString:urlString];
     self = [super initWithURL:url];
     if (self) {
         self.HTTPMethod = method;

@@ -155,4 +155,8 @@ Unsubscribes the message client to a topic
 @param topic The topic to unsubscribe from
 */
 -(void)unsubscribeFromTopic:(NSString *)topic;
+
+/** --------- Message History API --------- **/
++(NSArray *)getMessageHistoryOfTopic:(NSString *)topic fromTime:(NSDate *)time withCount:(NSNumber *)count withError:(NSError *)error;
+
 @end

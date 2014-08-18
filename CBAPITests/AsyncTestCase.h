@@ -46,7 +46,7 @@
 
 #define TEST_COLLECTION @"d89098b40a8cc5fbf597d2a7c90f"
 #define AUTH_TEST_COLLECTION @"b49098b40ad0938aa9c8a9f8f7ff01"
-#define PLATFORM_ADDRESS @"https://rtp.clearblade.com/"
+#define PLATFORM_ADDRESS @"https://rtp.clearblade.com:4433/"
 #define MESSAGING_ADDRESS @"tcp://rtp.clearblade.com:1883"
 #define TEST_LOGGING_LEVEL CB_LOG_EXTRA
 #endif

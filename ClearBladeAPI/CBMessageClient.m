@@ -12,6 +12,7 @@
 #include "mosquitto.h"
 #import "ClearBlade.h"
 #import "CBUser.h"
+#import "CBHTTPRequest.h"
 
 @interface CBMessageClient ()
 -(void)handleConnect:(CBMessageClientConnectStatus)status;
@@ -220,7 +221,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
         [self addItemToMessageQueue:[CBMessage messageWithTopic:topic withPayloadText:message]];
         mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
                           (int)message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
-                          self.qos, true);
+                          self.qos, false);
     }
 }
 -(void)connectToHost:(NSURL *)hostName {
@@ -430,4 +431,22 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
         [self.topicList removeObject:topic];
     }
 }
+
++(NSArray *)getMessageHistoryOfTopic:(NSString *)topic fromTime:(NSDate *)time withCount:(NSNumber *)count withError:(NSError *)error {
+    NSString *systemKey = [[ClearBlade settings] systemKey];
+    NSString *action = [NSString stringWithFormat:@"api/v/1/message/%@", systemKey];
+    NSString *queryString = [NSString stringWithFormat:@"topic=%@&count=%@&last=%lli", topic, count, [@(floor([time timeIntervalSince1970])) longLongValue]];
+     CBHTTPRequest *msgHistoryRequest = [CBHTTPRequest messageHistoryRequestWithSettings:[ClearBlade settings] withMethod:@"GET" withAction:action withQueryString:queryString];
+    NSData *msgHistory = [msgHistoryRequest executeWithError:(&error)];
+    if (error) {
+        return nil;
+    }
+    NSArray *history = [NSJSONSerialization JSONObjectWithData:msgHistory options:0 error:&error];
+    if (error) {
+        return nil;
+    }
+    
+    return history;
+}
+
 @end

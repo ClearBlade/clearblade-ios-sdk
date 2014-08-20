@@ -336,7 +336,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 -(void)handleDisconnect {
     CBLogDebug(@"Mosquitto client disconnected from host %@", self.host);
     id<CBMessageClientDelegate> delegate = self.delegate;
-    
+    self.isConnectedContainer = @(false);
     if(!self.tryingToReconnect){
         if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -349,7 +349,6 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
         [self tryReconnect];
         sleep(5);
     } else{
-        self.isConnectedContainer = false;
         self.topicList = nil;
         self.clientThread = nil;
         if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {

@@ -281,7 +281,13 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 -(void)handleConnect:(CBMessageClientConnectStatus)status {
     id<CBMessageClientDelegate> delegate = self.delegate;
     self.isConnectedContainer = @(true);
-    self.tryingToReconnect = false;
+    if(self.tryingToReconnect){
+        //resub to any previous topics here
+        for (NSString *topic in self.topicList){
+            [self subscribeToTopic:topic];
+        }
+        self.tryingToReconnect = false;
+    }
     CBLogDebug(@"Mosquitto client connected to %@", self.host);
     dispatch_async(dispatch_get_main_queue(), ^{
         if (status == CBMessageClientConnectSuccess) {
@@ -331,26 +337,29 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
             [delegate messageClient:self didSubscribe:topic];
         });
     }
-    
 }
+
 -(void)handleDisconnect {
     CBLogDebug(@"Mosquitto client disconnected from host %@", self.host);
     id<CBMessageClientDelegate> delegate = self.delegate;
     self.isConnectedContainer = @(false);
-    if(!self.tryingToReconnect){
+    [self.clientThread cancel];
+    self.clientThread = nil;
+    if(!self.tryingToReconnect && !self.plannedDisconnect){
         if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [delegate messageClientDidDisconnect:self];
             });
         }
     }
-    if (self.reconnectOnDisconnect && !self.plannedDisconnect) {
+    if (self.reconnectOnDisconnect && !self.plannedDisconnect && !self.tryingToReconnect) {
         self.tryingToReconnect = true;
-        [self tryReconnect];
-        sleep(5);
+        do{
+            [self tryReconnect];
+            sleep(5);
+        }while (!self.isConnected);
     } else{
         self.topicList = nil;
-        self.clientThread = nil;
         if ([delegate respondsToSelector:@selector(messageClientDidDisconnect:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [delegate messageClientDidDisconnect:self];
@@ -360,13 +369,18 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 }
 
 -(void)tryReconnect {
+    //try reconnect is somehow getting called from somewhere else if
+    //the broker is the one to drop the connection, perhaps it makes more sense
+    //to cancel the thread and restart it in here and not check and nil the thread elsewhere?
     id<CBMessageClientDelegate> delegate = self.delegate;
     @synchronized (self.clientLock) {
         int resp = mosquitto_reconnect(self.client);
         switch (resp) {
             case MOSQ_ERR_SUCCESS:
-                //this doesn't mean we successfully connected in libmosquitto, so we do nothing
-                //on_connect callback will be called if reconnect is successful
+                self.isConnectedContainer = @(true);
+                if([self.clientThread isCancelled]){
+                    [self.clientThread start];
+                }
                 break;
             case MOSQ_ERR_INVAL:
                 if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {
@@ -385,7 +399,8 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
             default:
                 break;
         }
-    }}
+    }
+}
 
 -(NSString *)description {
     if (self.isConnected) {

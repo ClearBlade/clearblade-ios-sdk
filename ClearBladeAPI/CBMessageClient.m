@@ -200,10 +200,12 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     return _client;
 }
 -(void)subscribeToTopic:(NSString *)topic {
-    CBLogDebug(@"Message Client subscribing to topic %@", topic);
-    @synchronized (self.clientLock) {
-        int messageId = [self addItemToMessageQueue:topic];
-        mosquitto_subscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding] , self.qos);
+    if (![self.topics containsObject:topic] || self.tryingToReconnect) {
+        CBLogDebug(@"Message Client subscribing to topic %@", topic);
+        @synchronized (self.clientLock) {
+            int messageId = [self addItemToMessageQueue:topic];
+            mosquitto_subscribe(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding] , self.qos);
+        }
     }
 }
 -(void)unsubscribeFromTopic:(NSString *)topic {
@@ -450,7 +452,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     NSString *systemKey = [[ClearBlade settings] systemKey];
     NSString *action = [NSString stringWithFormat:@"api/v/1/message/%@", systemKey];
     NSString *queryString = [NSString stringWithFormat:@"topic=%@&count=%@&last=%lli", topic, count, [@(floor([time timeIntervalSince1970])) longLongValue]];
-     CBHTTPRequest *msgHistoryRequest = [CBHTTPRequest messageHistoryRequestWithSettings:[ClearBlade settings] withMethod:@"GET" withAction:action withQueryString:queryString];
+    CBHTTPRequest *msgHistoryRequest = [CBHTTPRequest messageHistoryRequestWithSettings:[ClearBlade settings] withMethod:@"GET" withAction:action withQueryString:queryString];
     NSData *msgHistory = [msgHistoryRequest executeWithError:(&error)];
     if (error) {
         return nil;
@@ -459,7 +461,6 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     if (error) {
         return nil;
     }
-    
     return history;
 }
 

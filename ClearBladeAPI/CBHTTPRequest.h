@@ -44,6 +44,10 @@ typedef void (^CBHTTPRequestErrorCallback)(CBHTTPRequestResponse *, NSError *);
                                       withAction:(NSString *)action
                                  withQueryString:(NSString *)queryString;
 
++(instancetype)pushRequestWithAction:(NSString *)action
+                           withMthod:(NSString *)method
+                          withParams:(NSDictionary *)params;
+
 -(instancetype)initWithClearBladeSettings:(ClearBlade *)settings withMethod:(NSString *)path withCollection:(NSString *)collectionID withParameters:(NSDictionary *)params withUser:(CBUser *)user;
 
 -(NSData *)executeWithError:(NSError **)error;

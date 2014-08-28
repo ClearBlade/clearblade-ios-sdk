@@ -76,6 +76,17 @@
                                                     withUser:[[ClearBlade settings] mainUser]];
 }
 
++(instancetype)pushRequestWithAction:(NSString *)action
+                           withMthod:(NSString *)method
+                          withParams:(NSDictionary *)params
+{
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
+                                                  withMethod:method
+                                                  withAction:[[NSString stringWithFormat:@"api/v/1/push/%@", [[ClearBlade settings] systemKey]] stringByAppendingString:action]
+                                              withParameters:params
+                                                    withUser:[[ClearBlade settings] mainUser]];
+}
+
 -(NSString *)encodeQuery:(NSString *)query {
     //http://stackoverflow.com/questions/3423545/objective-c-iphone-percent-encode-a-string
     NSMutableString * output = [NSMutableString string];

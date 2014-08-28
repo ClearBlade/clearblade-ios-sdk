@@ -12,7 +12,7 @@
 
 typedef void (^CBPushErrorCallback)(NSError * error);
 
-+(void)addCurrentUserDeviceToken:(NSData *)token withError:(NSError *__autoreleasing *)error;
-+(void)sendPushWithDictionary:(NSDictionary *)dictionary toUsers:(NSArray *)users withError:(NSError *__autoreleasing *)error;
++(void)addCurrentUserDeviceToken:(NSData *)token withErrorCallback:(CBPushErrorCallback)errorCallback;
++(void)sendPushWithDictionary:(NSDictionary *)dictionary toUsers:(NSArray *)users withErrorCallback:(CBPushErrorCallback)errorCallback;
 
 @end

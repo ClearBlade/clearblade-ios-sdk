@@ -14,7 +14,7 @@
 +(void)addCurrentUserDeviceToken:(NSData *)token withErrorCallback:(CBPushErrorCallback)errorCallback
 {
     NSDictionary *params = @{@"device-token": [token base64EncodedDataWithOptions:0],
-                                 @"type": "apple",
+                                 @"type": @"apple",
                                  @"appid": [self getAppId]};
     
     CBHTTPRequest *apiRequest = [CBHTTPRequest pushRequestWithAction:@"/ids" withMthod:@"POST" withParams:params];
@@ -71,7 +71,7 @@
     [parsedDict setValue:[[NSMutableDictionary init] alloc] forKey:@"aps"];
     
     for(NSString* key in dict){
-        if ([key isEqualToString:@"alert"] || [key isEqualToString:"badge"] || [key isEqualToString:@"sound"]) {
+        if ([key isEqualToString:@"alert"] || [key isEqualToString:@"badge"] || [key isEqualToString:@"sound"]) {
             [[parsedDict objectForKey:@"aps"] setObject:dict[key] forKey:key];
         }else{
             [parsedDict setObject:dict[key] forKey:key];

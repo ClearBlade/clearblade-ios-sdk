@@ -13,14 +13,15 @@
 
 +(void)addCurrentUserDeviceToken:(NSData *)token withErrorCallback:(CBPushErrorCallback)errorCallback
 {
-    NSDictionary *params = @{@"device-token": [token base64EncodedDataWithOptions:0],
-                                 @"type": @"apple",
-                                 @"appid": [self getAppId]};
+    NSString *deviceToken = [token base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSDictionary *params = @{@"device-token": deviceToken,
+                             @"type": @"apple",
+                             @"appid": [self getAppId]};
     
     CBHTTPRequest *apiRequest = [CBHTTPRequest pushRequestWithAction:@"/ids" withMthod:@"POST" withParams:params];
     
     [apiRequest executeWithSuccessCallback:^(CBHTTPRequestResponse *response) {
-       //noop on success
+        //noop on success
     } withErrorCallback:^(CBHTTPRequestResponse *response, NSError *error) {
         if (errorCallback) {
             errorCallback(error);
@@ -46,16 +47,6 @@
         }
     }];
     
-    /*
-     {
-     cbids: [cbids..,]
-     apple-message string,
-     android-message string,
-     windows-message string,
-     delivery-date: int64,
-     appid:string
-     }
-*/
 }
 
 +(NSString *)getAppId
@@ -63,12 +54,11 @@
     return [[NSBundle mainBundle] bundleIdentifier];
 }
 
-+(NSDictionary *)parseDictionaryIntoAPSFormat:(NSDictionary *)dict
++(NSString *)parseDictionaryIntoAPSFormat:(NSDictionary *)dict
 {
+    NSMutableDictionary *parsedDict = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary *parsedDict;
-    
-    [parsedDict setValue:[[NSMutableDictionary init] alloc] forKey:@"aps"];
+    [parsedDict setObject:[[NSMutableDictionary alloc] init] forKey:@"aps"];
     
     for(NSString* key in dict){
         if ([key isEqualToString:@"alert"] || [key isEqualToString:@"badge"] || [key isEqualToString:@"sound"]) {
@@ -78,18 +68,12 @@
         }
     }
     
-    return parsedDict;
-    /*
-     {
-     "aps" : {
-     "alert" : "You got your emails.",
-     "badge" : 9,
-     "sound" : "bingbong.aiff"
-     },
-     "acme1" : "bar",
-     "acme2" : 42
-     }
-     */
+    NSLog(@"%@", parsedDict);
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parsedDict options:0 error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    return jsonString;
 }
 
 @end

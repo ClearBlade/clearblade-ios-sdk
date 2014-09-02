@@ -271,7 +271,7 @@
             if (errorCallback) {
                 errorCallback(requestResponse, connectionError);
             }
-        } else if (httpResponse.statusCode != 200) {
+        } else if (httpResponse.statusCode != 200 && httpResponse.statusCode != 202) {
             connectionError = [NSError errorWithDomain:[@"Unable to complete request because " stringByAppendingString:requestResponse.responseString]
                                                   code:httpResponse.statusCode
                                               userInfo:nil];
@@ -300,7 +300,7 @@
     [self.settings logExtra:@"Executed Request with Response\n%@\n\n", response];
     if (requestError) {
         *error = requestError;
-    } else if (requestResponse.statusCode != 200) {
+    } else if (requestResponse.statusCode != 200 && requestResponse.statusCode != 202) {
         *error = [NSError errorWithDomain:@"Request failed because of statusCode" code:requestResponse.statusCode userInfo:nil];
     } else {
         return requestData;

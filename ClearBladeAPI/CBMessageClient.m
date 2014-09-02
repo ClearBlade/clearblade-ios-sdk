@@ -221,8 +221,9 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     @synchronized (self.clientLock) {
         int messageId;
         [self addItemToMessageQueue:[CBMessage messageWithTopic:topic withPayloadText:message]];
+        const char *messageText = [message cStringUsingEncoding:NSUTF8StringEncoding];
         mosquitto_publish(self.client, &messageId, [topic cStringUsingEncoding:NSUTF8StringEncoding],
-                          (int)message.length, [message cStringUsingEncoding:NSUTF8StringEncoding],
+                          (int)strlen(messageText), messageText,
                           self.qos, false);
     }
 }

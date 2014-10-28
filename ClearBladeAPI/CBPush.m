@@ -61,7 +61,7 @@
     [parsedDict setObject:[[NSMutableDictionary alloc] init] forKey:@"aps"];
     
     for(NSString* key in dict){
-        if ([key isEqualToString:@"alert"] || [key isEqualToString:@"badge"] || [key isEqualToString:@"sound"]) {
+        if ([key isEqualToString:@"alert"] || [key isEqualToString:@"badge"] || [key isEqualToString:@"sound"] || [key isEqualToString:@"content-available"]) {
             [[parsedDict objectForKey:@"aps"] setObject:dict[key] forKey:key];
         }else{
             [parsedDict setObject:dict[key] forKey:key];

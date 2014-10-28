@@ -250,7 +250,10 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     id<CBMessageClientDelegate> delegate = self.delegate;
     switch (response) {
         case MOSQ_ERR_SUCCESS:
-            [self.clientThread start];
+            if (![self.clientThread isExecuting])
+            {
+                [self.clientThread start];
+            }
             break;
         case MOSQ_ERR_INVAL:
             if ([delegate respondsToSelector:@selector(messageClient:didFailToConnect:)]) {

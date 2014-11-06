@@ -17,5 +17,6 @@ typedef void (^CBCodeSuccessCallback)(NSString *result);
 typedef void (^CBCodeErrorCallback)(NSError * error);
 
 +(void)executeFunction:(NSString *)function withParams:(NSDictionary *)params withSuccessCallback:(CBCodeSuccessCallback)successCallback withErrorCallback:(CBCodeErrorCallback)failureCallback;
++(NSString *) executeFunction:(NSString *)function withParams:(NSDictionary *)params withError:(NSError *)error;
 
 @end

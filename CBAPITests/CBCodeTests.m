@@ -35,14 +35,36 @@
 
 - (void)testCloudCode {
     [CBCode executeFunction:@"test" withParams:@{@"name":@"michael"} withSuccessCallback:^(NSString * response) {
-        NSError *jsonError;
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&jsonError];
+        NSDictionary *json = [self parseJsonString:response];
         XCTAssertTrue([[json valueForKey:@"results"] isEqualToString:@"michael"], @"code response should equal value passed in");
         [self signalAsyncComplete:MAIN_COMPLETION];
     }withErrorCallback:^(NSError *error){
         XCTFail(@"Error executing cloudcode: <%@>", error);
     }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];
+}
+
+- (void)testCloudCodeSync {
+    NSError *error;
+    NSString *response = [CBCode executeFunction:@"test" withParams:@{@"name":@"michael"} withError:error];
+    
+    if (error) {
+        XCTFail(@"Error executing cloudcode sync: <%@>", error);
+    }
+    
+    NSDictionary *json = [self parseJsonString:response];
+    XCTAssertTrue([[json valueForKey:@"results"] isEqualToString:@"michael"], @"code sync response should equal value passed in");
+}
+
+-(NSDictionary *)parseJsonString:(NSString*)jsonString
+{
+    NSError *jsonError;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&jsonError];
+    if (jsonError) {
+        XCTFail(@"Error parsing response JSON: <%@>", jsonError);
+        return nil;
+    }
+    return json;
 }
 
 

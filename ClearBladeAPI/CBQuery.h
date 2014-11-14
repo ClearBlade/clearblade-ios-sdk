@@ -144,6 +144,13 @@ Creates a less than or equal to clause and adds it to the query
 */
 -(CBQuery *) lessThanEqualTo: (NSNumber *) value for: (NSString *)key;
 /**
+Creates an regular expression filter and adds it to the query
+@param regex A string that gets set as the value for the given key
+@param key A string that is used as the key for the given value
+@return The query with the new clause added
+*/
+-(CBQuery *) matches: (NSString *)regex for: (NSString *)key;
+/**
 Sets the page size for the query that is called
 @param size The page size
 @return The query with the page size added

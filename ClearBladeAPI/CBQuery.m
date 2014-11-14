@@ -20,6 +20,7 @@
 #define CBQUERY_GTE @"GTE"
 #define CBQUERY_LT @"LT"
 #define CBQUERY_LTE @"LTE"
+#define CBQUERY_REGEX @"RE"
 #define CBQUERY_ASC @"ASC"
 #define CBQUERY_DESC @"DESC"
 
@@ -88,6 +89,11 @@
 -(CBQuery *) lessThanEqualTo:(NSNumber *)value for:(NSString *)key {
     return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_LTE];
 }
+
+-(CBQuery *) matches:(NSString *)regex for:(NSString *)key {
+    return [self addFilterWithValue:regex forKey:key inQueryParameter:CBQUERY_REGEX];
+}
+
 
 -(CBQuery *)ascendingOnColumn:(NSString *)column {
     return [self addSortWithDirection:CBQUERY_ASC forColumn:column];
@@ -329,7 +335,9 @@ withErrorCallback:(CBQueryErrorCallback)errorCallback {
                     operator = @"<";
                 } else if ([key isEqualToString:CBQUERY_LTE]) {
                     operator = @"<=";
-                }
+                } else if ([key isEqualToString:CBQUERY_REGEX]) {
+		    operator = @"~"
+		      }
                 bool isFirstFieldInAndBlock = true;
                 for (NSDictionary * field in [or objectForKey:key]) {
                     if (isFirstFieldInAndBlock) {

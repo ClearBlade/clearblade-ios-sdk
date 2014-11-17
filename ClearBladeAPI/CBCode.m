@@ -37,4 +37,21 @@
         }
     }];
 }
+
++(NSString *) executeFunction:(NSString *)function withParams:(NSDictionary *)params withError:(NSError *)error {
+    CBHTTPRequest *apiRequest = [CBHTTPRequest codeRequestWithName:function withParamters:params];
+    
+    NSData *responseData = [apiRequest executeWithError:&error];
+    
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    
+    if (responseString) {
+        return responseString;
+    } else {
+        error = [NSError errorWithDomain:@"Error parsing response from server, or no response returned" code:500 userInfo:nil];
+    }
+    
+    return nil;
+    
+}
 @end

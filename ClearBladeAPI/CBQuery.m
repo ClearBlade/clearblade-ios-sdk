@@ -336,8 +336,8 @@ withErrorCallback:(CBQueryErrorCallback)errorCallback {
                 } else if ([key isEqualToString:CBQUERY_LTE]) {
                     operator = @"<=";
                 } else if ([key isEqualToString:CBQUERY_REGEX]) {
-		    operator = @"~";
-		}
+                    operator = @"~";
+                }
                 bool isFirstFieldInAndBlock = true;
                 for (NSDictionary * field in [or objectForKey:key]) {
                     if (isFirstFieldInAndBlock) {

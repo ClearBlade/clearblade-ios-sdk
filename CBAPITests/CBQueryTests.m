@@ -23,7 +23,7 @@
     NSError * error;
     [ClearBlade initSettingsSyncWithSystemKey:APP_KEY
                              withSystemSecret:APP_SECRET
-                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS}
+                                  withOptions:@{CBSettingsOptionServerAddress: PLATFORM_ADDRESS, CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL)}
                                     withError:&error];
     self.defaultQuery = [CBQuery queryWithCollectionID:TEST_COLLECTION];
 }
@@ -274,6 +274,21 @@
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    }];
+    [self waitForAsyncCompletion:MAIN_COMPLETION];
+}
+
+-(void)testRegex {
+    [[[CBQuery queryWithCollectionID:TEST_COLLECTION] matches:@"^TEST" for:[TestCBItem stringColumnName]] fetchWithSuccessCallback:^(CBQueryResponse *successfulResponse) {
+        if (successfulResponse.dataItems.count == 1) {
+            XCTAssertTrue([[successfulResponse.dataItems.firstObject objectForKey:[TestCBItem stringColumnName]] isEqualToString:@"TEST_UPDATE"], @"Regex returned row string column should be TEST_UPDATE");
+        } else {
+            XCTFail(@"Regex query test didn't return right number of items");
+        }
+        [self signalAsyncComplete:MAIN_COMPLETION];
+    } withErrorCallback:^(NSError *error, id JSON) {
+        XCTFail(@"Threw unexpected error: %@", error);
         [self signalAsyncComplete:MAIN_COMPLETION];
     }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];

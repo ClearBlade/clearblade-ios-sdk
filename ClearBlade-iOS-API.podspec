@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.subspec 'libmosquitto' do |mosq|
-    mosq.source_files 'ClearBladeAPI/libmosquitto/*.{m}'
+    mosq.source_files 'ClearBladeAPI/libmosquitto/*.{c}'
     mosq.requires_arc = false
     mosq.compiler_flags = '-DWITH_THREADING'
   end

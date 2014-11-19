@@ -18,8 +18,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/ClearBlade/iOS-API.git", :branch => 'fix-compile-flags' }
   s.header_dir = 'libmosquitto'
-  s.source_files  = 'ClearBladeAPI/**/*.{h,m,c}'
-  
+  s.source_files  = FileList['ClearBladeAPI/**/*.{h,m,c}'].exclude('ClearBladeAPI/libmosquitto/*.{c}')  
   s.requires_arc = true
 
   s.subspec 'libmosquitto' do |mosq|

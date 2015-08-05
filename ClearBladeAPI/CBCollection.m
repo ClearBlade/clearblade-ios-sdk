@@ -64,7 +64,7 @@
 }
 
 
-+(NSDictionary*)fetchCollectionColumns:(id)cb withUser:(CBUser *)user withCollectionID:(NSString*)colid{
++(NSDictionary*)fetchCollectionColumns:(ClearBlade*)cb withUser:(CBUser *)user withCollectionID:(NSString*)colid{
     NSError*__autoreleasing e;
     NSData* d;
     NSDictionary* dict;

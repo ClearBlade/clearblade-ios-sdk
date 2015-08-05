@@ -53,5 +53,7 @@ typedef void (^CBHTTPRequestErrorCallback)(CBHTTPRequestResponse *, NSError *);
                              withEndpoint:(NSString*)endpoint;
 
 -(NSData *)executeWithError:(NSError **)error;
+
+-(NSString *)encodeQuery:(NSString *)query;
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback;
 @end

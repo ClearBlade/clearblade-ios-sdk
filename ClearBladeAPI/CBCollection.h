@@ -80,8 +80,13 @@ Removes an item or a set of items on the Platform that match the given query.
     withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback;
 
-+(void) fetchCollectionColumns: (ClearBlade*)cb
-              withCollectionID:(NSString*)colid
-                      withUser:(CBUser*)user;
 
++(NSDictionary*) fetchCollectionColumns: (ClearBlade*)cb
+                       withUser:(CBUser*)user
+                       withCollectionID:(NSString*)colid;
+
++(NSInteger) fetchCollectionCount: (ClearBlade*)cb
+                 withCollectionID:(NSString*)colid
+                         withUser:(CBUser*)user
+                        withQuery:(CBQuery*)qry;
 @end

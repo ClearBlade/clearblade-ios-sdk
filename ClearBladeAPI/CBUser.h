@@ -231,6 +231,8 @@ typedef void (^CBUserIsValidCallback)(bool);
  */
 -(void)logOutWithSuccessCallback:(void (^)())successCallback withErrorCallback:(CBUserErrorCallback)errorCallback;
 
+
+
 /**
  Is true if the user has no email or password, and is just an anonymous token from the server
  */

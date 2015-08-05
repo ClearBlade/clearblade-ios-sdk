@@ -23,6 +23,12 @@
                                                     withUser:user];
 }
 
++(instancetype)requestWIthEndpointAndMethod: (NSString*)method withEndpoint:(NSString*)endpoint
+                                 withParameters:(NSDictionary*)params withUser:(CBUser*)user{
+    
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings] withMethod:method withUser:user withEndpoint:endpoint];
+}
+
 +(instancetype)userRequestWithSettings:(ClearBlade *)settings
                             withMethod:(NSString *)method
                             withAction:(NSString *)action
@@ -119,6 +125,22 @@
     }
     return self;
 }
+
+-(instancetype)initWithClearBladeSettings:(ClearBlade*)settings
+                                withMethod:(NSString*)method
+                                withUser:(CBUser*)user
+                                withEndpoint:(NSString*)endpoint{
+    NSString* pth = [NSString stringWithFormat:@"%@%@", CBSettingsOptionServerAddress, endpoint];
+    NSURL* url = [NSURL URLWithString:pth];
+    self = [super initWithURL:url];
+    if(self){
+        self.settings = settings;
+        self.HTTPMethod = method;
+        self.user = user;
+    }
+    return self;
+}
+
 
 
 -(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
@@ -245,8 +267,8 @@
 }
 
 -(void)setSettings:(ClearBlade *)settings {
-    [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-AppKey"];
-    [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-AppSecret"];
+    [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-SystemKey"];
+    [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-SystemSecret"];
     _settings = settings;
 }
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {

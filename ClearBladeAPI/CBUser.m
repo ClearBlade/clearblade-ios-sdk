@@ -258,6 +258,7 @@
     }
     return [CBUser parseCheckAuthResponse:data];
 }
+
 -(void)checkIsValidWithServerWithCallback:(CBUserIsValidCallback)isValidCallback withErrorCallback:(CBUserErrorCallback)errorCallback {
     [[CBUser checkRequestWithSettings:[ClearBlade settings] withToken:self.authToken]
      executeWithSuccessCallback:^(CBHTTPRequestResponse * response) {

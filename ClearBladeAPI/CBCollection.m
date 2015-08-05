@@ -11,6 +11,8 @@
 #import "CBCollection.h"
 #import "ClearBlade.h"
 #import "CBItem.h"
+#import "CBHTTPRequestResponse.h"
+#import "CBHTTPRequest.h"
 
 @implementation CBCollection
 @synthesize collectionID = _collectionID;
@@ -59,6 +61,29 @@
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
     query.collectionID = self.collectionID;
     [query removeWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+}
+
+
++(NSDictionary*)fetchCollectionColumns:(id)cb withUser:(CBUser *)user withCollectionID:(NSString*)colid{
+    NSError*__autoreleasing e;
+    NSData* d;
+    NSDictionary* dict;
+    NSString* ep = [NSString stringWithFormat:@"/api/v/2/%@/columns", colid];
+    //is this correct?!
+    CBHTTPRequest* req = [CBHTTPRequest alloc];
+    req = [req initWithClearBladeSettings: cb withMethod:@"GET" withUser:user withEndpoint:ep];
+    d = [req executeWithError:&e];
+    if(e){
+        //todo: log errors here
+        return nil;
+    }else{
+        dict = [NSJSONSerialization JSONObjectWithData:d options:0 error:&e];
+        if(e){
+            return nil;
+        }else{
+            return dict;
+        }
+    }
 }
 
 -(NSString *)description {

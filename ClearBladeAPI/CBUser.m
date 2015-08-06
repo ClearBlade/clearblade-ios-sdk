@@ -92,6 +92,30 @@
                                         withQuery:query];
 }
 
+
++(CBHTTPRequest *)resetUserPasswordWithSettings:(ClearBlade *)settings
+                                      withToken:(NSString*) token
+                                    withDetails:(NSDictionary*)info{
+    return [CBHTTPRequest userRequestWithSettings:settings
+                                       withMethod:@"PUT"
+                                       withAction:@"/pass"
+                                         withBody:info
+                                      withHeaders:@{@"ClearBlade-UserToken": token}];
+}
+
++(CBHTTPRequest *)getCountOfUsersWithSettings: (ClearBlade*)settings
+                                    withToken:(NSString*)token
+                                    withQuery:(CBQuery*)qry{
+    NSString* act;
+    if(qry){
+        act = [NSString stringWithFormat:@"/count?query=%@", [qry stringifyQuery]];
+    }else{
+        act = @"/count";
+    }
+    return [CBHTTPRequest userRequestWithSettings:settings withMethod:@"GET" withAction:act withBody:nil withHeaders:@{@"ClearBlade-UserToken":token}];
+    
+}
+
 +(instancetype)authenticateUserWithEmail:(NSString *)email withPassword:(NSString *)password withError:(NSError *__autoreleasing *)error {
     return [self authenticateUserWithSettings:[ClearBlade settings]
                                     withEmail:email
@@ -330,6 +354,29 @@
          }
      }];
 }
+
+-(void)resetPassword:(NSString*)newPassword oldPassword:(NSString*)oldPW withError:(NSError *__autoreleasing *)error {
+    NSDictionary* outgoing = @{@"old_password":oldPW,@"new_password":newPassword};
+    [[CBUser resetUserPasswordWithSettings:[ClearBlade settings] withToken:authToken withDetails:outgoing] executeWithError:error];
+}
+
+-(NSInteger)getUserCount:(NSString*)sysKey withQuery:(CBQuery*)qry withError:(NSError *__autoreleasing*)error{
+    NSData* data = [[CBUser getCountOfUsersWithSettings:[ClearBlade settings] withToken:authToken withQuery:qry]executeWithError:error];
+    if(error){
+        CBLogError(@"Error with retrieving user count %@",error);
+        return -1;
+    }
+    NSError *jsonError;
+    NSDictionary* jsonDict = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+    if(jsonError) {
+        CBLogError(@"Error decoding json for count response : %@", [jsonError localizedDescription]);
+        return -1;
+    }
+        //I think it will be an NSInt. gotta peep that at runtime
+    return (NSInteger) jsonDict[@"count"];
+    
+}
+
 
 -(NSString *)description {
     if (self.isAnonymous) {

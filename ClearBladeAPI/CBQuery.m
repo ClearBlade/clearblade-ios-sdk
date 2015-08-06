@@ -241,6 +241,10 @@
     [self executeRequest:fetchRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
+-(NSString*)stringifyQuery{
+    return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fetchQuery] options:0 error:NULL] encoding:NSUTF8StringEncoding];
+}
+
 -(void) updateWithChangesAndEndpoint:(NSMutableDictionary*) changes
                  withSuccessCallback:(CBOperationSuccessCallback)successCallback
                    withErrorCallback:(CBQueryErrorCallback)failureCallback

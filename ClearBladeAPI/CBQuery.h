@@ -193,4 +193,8 @@ In the example, thirdQuery would be equivalent to this SQL:
                            withErrorCallback:(CBQueryErrorCallback)failureCallback
                                 withEndpoint:(NSString*)endpoint;
 
+/**
+ A helper function to stringify a query
+ */
+-(NSString*)stringifyQuery;
 @end

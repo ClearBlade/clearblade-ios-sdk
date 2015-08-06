@@ -22,6 +22,17 @@ The string that represents the collection ID.
 @property (strong, nonatomic) NSString *collectionID;
 
 /**
+ The string that represents the collection name.
+ Used for accessing a collection by name
+ */
+@property (strong, nonatomic)NSString *collectionName;
+
+/**
+ If using the collection name accession, one must also provide a system key
+ */
+@property (strong,nonatomic)NSString *systemKey;
+
+/**
 Initialize a new CBCollection object
 @param collectionID The string that will be used to identify the collection on the server
 @returns a newly initialized object

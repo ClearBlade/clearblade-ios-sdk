@@ -16,14 +16,20 @@
 
 @implementation CBCollection
 @synthesize collectionID = _collectionID;
+@synthesize collectionName = _collectionName;
+@synthesize systemKey = _systemKey;
+
 
 +(CBCollection *)collectionWithID:(NSString *)collectionID {
     return [[CBCollection alloc] initWithCollectionID:collectionID];
 }
 
++(CBCollection*)collectionWithName:(NSString*)collectionName systemKey:(NSString*)syskey{
+    return [[CBCollection alloc] initWithCollectionName:collectionName systemKey:syskey];
+}
+
 -(id) initWithCollectionID:(NSString *)colID {
     self = [super init];
-    
     self.collectionID = colID;
     return self;
 }
@@ -34,12 +40,32 @@
                                                               withErrorCallback:failureCallback];
 }
 
+-(id)initWithCollectionName:(NSString*)collectionName systemKey:(NSString*)syskey{
+    self = [super init];
+    self.systemKey = syskey;
+    self.collectionName = collectionName;
+    return self;
+}
+
 -(void) fetchWithQuery:(CBQuery *) query
    withSuccessCallback:(CBQuerySuccessCallback) successCallback
      withErrorCallback:(CBQueryErrorCallback) failureCallback {
-    query.collectionID = self.collectionID;
-    [query fetchWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    if(self.collectionID){
+        query.collectionID = self.collectionID;
+        [query fetchWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    }else if(self.collectionName && self.systemKey){
+        [query fetchWithSuccessCallbackAndEndpoint:successCallback
+                                 withErrorCallback:failureCallback
+                                          endpoint:[NSString stringWithFormat:@"/api/v/2/collection/%@/%@", self.systemKey, self.collectionName]
+                                            method: @"GET"];
+    }else{
+        //throw an exception?
+        //not sure how to communicate an error given these circumstances
+        //ahh working with legacy
+        [NSException raise:@"Neither collection id or name" format:@"Neither collectionid or name were supplied to the query"];
+    }
 }
+
 
 -(void) createWithData:(NSMutableDictionary *)data
    withSuccessCallback:(CBItemSuccessCallback)successCallback
@@ -52,15 +78,29 @@
             withChanges:(NSMutableDictionary *)changes
     withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    query.collectionID = self.collectionID;
-    [query updateWithChanges:changes withSuccessCallback:successCallback withErrorCallback:failureCallback];
+    
+    if(self.collectionID){
+        query.collectionID = self.collectionID;
+        [query updateWithChanges:changes withSuccessCallback:successCallback withErrorCallback:failureCallback];
+    }else if(self.collectionName && self.systemKey){
+        [query updateWithChangesAndEndpoint:changes withSuccessCallback:successCallback withErrorCallback:failureCallback endpoint:[NSString stringWithFormat:@"/api/v/2/collection/%@/%@",self.systemKey,self.collectionName] method:@"PUT"];
+    }else{
+        [NSException raise:@"Neither collection id or name" format:@"Neither collection id or collection name were supplied to the collection"];
+    }
 }
 
 -(void) removeWithQuery:(CBQuery *)query
     withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    query.collectionID = self.collectionID;
-    [query removeWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    if(self.collectionID){
+        query.collectionID = self.collectionID;
+        [query removeWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    }else if (self.collectionName && self.systemKey){
+        [query removeWithSuccessCallbackAndEndpoint:successCallback
+                                  withErrorCallback:failureCallback
+                                       withEndpoint:[NSString stringWithFormat:@"/api/v/2/collection/%@/%@",self.systemKey,self.collectionName]];
+    
+    }
 }
 
 

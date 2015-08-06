@@ -151,6 +151,12 @@
     return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters withUser:self.user];
 }
 
+-(CBHTTPRequest*)requestWithMethodAndEndpoint:(NSString*)method withParameters:(NSDictionary*)parameters
+                                 withEndpoint:(NSString*)endpoint{
+    //the calling code will fill this out I think
+    return [CBHTTPRequest requestWithEndpoint:endpoint withMethod:method withQueryString:nil withBody:nil withHeaders:nil];
+}
+
 -(CBUser *)user {
     if (!_user) {
         _user = [[ClearBlade settings] mainUser];
@@ -221,6 +227,36 @@
     }];
 }
 
+
+-(void) fetchWithSuccessCallbackAndEndpoint:(CBQuerySuccessCallback)successCallback
+                          withErrorCallback:(CBQueryErrorCallback)failureCallback
+                                   endpoint:(NSString*)endpoint
+                                     method:(NSString*)method{
+    NSDictionary* parameters = nil;
+    if (self.OR.count > 1 || self.query.count >0){
+        parameters = @{@"query":[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:[self fetchQuery] options:0 error:NULL]
+                                                       encoding:NSUTF8StringEncoding]};
+    }
+    CBHTTPRequest *fetchRequest = [self requestWithMethodAndEndpoint: method withParameters:parameters withEndpoint:endpoint];
+    [self executeRequest:fetchRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
+}
+
+-(void) updateWithChangesAndEndpoint:(NSMutableDictionary*) changes
+                 withSuccessCallback:(CBOperationSuccessCallback)successCallback
+                   withErrorCallback:(CBQueryErrorCallback)failureCallback
+                            endpoint:(NSString*)endpoint
+                              method:(NSString*)method{
+    CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:endpoint withMethod:method
+                                           withQueryString:nil  withBody:changes withHeaders:nil];
+    req.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"query": [self operationQuery], @"$set":changes}
+                                                   options:0 error:NULL];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    CBLogDebug(@"Executing update with %@ and chagnes %@",self,changes);
+    [self executeOperation:req withSuccessCallback:successCallback withFailureCallback:failureCallback];
+}
+
+
 -(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback
                withErrorCallback:(CBQueryErrorCallback)failureCallback {
     NSDictionary * parameters = nil;
@@ -245,6 +281,19 @@
     [updateRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     CBLogDebug(@"Executing Update with %@ and changes %@", self, changes);
     [self executeOperation:updateRequest withSuccessCallback:successCallback withFailureCallback:failureCallback];
+}
+
+
+-(void) removeWithSuccessCallbackAndEndpoint:(CBOperationSuccessCallback)successCallback
+                           withErrorCallback:(CBQueryErrorCallback)failureCallback
+                                withEndpoint:(NSString*)endpoint{
+    NSString* jsonString = [[NSString alloc] initWithData:[NSJSONSerialization
+                                                           dataWithJSONObject:[self operationQuery] options:0 error:NULL]
+                                                 encoding:NSUTF8StringEncoding];
+
+    CBHTTPRequest *rmReq = [self requestWithMethodAndEndpoint:@"DELETE" withParameters:nil withEndpoint:[NSString stringWithFormat:@"%@?query=%@",endpoint, jsonString]];
+    CBLogDebug(@"Executing remove with %@",self);
+    [self executeOperation:rmReq withSuccessCallback:successCallback withFailureCallback:failureCallback];
 }
 
 

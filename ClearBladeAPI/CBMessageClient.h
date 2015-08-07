@@ -166,5 +166,9 @@ Unsubscribes the message client to a topic
 +(void)publishMessageViaHTTP:(CBMessage*)message withUser:(CBUser*)usr withError:(NSError*)error
                      withQos:(int)qos withRetain:(BOOL)retain withSystemKey:(NSString*)syskey;
 
+/**
+ Get a list of currently active topics
+ */
++(NSarray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
     
 @end

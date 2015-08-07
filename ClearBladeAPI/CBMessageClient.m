@@ -468,4 +468,17 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     [req executeWithError:&error];
     return;
 }
+
++(NSarray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
+    CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/currenttopics", systemKey] withMethod:@"GET" withQueryString:nil withBody:nil withHeaders:@{@"Clearblade-UserToken":usr.authToken}];
+    NSData* d = [req executeWithError:&err];
+    if(err){
+        return nil;
+    }
+    NSArray *topics = [NSJSONSerialization JSONObjectWithData:d options:0 error:&err];
+    if(err){
+        return nil;
+    }
+    return topics;
+}
 @end

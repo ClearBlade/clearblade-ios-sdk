@@ -436,7 +436,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     NSString *systemKey = [[ClearBlade settings] systemKey];
     NSString *action = [NSString stringWithFormat:@"api/v/1/message/%@", systemKey];
     NSString *queryString = [NSString stringWithFormat:@"topic=%@&count=%@&last=%lli", topic, count, [@(floor([time timeIntervalSince1970])) longLongValue]];
-     CBHTTPRequest *msgHistoryRequest = [CBHTTPRequest messageHistoryRequestWithSettings:[ClearBlade settings] withMethod:@"GET" withAction:action withQueryString:queryString];
+    CBHTTPRequest *msgHistoryRequest = [CBHTTPRequest messageHistoryRequestWithSettings:[ClearBlade settings] withMethod:@"GET" withAction:action withQueryString:queryString];
     NSData *msgHistory = [msgHistoryRequest executeWithError:(&error)];
     if (error) {
         return nil;
@@ -469,7 +469,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     return;
 }
 
-+(NSarray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
++(NSArray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
     CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/currenttopics", systemKey] withMethod:@"GET" withQueryString:nil withBody:nil withHeaders:@{@"Clearblade-UserToken":usr.authToken}];
     NSData* d = [req executeWithError:&err];
     if(err){
@@ -481,4 +481,5 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     }
     return topics;
 }
+
 @end

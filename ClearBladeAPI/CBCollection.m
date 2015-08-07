@@ -169,4 +169,5 @@
 -(NSString *)description {
     return [NSString stringWithFormat:@"Collection with ID <%@>", self.collectionID];
 }
+
 @end

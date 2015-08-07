@@ -169,6 +169,6 @@ Unsubscribes the message client to a topic
 /**
  Get a list of currently active topics
  */
-+(NSarray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
++(NSArray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err;
     
 @end

@@ -451,18 +451,18 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 
 +(void)publishMessageViaHTTP:(CBMessage*)message withUser:(CBUser*)usr withError:(NSError*)error
                      withQos:(int)qos withRetain:(BOOL)retain withSystemKey:(NSString*)syskey{
-    NSMutableDictionary* dict = [NSMutableDictionary init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject:@"body" forKey: message.payloadText];
     [dict setObject:@"topic" forKey:message.topic];
     switch (qos) {
         case 0:
         case 1:
         case 2:
-            [dict setObject:@"qos" forKey:[NSNumber numberWithInt:qos]];
+            [dict setObject:[NSNumber numberWithInt:qos]forKey:@"qos" ];
         default:
-            [dict setObject:@"qos" forKey:[NSNumber numberWithInt:0]];
+            [dict setObject:[NSNumber numberWithInt:0] forKey:@"qos"];
     }
-    [dict setObject:@"retain" forKey:[NSNumber numberWithBool:retain]];
+    [dict setObject:[NSNumber numberWithBool:retain] forKey: @"retain"];
     CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/publish", syskey ]
                                                  withMethod:@"POST" withQueryString:nil withBody:dict withHeaders:@{@"ClearBlade-UserToken": usr.authToken}];
     [req executeWithError:&error];

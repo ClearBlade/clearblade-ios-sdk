@@ -354,6 +354,24 @@ typedef void (^MessageHandler)(CBMessageClient *, NSString *, CBMessage *);
     XCTAssertNotNil(history, @"history should not be nil for TEST_TOPIC_ONE");
 }
 
+/*
+ this functionality is not present on the current deployed platform
+-(void)testGetActiveTopics{
+    NSError *err;
+    NSArray* arry = [CBMessageClient getCurrentTopics:AUTH_APP_KEY withUser:[ClearBlade settings].mainUser withError:err];
+    XCTAssertNotNil(arry, @"this shouldn't be nil");
+    XCTAssertNil(err, @"This should be nil");
+}
+*/
+
+-(void)testPublishFromHttp{
+    NSError* err;
+    CBMessage* msg = [CBMessage messageWithTopic:@"Hello/World" withPayloadText:@"Greetings to earth!?"];
+    [CBMessageClient publishMessageViaHTTP:msg withUser:[ClearBlade settings].mainUser withError:err withQos:0 withRetain:false withSystemKey:AUTH_APP_KEY];
+    XCTAssertNil(err,@"Shouldn't have errors in publishing");
+}
+
+
 // Pending more information from tdodge this test is marked as invalid
 //-(void)testDoubleSubscribe {
 //    BlockHandler connectHandler = ^{

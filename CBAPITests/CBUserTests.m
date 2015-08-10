@@ -138,5 +138,21 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
-
+/*
+ Not testable at present
+-(void)testGetCount{
+    NSString* uid = [[NSUUID UUID] UUIDString];
+    NSError* err;
+    [ClearBlade initSettingsSyncWithSystemKey:AUTH_APP_KEY withSystemSecret:AUTH_APP_SECRET withOptions:@{CBSettingsOptionServerAddress:PLATFORM_ADDRESS,
+                                                                                                          CBSettingsOptionEmail:uid,
+                                                                                                          CBSettingsOptionPassword:@"password",
+                                                                                                          CBSettingsOptionRegisterUser: @(true)}
+                                    withError:&err];
+    XCTAssertNil(err,@"error is not nil");
+    CBUser* usr = [ClearBlade settings].mainUser;
+    NSInteger num = [usr getUserCount:AUTH_APP_KEY withQuery:nil withError:&err];
+    XCTAssertNil(err,@"error getting count");
+    XCTAssert(num >= 0, @"number of users returned should be greater or equal to zero");
+}
+*/
 @end

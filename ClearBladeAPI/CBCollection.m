@@ -104,7 +104,6 @@
     }
 }
 
-
 +(NSDictionary*)fetchCollectionColumns:(ClearBlade*)cb withUser:(CBUser *)user withCollectionID:(NSString*)colid{
     NSError*__autoreleasing e;
     NSData* d;
@@ -127,6 +126,38 @@
     }
 }
 
+-(NSDictionary*)fetchCollectionColumns:(NSError**)err{
+    NSString* ep;
+    NSData* data;
+    NSDictionary* dict;
+    CBHTTPRequest* req = [CBHTTPRequest alloc];
+    if(self.collectionID){
+        ep = [NSString stringWithFormat:@"api/v/1/data/%@/columns", self.collectionID];
+    }else if(self.collectionName && self.systemKey){
+        ep = [NSString stringWithFormat:@"api/v/2/collection/%@/%@/columns",self.systemKey,self.collectionName];
+    }else{
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply some kind of collection identifier."}];
+        return nil;
+    }
+    
+    if(![ClearBlade settings].mainUser){
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply user."}];
+        return nil;
+    }
+    req = [req initWithClearBladeSettings: [ClearBlade settings] withMethod:@"GET" withUser:[ClearBlade settings].mainUser withEndpoint:ep];
+    data = [req executeWithError:err];
+    if(err){
+        return nil;
+    }
+    dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:err];
+    if(err){
+        return nil;
+    }
+    return dict;
+}
+
+
+
 
 
 -(NSInteger) fetchCollectionCount:(CBQuery*)qry
@@ -139,8 +170,11 @@
     NSData* d;
     if(self.collectionID){
         ep = [ NSString stringWithFormat:@"api/v/1/data/%@/count", self.collectionID];
-    }else{
+    }else if(self.systemKey && self.collectionName){
         ep = [NSString stringWithFormat:@"api/v/2/collection/%@/%@/count", self.systemKey,self.collectionName];
+    }else{
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply some kind of collection identifier."}];
+        return -1;
     }
     
     if(qry && [[qry fetchQuery] count] != 0){

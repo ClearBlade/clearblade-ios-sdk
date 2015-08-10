@@ -108,9 +108,9 @@
                                     withQuery:(CBQuery*)qry{
     NSString* act;
     if(qry){
-        act = [NSString stringWithFormat:@"/count?query=%@", [qry stringifyQuery]];
+        act = [NSString stringWithFormat:@"count?query=%@", [qry stringifyQuery]];
     }else{
-        act = @"/count";
+        act = @"count";
     }
     return [CBHTTPRequest userRequestWithSettings:settings withMethod:@"GET" withAction:act withBody:nil withHeaders:@{@"ClearBlade-UserToken":token}];
     

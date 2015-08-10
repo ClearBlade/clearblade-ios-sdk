@@ -140,7 +140,7 @@
                                 withMethod:(NSString*)method
                                 withUser:(CBUser*)user
                                 withEndpoint:(NSString*)endpoint{
-    NSString* pth = [NSString stringWithFormat:@"%@%@", CBSettingsOptionServerAddress, endpoint];
+    NSString* pth = [NSString stringWithFormat:@"%@%@", [settings serverAddress], endpoint];
     NSURL* url = [NSURL URLWithString:pth];
     self = [super initWithURL:url];
     if(self){
@@ -322,7 +322,7 @@
     if (requestError) {
         *error = requestError;
     } else if (requestResponse.statusCode != 200) {
-        *error = [NSError errorWithDomain:@"Request failed because of statusCode" code:requestResponse.statusCode userInfo:nil];
+        *error = [NSError errorWithDomain:@"com.clearblade.request.execute" code:requestResponse.statusCode userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"request failed because of status code %ld on url %@", (long)requestResponse.statusCode,requestResponse.URL]}];
     } else {
         return requestData;
     }

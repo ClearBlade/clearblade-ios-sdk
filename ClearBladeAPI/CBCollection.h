@@ -96,8 +96,6 @@ Removes an item or a set of items on the Platform that match the given query.
                        withUser:(CBUser*)user
                        withCollectionID:(NSString*)colid;
 
-+(NSInteger) fetchCollectionCount: (ClearBlade*)cb
-                 withCollectionID:(NSString*)colid
-                         withUser:(CBUser*)user
-                        withQuery:(CBQuery*)qry;
+-(NSInteger) fetchCollectionCount:(CBQuery*)qry
+                        withError:(NSError**) err;
 @end

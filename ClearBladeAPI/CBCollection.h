@@ -92,7 +92,7 @@ Removes an item or a set of items on the Platform that match the given query.
       withErrorCallback:(CBQueryErrorCallback)failureCallback;
 
 
--(NSDictionary*)fetchCollectionColumns:(NSError**)err{
+-(NSArray*)fetchCollectionColumns:(NSError**)err;
 
 -(NSInteger) fetchCollectionCount:(CBQuery*)qry
                         withError:(NSError**) err;

@@ -44,6 +44,13 @@
 }
 */
 
+-(void)testGetColumns{
+    CBCollection* col = [CBCollection collectionWithID:TEST_COLLECTION];
+    NSError* err;
+    NSArray* dict = [col fetchCollectionColumns:&err];
+    XCTAssertNotNil(dict,@"array was nil");
+    XCTAssertNil(err,@"error was not nil");
+}
 
 
 @end

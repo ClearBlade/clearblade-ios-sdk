@@ -126,10 +126,10 @@
     }
 }
 
--(NSDictionary*)fetchCollectionColumns:(NSError**)err{
+-(NSArray*)fetchCollectionColumns:(NSError**)err{
     NSString* ep;
     NSData* data;
-    NSDictionary* dict;
+    NSArray* arry;
     CBHTTPRequest* req = [CBHTTPRequest alloc];
     if(self.collectionID){
         ep = [NSString stringWithFormat:@"api/v/1/data/%@/columns", self.collectionID];
@@ -146,14 +146,14 @@
     }
     req = [req initWithClearBladeSettings: [ClearBlade settings] withMethod:@"GET" withUser:[ClearBlade settings].mainUser withEndpoint:ep];
     data = [req executeWithError:err];
-    if(err){
+    if(*err){
         return nil;
     }
-    dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:err];
-    if(err){
+    arry = (NSArray*)[NSJSONSerialization JSONObjectWithData:data options:0 error:err];
+    if(*err){
         return nil;
     }
-    return dict;
+    return arry;
 }
 
 
@@ -196,11 +196,11 @@
     
     req = [req initWithClearBladeSettings: [ClearBlade settings] withMethod:@"GET" withUser:[ClearBlade settings].mainUser withEndpoint:ep];
     d = [req executeWithError:err];
-    if (err){
+    if (*err){
         return -1;
     }
     dict = [NSJSONSerialization JSONObjectWithData:d options:0 error:err];
-    if(err){
+    if(*err){
         return -1;
     }
     return (NSInteger)dict[@"count"];

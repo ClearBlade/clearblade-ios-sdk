@@ -11,17 +11,26 @@
 #import "CBCollection.h"
 #import "ClearBlade.h"
 #import "CBItem.h"
+#import "CBHTTPRequestResponse.h"
+#import "CBHTTPRequest.h"
+#import "CBQuery.h"
 
 @implementation CBCollection
 @synthesize collectionID = _collectionID;
+@synthesize collectionName = _collectionName;
+@synthesize systemKey = _systemKey;
+
 
 +(CBCollection *)collectionWithID:(NSString *)collectionID {
     return [[CBCollection alloc] initWithCollectionID:collectionID];
 }
 
++(CBCollection*)collectionWithName:(NSString*)collectionName systemKey:(NSString*)syskey{
+    return [[CBCollection alloc] initWithCollectionName:collectionName systemKey:syskey];
+}
+
 -(id) initWithCollectionID:(NSString *)colID {
     self = [super init];
-    
     self.collectionID = colID;
     return self;
 }
@@ -32,12 +41,32 @@
                                                               withErrorCallback:failureCallback];
 }
 
+-(id)initWithCollectionName:(NSString*)collectionName systemKey:(NSString*)syskey{
+    self = [super init];
+    self.systemKey = syskey;
+    self.collectionName = collectionName;
+    return self;
+}
+
 -(void) fetchWithQuery:(CBQuery *) query
    withSuccessCallback:(CBQuerySuccessCallback) successCallback
      withErrorCallback:(CBQueryErrorCallback) failureCallback {
-    query.collectionID = self.collectionID;
-    [query fetchWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    if(self.collectionID){
+        query.collectionID = self.collectionID;
+        [query fetchWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    }else if(self.collectionName && self.systemKey){
+        [query fetchWithSuccessCallbackAndEndpoint:successCallback
+                                 withErrorCallback:failureCallback
+                                          endpoint:[NSString stringWithFormat:@"/api/v/2/collection/%@/%@", self.systemKey, self.collectionName]
+                                            method: @"GET"];
+    }else{
+        //throw an exception?
+        //not sure how to communicate an error given these circumstances
+        //ahh working with legacy
+        [NSException raise:@"Neither collection id or name" format:@"Neither collectionid or name were supplied to the query"];
+    }
 }
+
 
 -(void) createWithData:(NSMutableDictionary *)data
    withSuccessCallback:(CBItemSuccessCallback)successCallback
@@ -50,18 +79,137 @@
             withChanges:(NSMutableDictionary *)changes
     withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    query.collectionID = self.collectionID;
-    [query updateWithChanges:changes withSuccessCallback:successCallback withErrorCallback:failureCallback];
+    
+    if(self.collectionID){
+        query.collectionID = self.collectionID;
+        [query updateWithChanges:changes withSuccessCallback:successCallback withErrorCallback:failureCallback];
+    }else if(self.collectionName && self.systemKey){
+        [query updateWithChangesAndEndpoint:changes withSuccessCallback:successCallback withErrorCallback:failureCallback endpoint:[NSString stringWithFormat:@"/api/v/2/collection/%@/%@",self.systemKey,self.collectionName] method:@"PUT"];
+    }else{
+        [NSException raise:@"Neither collection id or name" format:@"Neither collection id or collection name were supplied to the collection"];
+    }
 }
 
 -(void) removeWithQuery:(CBQuery *)query
     withSuccessCallback:(CBOperationSuccessCallback)successCallback
       withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    query.collectionID = self.collectionID;
-    [query removeWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    if(self.collectionID){
+        query.collectionID = self.collectionID;
+        [query removeWithSuccessCallback:successCallback withErrorCallback:failureCallback];
+    }else if (self.collectionName && self.systemKey){
+        [query removeWithSuccessCallbackAndEndpoint:successCallback
+                                  withErrorCallback:failureCallback
+                                       withEndpoint:[NSString stringWithFormat:@"/api/v/2/collection/%@/%@",self.systemKey,self.collectionName]];
+    
+    }
 }
+
++(NSDictionary*)fetchCollectionColumns:(ClearBlade*)cb withUser:(CBUser *)user withCollectionID:(NSString*)colid{
+    NSError*__autoreleasing e;
+    NSData* d;
+    NSDictionary* dict;
+    NSString* ep = [NSString stringWithFormat:@"api/v/2/data/%@/columns", colid];
+    //is this correct?!
+    CBHTTPRequest* req = [CBHTTPRequest alloc];
+    req = [req initWithClearBladeSettings: cb withMethod:@"GET" withUser:user withEndpoint:ep];
+    d = [req executeWithError:&e];
+    if(e){
+        //todo: log errors here
+        return nil;
+    }else{
+        dict = [NSJSONSerialization JSONObjectWithData:d options:0 error:&e];
+        if(e){
+            return nil;
+        }else{
+            return dict;
+        }
+    }
+}
+
+-(NSArray*)fetchCollectionColumns:(NSError**)err{
+    NSString* ep;
+    NSData* data;
+    NSArray* arry;
+    CBHTTPRequest* req = [CBHTTPRequest alloc];
+    if(self.collectionID){
+        ep = [NSString stringWithFormat:@"api/v/1/data/%@/columns", self.collectionID];
+    }else if(self.collectionName && self.systemKey){
+        ep = [NSString stringWithFormat:@"api/v/2/collection/%@/%@/columns",self.systemKey,self.collectionName];
+    }else{
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply some kind of collection identifier."}];
+        return nil;
+    }
+    
+    if(![ClearBlade settings].mainUser){
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply user."}];
+        return nil;
+    }
+    req = [req initWithClearBladeSettings: [ClearBlade settings] withMethod:@"GET" withUser:[ClearBlade settings].mainUser withEndpoint:ep];
+    data = [req executeWithError:err];
+    if(*err){
+        return nil;
+    }
+    arry = (NSArray*)[NSJSONSerialization JSONObjectWithData:data options:0 error:err];
+    if(*err){
+        return nil;
+    }
+    return arry;
+}
+
+
+
+
+
+-(NSInteger) fetchCollectionCount:(CBQuery*)qry
+                        withError:(NSError**) err{
+    
+    
+    NSString* ep;
+    NSDictionary* dict;
+    CBHTTPRequest* req = [CBHTTPRequest alloc];
+    NSData* d;
+    if(self.collectionID){
+        ep = [ NSString stringWithFormat:@"api/v/1/data/%@/count", self.collectionID];
+    }else if(self.systemKey && self.collectionName){
+        ep = [NSString stringWithFormat:@"api/v/2/collection/%@/%@/count", self.systemKey,self.collectionName];
+    }else{
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply some kind of collection identifier."}];
+        return -1;
+    }
+    
+    if(qry && [[qry fetchQuery] count] != 0){
+        NSDictionary* parameters = [qry fetchQuery];
+        NSDictionary* params = @{@"query":[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:parameters options:0 error:err] encoding:NSUTF8StringEncoding]};
+        if(err){
+            return -1;
+        }
+
+        NSString* queryString = [req encodeQuery:params[@"query"]];
+        ep = [NSString stringWithFormat:@"%@?query=%@", ep, queryString];
+                                     
+    }
+
+    if(![ClearBlade settings].mainUser){
+        *err = [NSError errorWithDomain: CB_ERROR_DOMAIN(@"collection",@"count") code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Must supply user."}];
+        return -1;
+    }
+    
+    req = [req initWithClearBladeSettings: [ClearBlade settings] withMethod:@"GET" withUser:[ClearBlade settings].mainUser withEndpoint:ep];
+    d = [req executeWithError:err];
+    if (*err){
+        return -1;
+    }
+    dict = [NSJSONSerialization JSONObjectWithData:d options:0 error:err];
+    if(*err){
+        return -1;
+    }
+    return (NSInteger)dict[@"count"];
+}
+
+
 
 -(NSString *)description {
     return [NSString stringWithFormat:@"Collection with ID <%@>", self.collectionID];
 }
+
 @end

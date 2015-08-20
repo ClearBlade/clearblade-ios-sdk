@@ -50,6 +50,20 @@ typedef void (^CBHTTPRequestErrorCallback)(CBHTTPRequestResponse *, NSError *);
 
 -(instancetype)initWithClearBladeSettings:(ClearBlade *)settings withMethod:(NSString *)path withCollection:(NSString *)collectionID withParameters:(NSDictionary *)params withUser:(CBUser *)user;
 
+
+-(instancetype)initWithClearBladeSettings:(ClearBlade*)setttings
+                               withMethod:(NSString*)method
+                                 withUser:(CBUser*)user
+                             withEndpoint:(NSString*)endpoint;
+
 -(NSData *)executeWithError:(NSError **)error;
+
+-(NSString *)encodeQuery:(NSString *)query;
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback;
+
++(instancetype)requestWithEndpoint:(NSString*)endpoint withMethod:(NSString*)meth
+                   withQueryString:(NSString*)queryString withBody:(NSDictionary*)body
+                       withHeaders:(NSDictionary*)headers;
+
+
 @end

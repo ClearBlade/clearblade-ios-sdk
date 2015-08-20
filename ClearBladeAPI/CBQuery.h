@@ -183,4 +183,25 @@ In the example, thirdQuery would be equivalent to this SQL:
 -(CBQuery *)addQueryAsOrClauseUsingQuery:(CBQuery *)orQuery;
 
 -(NSDictionary *)fetchQuery;
+
+-(void) fetchWithSuccessCallbackAndEndpoint:(CBQuerySuccessCallback)successCallback
+                          withErrorCallback:(CBQueryErrorCallback)failureCallback
+                                   endpoint:(NSString*)endpoint
+                                     method:(NSString*)method;
+
+
+-(void) updateWithChangesAndEndpoint:(NSMutableDictionary*) changes
+                 withSuccessCallback:(CBOperationSuccessCallback)successCallback
+                   withErrorCallback:(CBQueryErrorCallback)failureCallback
+                            endpoint:(NSString*)endpoint
+                              method:(NSString*)method;
+
+-(void) removeWithSuccessCallbackAndEndpoint:(CBOperationSuccessCallback)successCallback
+                           withErrorCallback:(CBQueryErrorCallback)failureCallback
+                                withEndpoint:(NSString*)endpoint;
+
+/**
+ A helper function to stringify a query
+ */
+-(NSString*)stringifyQuery;
 @end

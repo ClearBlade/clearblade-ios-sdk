@@ -468,4 +468,37 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     return history;
 }
 
++(void)publishMessageViaHTTP:(CBMessage*)message withUser:(CBUser*)usr withError:(NSError*)error
+                     withQos:(int)qos withRetain:(BOOL)retain withSystemKey:(NSString*)syskey{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:@"body" forKey: message.payloadText];
+    [dict setObject:@"topic" forKey:message.topic];
+    switch (qos) {
+        case 0:
+        case 1:
+        case 2:
+            [dict setObject:[NSNumber numberWithInt:qos]forKey:@"qos" ];
+        default:
+            [dict setObject:[NSNumber numberWithInt:0] forKey:@"qos"];
+    }
+    [dict setObject:[NSNumber numberWithBool:retain] forKey: @"retain"];
+    CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/publish", syskey ]
+                                                 withMethod:@"POST" withQueryString:nil withBody:dict withHeaders:@{@"ClearBlade-UserToken": usr.authToken}];
+    [req executeWithError:&error];
+    return;
+}
+
++(NSArray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
+    CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/currenttopics", systemKey] withMethod:@"GET" withQueryString:nil withBody:nil withHeaders:@{@"Clearblade-UserToken":usr.authToken}];
+    NSData* d = [req executeWithError:&err];
+    if(err){
+        return nil;
+    }
+    NSArray *topics = [NSJSONSerialization JSONObjectWithData:d options:0 error:&err];
+    if(err){
+        return nil;
+    }
+    return topics;
+}
+
 @end

@@ -159,4 +159,16 @@ Unsubscribes the message client to a topic
 /** --------- Message History API --------- **/
 +(NSArray *)getMessageHistoryOfTopic:(NSString *)topic fromTime:(NSDate *)time withCount:(NSNumber *)count withError:(NSError *)error;
 
+/**
+ Send a publish via http
+ */
+
++(void)publishMessageViaHTTP:(CBMessage*)message withUser:(CBUser*)usr withError:(NSError*)error
+                     withQos:(int)qos withRetain:(BOOL)retain withSystemKey:(NSString*)syskey;
+
+/**
+ Get a list of currently active topics
+ */
++(NSArray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err;
+    
 @end

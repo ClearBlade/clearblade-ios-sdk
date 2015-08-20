@@ -243,6 +243,7 @@
 -(void)testUpdate {
     TestCBItem * item = [TestCBItem itemWithStringColumn:@"TEST_UPDATE" withIntColumn:0 withCollectionID:TEST_COLLECTION];
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName] removeWithSuccessCallback:^(NSMutableArray *successResponse) {
+        XCTAssert([successResponse count] != 0, @"didn't find anything to update");
         [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
         XCTFail(@"Threw unexpected error %@", error);
@@ -254,9 +255,9 @@
     /*
     [[[CBQuery queryWithCollectionID:TEST_COLLECTION] equalTo:@"TEST_UPDATE" for:item.stringColumnName]
      updateWithChanges:@{item.intColumnName: @(25)} withSuccessCallback:^(NSMutableArray *successResponse) {
-         XCTFail(@"Should fail if the item does not exist");
          [self signalAsyncComplete:MAIN_COMPLETION];
     } withErrorCallback:^(NSError *error, id JSON) {
+        XCTFail(@"Should fail if the item does not exist");
         [self signalAsyncComplete:MAIN_COMPLETION];
     }];
     [self waitForAsyncCompletion:MAIN_COMPLETION];

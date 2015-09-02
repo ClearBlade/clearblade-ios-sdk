@@ -280,6 +280,13 @@
     [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-SystemKey"];
     [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-SystemSecret"];
     _settings = settings;
+    // For old apps using AppKey/Secret
+    if (_settings.systemKey == nil || [_settings.systemKey isEqualToString:@""]) {
+        [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-AppKey"];
+        [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-AppSecret"];
+        _settings = settings;
+
+    }
 }
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) =^(NSURLResponse *response, NSData *data, NSError * connectionError) {

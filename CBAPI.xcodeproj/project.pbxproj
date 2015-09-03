@@ -94,8 +94,6 @@
 		D330404A1948EBCF00376DAD /* CBCode.m in Sources */ = {isa = PBXBuildFile; fileRef = D33040481948EBCF00376DAD /* CBCode.m */; };
 		D330404E1948FCD900376DAD /* CBCode.m in Sources */ = {isa = PBXBuildFile; fileRef = D33040481948EBCF00376DAD /* CBCode.m */; };
 		D330404F1948FCD900376DAD /* CBCodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D330404B1948F7E200376DAD /* CBCodeTests.m */; };
-		D3426C8C19AF80F900B3AD88 /* CBPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D3426C8A19AF80F900B3AD88 /* CBPush.h */; };
-		D3426C8D19AF80F900B3AD88 /* CBPush.m in Sources */ = {isa = PBXBuildFile; fileRef = D3426C8B19AF80F900B3AD88 /* CBPush.m */; };
 		FAE765C918DA2DBD006833AF /* CBQueryResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = FAE765C718DA2DBD006833AF /* CBQueryResponse.h */; };
 		FAE765CA18DA2DBD006833AF /* CBQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE765C818DA2DBD006833AF /* CBQueryResponse.m */; };
 		FAE765CB18DA3CF1006833AF /* CBQueryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE765C818DA2DBD006833AF /* CBQueryResponse.m */; };
@@ -171,8 +169,6 @@
 		D33040471948EBCF00376DAD /* CBCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBCode.h; path = ClearBladeAPI/CBCode.h; sourceTree = SOURCE_ROOT; };
 		D33040481948EBCF00376DAD /* CBCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBCode.m; path = ClearBladeAPI/CBCode.m; sourceTree = SOURCE_ROOT; };
 		D330404B1948F7E200376DAD /* CBCodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBCodeTests.m; sourceTree = "<group>"; };
-		D3426C8A19AF80F900B3AD88 /* CBPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBPush.h; path = ClearBladeAPI/CBPush.h; sourceTree = SOURCE_ROOT; };
-		D3426C8B19AF80F900B3AD88 /* CBPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBPush.m; path = ClearBladeAPI/CBPush.m; sourceTree = SOURCE_ROOT; };
 		FAE765C718DA2DBD006833AF /* CBQueryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBQueryResponse.h; path = ClearBladeAPI/CBQueryResponse.h; sourceTree = SOURCE_ROOT; };
 		FAE765C818DA2DBD006833AF /* CBQueryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBQueryResponse.m; path = ClearBladeAPI/CBQueryResponse.m; sourceTree = SOURCE_ROOT; };
 		FAFF2E5B18C63DFD0030D8B3 /* CBUserDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBUserDataTests.m; sourceTree = "<group>"; };
@@ -245,8 +241,6 @@
 				8DF2A36E185A2577003506C1 /* CBMessage.m */,
 				8DF2A36F185A2577003506C1 /* CBMessageClient.h */,
 				8DF2A370185A2577003506C1 /* CBMessageClient.m */,
-				D3426C8A19AF80F900B3AD88 /* CBPush.h */,
-				D3426C8B19AF80F900B3AD88 /* CBPush.m */,
 				8DF2A371185A2577003506C1 /* CBQuery.h */,
 				8DF2A372185A2577003506C1 /* CBQuery.m */,
 				FAE765C718DA2DBD006833AF /* CBQueryResponse.h */,
@@ -359,7 +353,6 @@
 				FAE765C918DA2DBD006833AF /* CBQueryResponse.h in Headers */,
 				8DF2A3A3185A2582003506C1 /* config.h in Headers */,
 				8DF2A3A4185A2582003506C1 /* dummypthread.h in Headers */,
-				D3426C8C19AF80F900B3AD88 /* CBPush.h in Headers */,
 				8DF2A3AC185A2582003506C1 /* mosquitto.h in Headers */,
 				8DF2A3B7185A2582003506C1 /* send_mosq.h in Headers */,
 				8DF2A3BA185A2582003506C1 /* time_mosq.h in Headers */,
@@ -543,7 +536,6 @@
 				8DF2A3B1185A2582003506C1 /* read_handle.c in Sources */,
 				8DF2A3B5185A2582003506C1 /* send_client_mosq.c in Sources */,
 				8DF2A3B3185A2582003506C1 /* read_handle_client.c in Sources */,
-				D3426C8D19AF80F900B3AD88 /* CBPush.m in Sources */,
 				8DF2A3A5185A2582003506C1 /* logging_mosq.c in Sources */,
 				8DF2A377185A2577003506C1 /* CBCollection.m in Sources */,
 				8DF2A3B8185A2582003506C1 /* thread_mosq.c in Sources */,

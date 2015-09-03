@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.platform     = :osx
   s.platform     = :ios
   s.name         = "ClearBlade-iOS-API"
-  s.version      = "1.15.0"
+  s.version      = "1.16.0"
   s.summary      = "iOS API libraries for the ClearBlade platform"
   
   s.ios.deployment_target = '7.0'

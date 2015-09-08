@@ -42,10 +42,6 @@
     CBHTTPRequest *apiRequest = [CBHTTPRequest codeRequestWithName:function withParamters:params];
     
     NSData *responseData = [apiRequest executeWithError:&error];
-    if (error != nil) {
-        NSLog(@"CODE CALL FAILED: %@", error);
-    }
-    NSLog(@"RESPONSE DATA: %@", responseData);
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     

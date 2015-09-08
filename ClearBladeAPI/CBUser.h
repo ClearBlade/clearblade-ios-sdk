@@ -231,17 +231,6 @@ typedef void (^CBUserIsValidCallback)(bool);
  */
 -(void)logOutWithSuccessCallback:(void (^)())successCallback withErrorCallback:(CBUserErrorCallback)errorCallback;
 
-
-/**
- Resets the users password. requires the old password and the new password.
- */
--(void)resetPassword:(NSString*)newPassword oldPassword:(NSString*)oldPW withError:(NSError *__autoreleasing *)error;
-
-/**
- Gets the number of users for the system specified
- */
--(NSInteger)getUserCount:(NSString*)sysKey withQuery:(CBQuery*)qry withError:(NSError *__autoreleasing*)error;
-
 /**
  Is true if the user has no email or password, and is just an anonymous token from the server
  */

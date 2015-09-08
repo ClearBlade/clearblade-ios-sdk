@@ -55,7 +55,7 @@ static void CBMessageClient_onConnect(struct mosquitto * mosq, void * voidClient
             [client handleConnect:CBMessageClientConnectErrorProtocol];
             break;
         case 2:
-            [client handleConnect:CBMessageClientConnectInvalidAppSecret];
+            [client handleConnect:CBMessageClientConnectInvalidClientId];
             break;
         case 3:
             [client handleConnect:CBMessageClientConnectUnavailable];
@@ -187,7 +187,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
 
 -(struct mosquitto *)client {
     if (!_client) {
-        NSString * clientID = [NSString stringWithFormat:@"MosquittoClient_%u", [[ClearBlade settings] generateID]];
+        NSString * clientID = [NSString stringWithFormat:@"MosquittoClient%u", [[ClearBlade settings] generateID]];
         _client = mosquitto_new([clientID cStringUsingEncoding:NSUTF8StringEncoding], YES, (__bridge void *)(self));
         mosquitto_connect_callback_set(_client, CBMessageClient_onConnect);
         mosquitto_message_callback_set(_client, CBMessageClient_onMessage);
@@ -237,7 +237,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     @synchronized (self.clientLock) {
         mosquitto_username_pw_set(self.client,
                                   [[[ClearBlade settings] mainUser].authToken cStringUsingEncoding:NSUTF8StringEncoding],
-                                  [[[ClearBlade settings] systemSecret] cStringUsingEncoding:NSUTF8StringEncoding]);
+                                  [[[ClearBlade settings] systemKey] cStringUsingEncoding:NSUTF8StringEncoding]);
         int port;
         if (hostName.port == nil) {
             port = 1883;
@@ -285,6 +285,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     } while  (self.isConnected);
 }
 -(void)handleConnect:(CBMessageClientConnectStatus)status {
+    NSLog(@"CBMessageClient:handleConnect");
     id<CBMessageClientDelegate> delegate = self.delegate;
     self.isConnectedContainer = @(true);
     if(self.tryingToReconnect){
@@ -308,7 +309,7 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
     });
 }
 -(void)handleMessage:(CBMessage *)message {
-    CBLogDebug(@"Mosquitto client received %@", message);
+    NSLog(@"Mosquitto client received %@", message);
     id<CBMessageClientDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(messageClient:didReceiveMessage:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -466,39 +467,6 @@ static void CBMessageClient_onPublish(struct mosquitto * mosq, void *voidClient,
         return nil;
     }
     return history;
-}
-
-+(void)publishMessageViaHTTP:(CBMessage*)message withUser:(CBUser*)usr withError:(NSError*)error
-                     withQos:(int)qos withRetain:(BOOL)retain withSystemKey:(NSString*)syskey{
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:@"body" forKey: message.payloadText];
-    [dict setObject:@"topic" forKey:message.topic];
-    switch (qos) {
-        case 0:
-        case 1:
-        case 2:
-            [dict setObject:[NSNumber numberWithInt:qos]forKey:@"qos" ];
-        default:
-            [dict setObject:[NSNumber numberWithInt:0] forKey:@"qos"];
-    }
-    [dict setObject:[NSNumber numberWithBool:retain] forKey: @"retain"];
-    CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/publish", syskey ]
-                                                 withMethod:@"POST" withQueryString:nil withBody:dict withHeaders:@{@"ClearBlade-UserToken": usr.authToken}];
-    [req executeWithError:&error];
-    return;
-}
-
-+(NSArray*)getCurrentTopics:(NSString*)systemKey withUser:(CBUser*)usr withError:(NSError *)err{
-    CBHTTPRequest* req = [CBHTTPRequest requestWithEndpoint:[NSString stringWithFormat:@"/api/v/1/message/%@/currenttopics", systemKey] withMethod:@"GET" withQueryString:nil withBody:nil withHeaders:@{@"Clearblade-UserToken":usr.authToken}];
-    NSData* d = [req executeWithError:&err];
-    if(err){
-        return nil;
-    }
-    NSArray *topics = [NSJSONSerialization JSONObjectWithData:d options:0 error:&err];
-    if(err){
-        return nil;
-    }
-    return topics;
 }
 
 @end

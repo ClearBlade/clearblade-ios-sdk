@@ -12,7 +12,7 @@
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
 #define CB_DEFAULT_PLATFORM_ADDRESS @"https://platform.clearblade.com/"
-#define CB_DEFAULT_MESSAGING @"https://messaging.clearblade.com"
+#define CB_DEFAULT_MESSAGING @"messaging.clearblade.com"
 #endif
 
 #define CB_LOG_DIVIDER @"=============================================="
@@ -22,8 +22,6 @@
 #define CBLogDebug(...) [[ClearBlade settings] logDebug:__VA_ARGS__,nil]
 #define CBLogExtra(...) [[ClearBlade settings] logExtra:__VA_ARGS__,nil]
 
-//I apologize, I am just a lowly c programmer
-#define CB_ERROR_DOMAIN(X,Y) ([NSString stringWithFormat:@"com.clearblade.%@.%@", (X),(Y)])
 @class CBUser;
 @class ClearBlade;
 

@@ -23,12 +23,6 @@
                                                     withUser:user];
 }
 
-+(instancetype)requestWIthEndpointAndMethod: (NSString*)method withEndpoint:(NSString*)endpoint
-                                 withParameters:(NSDictionary*)params withUser:(CBUser*)user{
-    
-    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings] withMethod:method withUser:user withEndpoint:endpoint];
-}
-
 +(instancetype)userRequestWithSettings:(ClearBlade *)settings
                             withMethod:(NSString *)method
                             withAction:(NSString *)action
@@ -82,14 +76,15 @@
                                                     withUser:[[ClearBlade settings] mainUser]];
 }
 
-+(instancetype)requestWithEndpoint:(NSString*)endpoint withMethod:(NSString*)meth
-                   withQueryString:(NSString*)queryString withBody:(NSDictionary*)body
-                       withHeaders:(NSDictionary*)headers {
++(instancetype)pushRequestWithAction:(NSString *)action
+                           withMthod:(NSString *)method
+                          withParams:(NSDictionary *)params
+{
     return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
-                                                  withMethod:meth
-                                                  withAction: endpoint
-                                                    withBody:body
-                                                 withHeaders:headers];
+                                                  withMethod:method
+                                                  withAction:[[NSString stringWithFormat:@"api/v/1/push/%@", [[ClearBlade settings] systemKey]] stringByAppendingString:action]
+                                              withParameters:params
+                                                    withUser:[[ClearBlade settings] mainUser]];
 }
 
 -(NSString *)encodeQuery:(NSString *)query {
@@ -135,22 +130,6 @@
     }
     return self;
 }
-
--(instancetype)initWithClearBladeSettings:(ClearBlade*)settings
-                                withMethod:(NSString*)method
-                                withUser:(CBUser*)user
-                                withEndpoint:(NSString*)endpoint{
-    NSString* pth = [NSString stringWithFormat:@"%@%@", [settings serverAddress], endpoint];
-    NSURL* url = [NSURL URLWithString:pth];
-    self = [super initWithURL:url];
-    if(self){
-        self.settings = settings;
-        self.HTTPMethod = method;
-        self.user = user;
-    }
-    return self;
-}
-
 
 
 -(instancetype)initWithClearBladeSettings:(ClearBlade *)settings
@@ -280,13 +259,6 @@
     [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-SystemKey"];
     [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-SystemSecret"];
     _settings = settings;
-    // For old apps using AppKey/Secret
-    if (_settings.systemKey == nil || [_settings.systemKey isEqualToString:@""]) {
-        [self setValue:[settings systemKey] forHTTPHeaderField:@"ClearBlade-AppKey"];
-        [self setValue:[settings systemSecret] forHTTPHeaderField:@"ClearBlade-AppSecret"];
-        _settings = settings;
-
-    }
 }
 -(void)executeWithSuccessCallback:(CBHTTPRequestSuccessCallback)successCallback withErrorCallback:(CBHTTPRequestErrorCallback)errorCallback {
     void (^completionHandler)(NSURLResponse *, NSData *, NSError *) =^(NSURLResponse *response, NSData *data, NSError * connectionError) {
@@ -294,7 +266,7 @@
         CBHTTPRequestResponse * requestResponse = [CBHTTPRequestResponse responseWithRequest:self
                                                                                 withResponse:(NSHTTPURLResponse *)response
                                                                                     withData:data];
-        CBLogExtra(@"Executed Request with Response\n%@\n\n", requestResponse);
+        NSLog(@"Executed Request with Response\n%@\n\n", requestResponse);
         if (connectionError) {
             if (errorCallback) {
                 errorCallback(requestResponse, connectionError);
@@ -325,11 +297,12 @@
     NSError * requestError = nil;
     NSData * requestData = [NSURLConnection sendSynchronousRequest:self returningResponse:&requestResponse error:&requestError];
     CBHTTPRequestResponse * response = [CBHTTPRequestResponse responseWithRequest:self withResponse:requestResponse withData:requestData];
+    NSLog(@"Executed Request with Response\n%@\n\n", response);
     [self.settings logExtra:@"Executed Request with Response\n%@\n\n", response];
     if (requestError) {
         *error = requestError;
-    } else if (requestResponse.statusCode != 200) {
-        *error = [NSError errorWithDomain:@"com.clearblade.request.execute" code:requestResponse.statusCode userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"request failed because of status code %ld on url %@", (long)requestResponse.statusCode,requestResponse.URL]}];
+    } else if (requestResponse.statusCode != 200 && requestResponse.statusCode != 202) {
+        *error = [NSError errorWithDomain:@"Request failed because of statusCode" code:requestResponse.statusCode userInfo:nil];
     } else {
         return requestData;
     }

@@ -91,8 +91,18 @@
     };
 }
 
+-(void) dumpTheDict:(NSDictionary *)dict {
+    NSLog(@"DICTIONARY:");
+    for (NSString *key in dict) {
+        NSLog(@"\t%@: %@", key, [dict objectForKey:key]);
+    }
+}
+
 -(CBOperationSuccessCallback)handleSuccessSaveCallback:(CBItemSuccessCallback)successCallback {
     return ^(NSMutableArray *successResponse) {
+        if ([[successResponse class] isSubclassOfClass:[NSDictionary class]]) {
+            [self dumpTheDict:(NSDictionary *)successResponse];
+        }
         if (successResponse.count > 0) {
             NSString * newID = [successResponse valueForKey:CBITEM_ID_KEY];
             self.itemID = newID;

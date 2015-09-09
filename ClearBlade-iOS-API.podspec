@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.platform     = :osx
   s.platform     = :ios
   s.name         = "ClearBlade-iOS-API"
-  s.version      = "1.16.1"
+  s.version      = "1.16.2"
   s.summary      = "iOS API libraries for the ClearBlade platform"
   
   s.ios.deployment_target = '7.0'
@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
 
   s.homepage     = "https://github.com/ClearBlade/iOS-API"
   s.license      = { :type => 'EPL', :file => 'LICENSE' }
-  s.author       = { "Charlie Andrews" => "candrews@clearblade.com" }
+  s.author       = { "ClearBlade, Inc." => "support@clearblade.com" }
 
-  s.source       = { :git => "https://github.com/ClearBlade/iOS-API.git", :tag => '1.16.1' }
+  s.source       = { :git => "https://github.com/ClearBlade/iOS-API.git", :tag => '1.16.2' }
   s.header_dir = 'libmosquitto'
   s.source_files  = 'ClearBladeAPI/**/*.{h,m,c}'
   s.exclude_files = 'ClearBladeAPI/libmosquitto/*.c' 

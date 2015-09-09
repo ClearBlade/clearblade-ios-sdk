@@ -22,4 +22,4 @@ All development should be done in feature branches with the naming convention: `
 * `staging` contains release candidates to test on
 * `develop` is code that is under development
 
-For questions feel free to contact [Charlie Andrews](candrews@clearblade.com)
+For questions feel free to contact us (support@clearblade.com)

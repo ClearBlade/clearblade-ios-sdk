@@ -50,6 +50,18 @@
     return self;
 }
 
++(CBQuery *)queryWithCollectionName:(NSString *)collectionName {
+    return [[CBQuery alloc] initWithCollectionName:collectionName];
+}
+
+-(CBQuery *) initWithCollectionName:(NSString *)colName {
+    self = [super init];
+    if (self) {
+        self.collectionName = colName;
+    }
+    return self;
+}
+
 -(NSMutableDictionary *)query {
     if (!_query) {
         _query = [[NSMutableDictionary alloc] init];
@@ -154,7 +166,11 @@
 }
 
 -(CBHTTPRequest *)requestWithMethod:(NSString *)method withParameters:(NSDictionary *)parameters {
-    return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters withUser:self.user];
+    if (self.collectionName != nil) {
+        return [CBHTTPRequest requestWithCollectionName:method withCollectionName:self.collectionName withParameters:parameters withUser:self.user];
+    } else {
+        return [CBHTTPRequest requestWithMethod:method withCollection:self.collectionID withParameters:parameters withUser:self.user];
+    }
 }
 
 -(CBUser *)user {

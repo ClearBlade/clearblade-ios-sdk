@@ -23,6 +23,15 @@
                                                     withUser:user];
 }
 
++(instancetype)requestWithCollectionName:(NSString *)method withCollectionName:(NSString *)collectionName withParameters:(NSDictionary *)parameters withUser:(CBUser *)user {
+    return [[CBHTTPRequest alloc] initWithClearBladeSettings:[ClearBlade settings]
+                                                  withMethod:method
+                                              withCollection:[NSString stringWithFormat:@"api/v/1/collection/%@/%@", [[ClearBlade settings] systemKey],collectionName]
+                                              withParameters:parameters
+                                                    withUser:user];
+}
+
+
 +(instancetype)userRequestWithSettings:(ClearBlade *)settings
                             withMethod:(NSString *)method
                             withAction:(NSString *)action

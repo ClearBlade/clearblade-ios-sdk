@@ -45,6 +45,11 @@ The string that represent the ID of the collection that will be queried
 @property (strong, nonatomic) NSString *collectionID;
 
 /**
+The string that represent the name of the collection that will be queried
+*/
+@property (strong, nonatomic) NSString *collectionName;
+
+/**
  The user that is making the query. It defaults to [Clearblade settings].mainUser.
  */
 @property (strong, nonatomic) CBUser *user;
@@ -54,12 +59,14 @@ Creates a query object that will operate on the collection with the collectionID
 
 */
 +(CBQuery *)queryWithCollectionID:(NSString *)collectionID;
++(CBQuery *)queryWithCollectionName:(NSString *)collectionName;
 /**
 Initializes the query object and sets the collectionID
 @param colID A string that is set as collectionID
 @return the newly instantiated CBQuery Object
 */
 -(CBQuery *) initWithCollectionID: (NSString *) colID;
+-(CBQuery *) initWithCollectionName:(NSString *) colName;
 /**
 Sets the collection ID attribute
 @param colID A string that will be set as the Collection ID

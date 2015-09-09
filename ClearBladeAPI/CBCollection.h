@@ -22,11 +22,18 @@ The string that represents the collection ID.
 @property (strong, nonatomic) NSString *collectionID;
 
 /**
+ Or optionally, just use the collection name
+ */
+@property (strong, nonatomic) NSString *collectionName;
+
+
+/**
 Initialize a new CBCollection object
 @param collectionID The string that will be used to identify the collection on the server
 @returns a newly initialized object
 */
 +(CBCollection *)collectionWithID:(NSString *)collectionID;
++(CBCollection *)collectionWithName:(NSString *)collectionName;
 
 /**
 Initialize a new CBCollection object
@@ -34,6 +41,7 @@ Initialize a new CBCollection object
 @returns a newly initialized object
 */
 -(id) initWithCollectionID: (NSString *)colID;
+-(id) initWIthCollectionName: (NSString *)colName;
 /**
 Fetches the entire collection from the Platform. The returned data will be returned to the block you provide
 @param successCallback Callback Block to handle successfully returned data

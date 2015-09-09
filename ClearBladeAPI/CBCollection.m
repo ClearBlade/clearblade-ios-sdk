@@ -19,6 +19,10 @@
     return [[CBCollection alloc] initWithCollectionID:collectionID];
 }
 
++(CBCollection *)collectionWithName:(NSString *)collectionName {
+    return [[CBCollection alloc] initWIthCollectionName:collectionName];
+}
+
 -(id) initWithCollectionID:(NSString *)colID {
     self = [super init];
     
@@ -26,10 +30,21 @@
     return self;
 }
 
+-(id) initWIthCollectionName:(NSString *)colName {
+    self = [super init];
+    self.collectionName = colName;
+    return self;
+}
+
 -(void) fetchWithSuccessCallback:(CBQuerySuccessCallback)successCallback
                withErrorCallback:(CBQueryErrorCallback)failureCallback {
-    [[CBQuery queryWithCollectionID:self.collectionID] fetchWithSuccessCallback:successCallback
-                                                              withErrorCallback:failureCallback];
+    if (self.collectionName != nil) {
+        [[CBQuery queryWithCollectionName:self.collectionName] fetchWithSuccessCallback:successCallback
+                                                                  withErrorCallback:failureCallback];
+    } else {
+        [[CBQuery queryWithCollectionID:self.collectionID] fetchWithSuccessCallback:successCallback
+                                                                  withErrorCallback:failureCallback];
+    }
 }
 
 -(void) fetchWithQuery:(CBQuery *) query

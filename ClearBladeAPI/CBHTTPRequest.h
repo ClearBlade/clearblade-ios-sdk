@@ -22,6 +22,7 @@ typedef void (^CBHTTPRequestErrorCallback)(CBHTTPRequestResponse *, NSError *);
 @property (atomic, strong) NSString * action;
 
 +(instancetype)requestWithMethod:(NSString *)method withCollection:(NSString *)collectionID withParameters:(NSDictionary *)parameters withUser:(CBUser *)user;
++(instancetype)requestWithCollectionName:(NSString *)method withCollectionName:(NSString *)collectionName withParameters:(NSDictionary *)parameters withUser:(CBUser *)user;
 
 +(instancetype)userRequestWithSettings:(ClearBlade *)settings
                             withMethod:(NSString *)method

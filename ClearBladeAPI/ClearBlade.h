@@ -11,8 +11,8 @@
 #import <Foundation/Foundation.h>
 
 #ifndef CB_DEFAULT_PLATFORM_ADDRESS
-#define CB_DEFAULT_PLATFORM_ADDRESS @"https://platform.clearblade.com/"
-#define CB_DEFAULT_MESSAGING @"messaging.clearblade.com"
+#define CB_DEFAULT_PLATFORM_ADDRESS @"https://rtp.clearblade.com/"
+#define CB_DEFAULT_MESSAGING @"rtp.clearblade.com"
 #endif
 
 #define CB_LOG_DIVIDER @"=============================================="

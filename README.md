@@ -6,7 +6,7 @@ This is the API for communicating with the ClearBlade Platfrom from an iOS devic
 Installation
 ------------
 
-Use [Cocoapods](http://cocoapods.org/). Insert the following in your Podfile:
+Use [CocoaPods](http://cocoapods.org/). Insert the following in your Podfile:
 
     pod 'ClearBlade-iOS-API'
 

@@ -170,7 +170,7 @@
         filterArray = [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:@{parameter: conditionArray}]];
         [query setObject:filterArray forKey:@"FILTERS"];
     } else {
-        NSMutableDictionary *parameterDict = [filterArray objectAtIndex:0];
+        NSMutableDictionary *parameterDict = [NSMutableDictionary dictionaryWithDictionary:[filterArray objectAtIndex:0]];
         NSMutableArray *existingConditionArray = [parameterDict objectForKey:parameter];
         if (!existingConditionArray) {
             [parameterDict setObject:conditionArray forKey:parameter];

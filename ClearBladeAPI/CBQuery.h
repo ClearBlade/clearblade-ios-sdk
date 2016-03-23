@@ -128,28 +128,28 @@ Creates a greater than clause and adds it to the query
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) greaterThan: (NSNumber *) value for: (NSString *)key;
+-(CBQuery *) greaterThan: (id) value for: (NSString *)key;
 /**
 Creates a less than clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) lessThan: (NSNumber *) value for: (NSString *)key;
+-(CBQuery *) lessThan: (id) value for: (NSString *)key;
 /**
 Creates a greater than or equal to clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) greaterThanEqualTo:(NSNumber *) value for: (NSString *)key;
+-(CBQuery *) greaterThanEqualTo:(id) value for: (NSString *)key;
 /**
 Creates a less than or equal to clause and adds it to the query
 @param value A string that gets set as the value for the given key
 @param key A string that is used as the key for the given value
 @return The query with the new clause added
 */
--(CBQuery *) lessThanEqualTo: (NSNumber *) value for: (NSString *)key;
+-(CBQuery *) lessThanEqualTo: (id) value for: (NSString *)key;
 /**
 Creates an regular expression filter and adds it to the query
 @param regex A string that gets set as the value for the given key

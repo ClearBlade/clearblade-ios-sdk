@@ -86,19 +86,19 @@
     return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_NEQ];
 }
 
--(CBQuery *) greaterThan:(NSNumber *)value for:(NSString *)key {
+-(CBQuery *) greaterThan:(id)value for:(NSString *)key {
     return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_GT];
 }
 
--(CBQuery *) lessThan:(NSNumber *)value for:(NSString *)key {
+-(CBQuery *) lessThan:(id)value for:(NSString *)key {
     return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_LT];
 }
 
--(CBQuery *) greaterThanEqualTo:(NSNumber *)value for:(NSString *)key {
+-(CBQuery *) greaterThanEqualTo:(id)value for:(NSString *)key {
     return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_GTE];
 }
 
--(CBQuery *) lessThanEqualTo:(NSNumber *)value for:(NSString *)key {
+-(CBQuery *) lessThanEqualTo:(id)value for:(NSString *)key {
     return [self addFilterWithValue:value forKey:key inQueryParameter:CBQUERY_LTE];
 }
 
@@ -146,15 +146,31 @@
 }
 
 -(CBQuery *)addFilterWithValue:(id)value forKey:(NSString *)key inQueryParameter:(NSString *)parameter {
+    //Log an error if an unsupported type is included, and return the unaltered query. If we attempt to continue with an unsupported class the app will crash
+    if (![value isKindOfClass:[NSDate class]] &&
+        ![value isKindOfClass:[NSString class]] &&
+        ![value isKindOfClass:[NSNumber class]] &&
+        ![value isKindOfClass:[NSArray class]] &&
+        ![value isKindOfClass:[NSDictionary class]] &&
+        ![value isKindOfClass:[NSNull class]]) {
+        CBLogError(@"Type of value added to filter is not supported. Must be NSDate, NSString, NSNumber, NSArray, NSDictionary, or NSNull");
+        return self;
+    }
     NSMutableDictionary *query = self.query;
     NSMutableArray *filterArray = [query objectForKey:@"FILTERS"][0];
+    //if the value is type NSDate we must convert to NSString, since NSJSONSerialization doesn't support NSDate
+    if ([value isKindOfClass:[NSDate class]]) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+        value = [dateFormatter stringFromDate:value];
+    }
     NSDictionary *keyValuePair = @{key: value};
     NSMutableArray *conditionArray = [NSMutableArray arrayWithObject:keyValuePair];
     if (!filterArray) {
         filterArray = [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:@{parameter: conditionArray}]];
         [query setObject:filterArray forKey:@"FILTERS"];
     } else {
-        NSMutableDictionary *parameterDict = [filterArray objectAtIndex:0];
+        NSMutableDictionary *parameterDict = [NSMutableDictionary dictionaryWithDictionary:[filterArray objectAtIndex:0]];
         NSMutableArray *existingConditionArray = [parameterDict objectForKey:parameter];
         if (!existingConditionArray) {
             [parameterDict setObject:conditionArray forKey:parameter];

@@ -139,6 +139,95 @@
     [self waitForAsyncCompletion:MAIN_COMPLETION];
 }
 
+/**
+ An expired token returns an HTML Status Code 400
+ */
+-(void)testGetUserInfoWithExpiredToken {
+
+    XCTestExpectation*  expectation = [self expectationWithDescription:@"testGetUserInfoWithExpiredToken"];
+    
+    NSString * email = @"rob@clearblade.com";
+    NSString* token = @"D2UuYhlQp1H5OcWjrP4SuQ63E7RcKdNXzwI4h57KLC-YjeW74o2u2-O_mLA_sBejjogMqbHjGp_JKZLT_A==";
+    NSDictionary* options = @{
+                              CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                              CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                              CBSettingsOptionEmail:email,
+                              CBSettingsOptionPassword:@"clearblade"};
+    
+    [ClearBlade
+       initSettingsWithSystemKey:@"c8e69eff0ab4cf90a8acf8fae204"
+       withSystemSecret:@"C8E69EFF0AC0A798B9F7F3BB981E"
+       withOptions:options
+       withSuccessCallback:^(ClearBlade *settings) {
+        
+        CBUser *user = [CBUser authenticatedUserWithEmail:email withAuthToken:token];
+        settings.mainUser = user;
+        
+        NSError *getUserInfoError;
+        [user getCurrentUserInfoWithError:&getUserInfoError];
+        if (getUserInfoError != nil) {
+            // We expect an error here because the token is invalid or expired
+            [expectation fulfill];
+        }
+		else{
+			XCTFail(@"We succeeded when we should have failed.");
+        }
+    }
+      withErrorCallback:^(NSError * error) {
+		
+            XCTFail(@"Failed to init ClearBlade. Error: <%@>", error);
+
+            
+        }];
+    
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+/**
+ An expired token returns an HTML Status Code 400
+ */
+
+-(void)testGetUserInfoWithInvalidToken {
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"testGetUserInfoWithInvalidToken"];
+    
+    NSString * email = @"rob@clearblade.com";
+    NSString* token = @"Invalidtoken";
+    NSDictionary* options = @{
+                              CBSettingsOptionServerAddress: PLATFORM_ADDRESS,
+                              CBSettingsOptionLoggingLevel: @(TEST_LOGGING_LEVEL),
+                              CBSettingsOptionEmail:email,
+                              CBSettingsOptionPassword:@"clearblade"};
+    
+    [ClearBlade
+      initSettingsWithSystemKey:@"c8e69eff0ab4cf90a8acf8fae204"
+      withSystemSecret:@"C8E69EFF0AC0A798B9F7F3BB981E"
+      withOptions:options
+      withSuccessCallback:^(ClearBlade *settings) {
+        
+        CBUser *user = [CBUser authenticatedUserWithEmail:email withAuthToken:token];
+        settings.mainUser = user;
+        
+        NSError *getUserInfoError;
+        [user getCurrentUserInfoWithError:&getUserInfoError];
+        if (getUserInfoError != nil) {
+            // We expect an error here because the token is invalid or expired
+            [expectation fulfill];
+        }
+        else{
+            XCTFail(@"Platform accepted an invalid token. We succeeded when we should have failed.");
+        }
+    }
+      withErrorCallback:^(NSError * error) {
+                            
+        XCTFail(@"Failed to init ClearBlade. Error: <%@>", error);
+                            
+                            
+      }
+	];
+    
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
 /*
  Not testable at present
 -(void)testGetCount{

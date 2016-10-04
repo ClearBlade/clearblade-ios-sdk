@@ -155,8 +155,8 @@
                               CBSettingsOptionPassword:@"clearblade"};
     
     [ClearBlade
-       initSettingsWithSystemKey:@"c8e69eff0ab4cf90a8acf8fae204"
-       withSystemSecret:@"C8E69EFF0AC0A798B9F7F3BB981E"
+       initSettingsWithSystemKey:TOKEN_APP_KEY
+       withSystemSecret:TOKEN_APP_SECRET
        withOptions:options
        withSuccessCallback:^(ClearBlade *settings) {
         
@@ -200,8 +200,8 @@
                               CBSettingsOptionPassword:@"clearblade"};
     
     [ClearBlade
-      initSettingsWithSystemKey:@"c8e69eff0ab4cf90a8acf8fae204"
-      withSystemSecret:@"C8E69EFF0AC0A798B9F7F3BB981E"
+      initSettingsWithSystemKey:TOKEN_APP_KEY
+      withSystemSecret:TOKEN_APP_SECRET
       withOptions:options
       withSuccessCallback:^(ClearBlade *settings) {
         

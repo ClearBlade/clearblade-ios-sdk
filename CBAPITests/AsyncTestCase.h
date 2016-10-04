@@ -18,6 +18,9 @@
 #define AUTH_APP_KEY @"d0ef9daf0acaebd9d581ce88df4a"
 #define AUTH_APP_SECRET @"D0EF9DAF0ABAC098A0F6DF8D85AE01"
 
+#define TOKEN_APP_KEY @"c8e69eff0ab4cf90a8acf8fae204"
+#define TOKEN_APP_SECRET @"C8E69EFF0AC0A798B9F7F3BB981E"
+
 #define TEST_COLLECTION @"e889a4ab0ac69af5bbbba3ebfa2b"
 #define AUTH_TEST_COLLECTION @"b6b1b0b10ac8beb08a9ed9f1cfd301"
 #define PLATFORM_ADDRESS @"https://platform.clearblade.com/"

@@ -274,13 +274,17 @@
 }
 
 -(NSDictionary *)getCurrentUserInfoWithError:(NSError *__autoreleasing *)error {
-    NSData *data = [[CBUser getUserInfoRequestWithSettings:[ClearBlade settings] withToken:self.authToken] executeWithError:error];
+    CBHTTPRequest* request = [CBUser getUserInfoRequestWithSettings:[ClearBlade settings] withToken:self.authToken];
+    NSData *data = [request executeWithError:error];
+    NSDictionary *userInfo = @{};
     if (*error) {
         CBLogError(@"Failed to get user info of user <%@> because of error <%@>", self, *error);
     }
-    NSDictionary *userInfo = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
-    if (*error) {
-        CBLogError(@"Failed to parse user info of user <%@> because of error <%@>", self, *error);
+    else{
+        userInfo = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+    	if (*error) {
+        	CBLogError(@"Failed to parse user info of user <%@> because of error <%@>", self, *error);
+    	}
     }
     return userInfo;
 }

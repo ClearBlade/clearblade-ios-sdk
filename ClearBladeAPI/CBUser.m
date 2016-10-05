@@ -274,9 +274,26 @@
 }
 
 -(NSDictionary *)getCurrentUserInfoWithError:(NSError *__autoreleasing *)error {
-    CBHTTPRequest* request = [CBUser getUserInfoRequestWithSettings:[ClearBlade settings] withToken:self.authToken];
-    NSData *data = [request executeWithError:error];
     NSDictionary *userInfo = @{};
+    
+    if(!self.authToken){
+        
+        *error = [NSError errorWithDomain:@"Unable to complete request because auth token was not set. You must initialize ClearBlade before use."
+                            code:400
+                        userInfo:nil];
+        return userInfo;
+    }
+    
+    CBHTTPRequest* request = [CBUser getUserInfoRequestWithSettings:[ClearBlade settings] withToken:self.authToken];
+    
+    if(!request){
+        *error = [NSError errorWithDomain:@"Unable to complete request because invalid settings were found."
+                                     code:400
+                                 userInfo:nil];
+        return userInfo;    }
+    
+    NSData *data = [request executeWithError:error];
+    
     if (*error) {
         CBLogError(@"Failed to get user info of user <%@> because of error <%@>", self, *error);
     }

@@ -1,11 +1,3 @@
-+++
-date = "2015-06-26T13:24:13-05:00"
-draft = false
-title = "Tutorial"
-[menu.main]
-Identifier = "iOS-Tutorial"
-parent = "iOS"
-+++
 
 # Overview  
 
